@@ -22,6 +22,13 @@ public class MainActivity extends AppCompatActivity {
         user = (EditText)findViewById(R.id.uName);
         password = (EditText)findViewById(R.id.uPassword);
         login = (Button)findViewById(R.id.buttonLogin);
+
+        login.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                register(user.getText().toString(), password.getText().toString());
+            }
+        });
     }
 
     private void register(String userName, String userPassword){
