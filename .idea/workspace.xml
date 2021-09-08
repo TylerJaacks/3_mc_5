@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9431ac1-736d-4181-89f7-1baf7e6d0a16" name="Default Changelist" comment="Create simple login page">
+    <list default="true" id="a9431ac1-736d-4181-89f7-1baf7e6d0a16" name="Default Changelist" comment="Fix .gitignore">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Experiments/AustinDart/Experiment1/testingspringdemo/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment1/testingspringdemo/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Experiments/AustinDart/Experiment2/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment2/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +56,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631141234055</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fix .gitignore">
+      <created>1631141465336</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1631141465336</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -75,6 +81,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add simple login page to experiments" />
     <MESSAGE value="Create simple login page" />
-    <option name="LAST_COMMIT_MESSAGE" value="Create simple login page" />
+    <MESSAGE value="Fix .gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix .gitignore" />
   </component>
 </project>
