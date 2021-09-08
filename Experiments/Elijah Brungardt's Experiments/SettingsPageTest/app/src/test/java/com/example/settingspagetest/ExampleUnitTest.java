@@ -1,4 +1,4 @@
-package LogonPageTest.app.src.test.java.com.example.logonpagetest;
+package com.example.settingspagetest;
 
 import org.junit.Test;
 

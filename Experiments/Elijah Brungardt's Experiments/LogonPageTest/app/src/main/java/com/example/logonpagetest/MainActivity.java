@@ -1,4 +1,4 @@
-package com.example.logonpagetest;
+package LogonPageTest.app.src.main.java.com.example.logonpagetest;
 
 import androidx.appcompat.app.AppCompatActivity;
 

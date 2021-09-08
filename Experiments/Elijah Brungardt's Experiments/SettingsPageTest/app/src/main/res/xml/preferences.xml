@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="check_box_preference_1"
+        android:summary="Allows the user to select true or false for a single option"
+        android:title="Simple Checkbox Option" />
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="edit_text_preference_1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="Allows for the user to input a custom string into the text box to change an option."
+        android:title="Edit Text Option" />
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/Options"
+        android:entryValues="@array/Options"
+        android:key="list_preference_1"
+        android:summary="This option opens a dialouge where multiple options can be chosen from a list."
+        android:title="List Option" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="switch_preference_1"
+        android:summary="Functions the same as a checkbox option, but has a switch instead of a checkbox."
+        android:title="Simple Switch Option" />
+    <MultiSelectListPreference
+        android:defaultValue="@array/FavColors"
+        android:entries="@array/FavColors"
+        android:entryValues="@array/FavColors"
+        android:key="multi_select_list_preference_1"
+        android:summary="This option opens a dialouge that contains a few choices to choose from."
+        android:title="Multi select list preference" />
+</PreferenceScreen>

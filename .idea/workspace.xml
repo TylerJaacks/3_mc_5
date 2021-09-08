@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9431ac1-736d-4181-89f7-1baf7e6d0a16" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="a9431ac1-736d-4181-89f7-1baf7e6d0a16" name="Default Changelist" comment="Add simple login page to experiments">
+      <change afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/SettingsPageTest/app/src/main/res/xml/root_preferences.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/src/androidTest/java/com/example/logonpagetest/ExampleInstrumentedTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/src/androidTest/java/com/example/logonpagetest/ExampleInstrumentedTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/src/main/java/com/example/logonpagetest/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/src/main/java/com/example/logonpagetest/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/src/test/java/com/example/logonpagetest/ExampleUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/src/test/java/com/example/logonpagetest/ExampleUnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/settings.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +31,12 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Elijah\StudioProjects\3_mc_5\Experiments\Elijah Brungardt's Experiments" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -35,6 +47,14 @@
       <option name="presentableId" value="Default" />
       <updated>1631046208377</updated>
     </task>
+    <task id="LOCAL-00001" summary="Add simple login page to experiments">
+      <created>1631046682704</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1631046682704</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -48,5 +68,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add simple login page to experiments" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add simple login page to experiments" />
   </component>
 </project>
