@@ -4,43 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9431ac1-736d-4181-89f7-1baf7e6d0a16" name="Default Changelist" comment="Add simple login page to experiments">
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/proguard-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/androidTest/java/me/austindart/experiment3/ExampleInstrumentedTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/java/me/austindart/experiment3/MainActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-hdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-mdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/values-night/themes.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/values/themes.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/test/java/me/austindart/experiment3/ExampleUnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/settings.gradle" afterDir="false" />
+    <list default="true" id="a9431ac1-736d-4181-89f7-1baf7e6d0a16" name="Default Changelist" comment="Create simple login page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Experiments/AustinDart/Android/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Experiments/AustinDart/Experiment1/testingspringdemo/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment1/testingspringdemo/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Experiments/AustinDart/Experiment2/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment2/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +50,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631046682704</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Create simple login page">
+      <created>1631141234055</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1631141234055</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -100,6 +74,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add simple login page to experiments" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add simple login page to experiments" />
+    <MESSAGE value="Create simple login page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Create simple login page" />
   </component>
 </project>

@@ -16,9 +16,11 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+.iml
 
 ### IntelliJ IDEA ###
 .idea
+/.idea/*
 *.iws
 *.iml
 *.ipr
