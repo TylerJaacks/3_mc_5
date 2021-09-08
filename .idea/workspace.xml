@@ -5,14 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9431ac1-736d-4181-89f7-1baf7e6d0a16" name="Default Changelist" comment="Add simple login page to experiments">
-      <change afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/SettingsPageTest/app/src/main/res/xml/root_preferences.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/androidTest/java/me/austindart/experiment3/ExampleInstrumentedTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/java/me/austindart/experiment3/MainActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-hdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-mdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/values-night/themes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/main/res/values/themes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/app/src/test/java/me/austindart/experiment3/ExampleUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/gradle.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Experiments/AustinDart/Experiment3/settings.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/src/androidTest/java/com/example/logonpagetest/ExampleInstrumentedTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/src/androidTest/java/com/example/logonpagetest/ExampleInstrumentedTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/src/main/java/com/example/logonpagetest/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/src/main/java/com/example/logonpagetest/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/src/test/java/com/example/logonpagetest/ExampleUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/app/src/test/java/com/example/logonpagetest/ExampleUnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments/LogonPageTest/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Experiments/AustinDart/Android/.idea/.name" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,10 +59,11 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Experiments/Elijah Brungardt's Experiments" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\austi\StudioProjects\3_mc_5\Experiments\AustinDart" />
       <recent name="C:\Users\Elijah\StudioProjects\3_mc_5\Experiments\Elijah Brungardt's Experiments" />
     </key>
   </component>
