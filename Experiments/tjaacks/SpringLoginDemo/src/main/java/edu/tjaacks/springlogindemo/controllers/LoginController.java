@@ -17,19 +17,21 @@ public class LoginController {
 
     @GetMapping("/login")
     public IResponse login(@RequestHeader("email") String email, @RequestHeader("password") String password) {
-        IResponse response = null;
-
         Iterable<User> userList = userRepository.findAll();
 
         for (User user : userList) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-                response = new LoginResponse("123456789", "9999999");
+                System.out.println("Successful Login");
+
+                return new LoginResponse("123456789", "9999999");
             }
         }
 
         for (User user : userList) {
             if (user.getEmail().equals(email) && !user.getPassword().equals(password)) {
-                response = new ErrorResponse(100,"INCORRECT_PASSWORD");
+                System.out.println("Successful Failed");
+
+                return new ErrorResponse(100,"INCORRECT_PASSWORD");
             }
         }
 

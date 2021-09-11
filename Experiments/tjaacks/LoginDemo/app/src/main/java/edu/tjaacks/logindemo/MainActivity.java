@@ -4,24 +4,25 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
     private enum LoginResultCode {
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         LOGIN_FAILED_UNKNOWN
     }
 
-    private static final String LOGIN_REST_ENDPOINT = "http://localhost:8080/login";
+    private static final String LOGIN_REST_ENDPOINT = "http://10.8.197.128:8080/login";
 
     private EditText emailEditText;
     private EditText passwordEditText;
@@ -54,40 +55,48 @@ public class MainActivity extends AppCompatActivity {
             Log.d(getPackageName(), "Email: " + email);
             Log.d(getPackageName(), "Password: " + password);
 
-        Toast toast = new Toast(getApplicationContext());
+            Toast toast = new Toast(getApplicationContext());
 
-        LoginResultCode loginResultCode = login(email, password);
+            LoginResultCode loginResultCode = login(email, password);
 
-        if (loginResultCode.equals(LoginResultCode.LOGIN_SUCCESSFUL)) {
-            // TODO: Navigate to successful login activity.
-            toast.setText("Login Successful!");
-        } else {
-            switch (loginResultCode) {
-                case LOGIN_FAILED_WRONG_EMAIL:
-                    toast.setText("Login Failed: Wrong Email!");
-                    break;
-                case LOGIN_FAILED_WRONG_PASSWORD:
-                    toast.setText("Login Failed: Wrong Password!");
-                    break;
-                case LOGIN_FAILED_ACCOUNT_DOES_NOT_EXIST:
-                    toast.setText("Login Failed: Account Does Not Exist!");
-                    break;
-                case LOGIN_FAILED_UNKNOWN:
-                    toast.setText("Login Failed: Unknown Reason");
-                    break;
-                default:
-                    break;
+            if (loginResultCode.equals(LoginResultCode.LOGIN_SUCCESSFUL)) {
+                // TODO: Navigate to successful login activity.
+                toast.setText("Login Successful!");
+            } else {
+                switch (loginResultCode) {
+                    case LOGIN_FAILED_WRONG_EMAIL:
+                        toast.setText("Login Failed: Wrong Email!");
+                        break;
+                    case LOGIN_FAILED_WRONG_PASSWORD:
+                        toast.setText("Login Failed: Wrong Password!");
+                        break;
+                    case LOGIN_FAILED_ACCOUNT_DOES_NOT_EXIST:
+                        toast.setText("Login Failed: Account Does Not Exist!");
+                        break;
+                    case LOGIN_FAILED_UNKNOWN:
+                        toast.setText("Login Failed: Unknown Reason");
+                        break;
+                    default:
+                        break;
+                }
             }
-        }
 
-        toast.show();
+            toast.show();
         });
     }
 
     private LoginResultCode login(String email, String password) {
-        LoginResultCode loginResultCode = LoginResultCode.LOGIN_SUCCESSFUL;
+        LoginResultCode loginResultCode = null;
 
         Map<String, String> loginJsonResults = loginRest(email, password);
+
+        if (loginJsonResults.size() == 2) {
+            loginResultCode = LoginResultCode.LOGIN_SUCCESSFUL;
+        }
+        else if (loginJsonResults.size() == 1) {
+            // TODO: Detect the LoginResultCode error;
+            loginResultCode = LoginResultCode.LOGIN_FAILED_UNKNOWN;
+        }
 
         return loginResultCode;
     }
@@ -96,60 +105,49 @@ public class MainActivity extends AppCompatActivity {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
+        AtomicReference<String> responseLoginToken = new AtomicReference<>("");
+        AtomicReference<String> responseLoginExpiration = new AtomicReference<>("");
+
+        Map<String, String> responseMap = new HashMap<>();
+
         executor.execute(() -> {
-            //Background work here
-            URL endpointURL = null;
-            HttpURLConnection httpURLConnection = null;
+            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest sr = new StringRequest(Request.Method.GET, LOGIN_REST_ENDPOINT,
+                    response -> {
+                        // TODO: Figure out Error from JSON Response.
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
 
-            try {
-                endpointURL = new URL(LOGIN_REST_ENDPOINT);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+                            responseLoginToken.set(jsonObject.getString("loginToken"));
+                            responseLoginExpiration.set(jsonObject.getString("loginExpiration"));
 
-            try {
-                if (endpointURL != null) {
-                    httpURLConnection = (HttpURLConnection) endpointURL.openConnection();
+                            Log.d(getPackageName(), "loginToken: " + responseLoginToken);
+                            Log.d(getPackageName(), "loginExpiration: " + responseLoginExpiration);
+
+                            responseMap.put("loginToken", responseLoginToken.get());
+                            responseMap.put("loginExpiration", responseLoginExpiration.get());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    },
+                    error -> Log.e("HttpClient", "error: " + error.toString())) {
+                @Override
+                protected Map<String,String> getParams(){
+                    return new HashMap<>();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                if (httpURLConnection != null) {
-                    httpURLConnection.setRequestMethod("GET");
-
-                    httpURLConnection.setRequestProperty("Accept", "application/json");
-                    httpURLConnection.setRequestProperty("email", email);
-                    httpURLConnection.setRequestProperty("password", password);
-
-                    httpURLConnection.setDoOutput(true);
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String,String> params = new HashMap<>();
+                    params.put("Content-Type","application/x-www-form-urlencoded");
+                    params.put("email",email);
+                    params.put("password", password);
+                    return params;
                 }
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            }
+            };
 
-            if (httpURLConnection != null) {
-                try (BufferedReader br = new BufferedReader(
-                        new InputStreamReader(httpURLConnection.getInputStream(), StandardCharsets.UTF_8))) {
-                    StringBuilder response = new StringBuilder();
-                    String responseLine = null;
-
-                    while ((responseLine = br.readLine()) != null) {
-                        response.append(responseLine.trim());
-                    }
-
-                    Log.d(getPackageName(), "");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            handler.post(() -> {
-                //UI Thread work here
-            });
+            queue.add(sr);
         });
 
-        return null;
+        return responseMap;
     }
 }
