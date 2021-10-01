@@ -5,16 +5,16 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Objects;
 
+// T0D0: Make sure constraints and types are correct.
 @Entity
 @Table(name="token")
 public class Token implements Serializable {
     @Id
-    @Column(name = "id", nullable = false, unique = true)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private @NotBlank @Column(unique=true) int id;
 
     @OneToOne
     @JoinTable(name = "user", joinColumns = @JoinColumn(name = "id"))
-    @Column(unique=true)
     private User user;
 
     @NotBlank
@@ -38,7 +38,7 @@ public class Token implements Serializable {
 
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -63,7 +63,7 @@ public class Token implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Token)) return false;
         Token token = (Token) o;
-        return getId().equals(token.getId()) && getUser().equals(token.getUser()) && getToken().equals(token.getToken()) && getCreationDate().equals(token.getCreationDate()) && getExpirationTime().equals(token.getExpirationTime());
+        return getId() == token.getId() && getUser().equals(token.getUser()) && getToken().equals(token.getToken()) && getCreationDate().equals(token.getCreationDate()) && getExpirationTime().equals(token.getExpirationTime());
     }
 
     @Override

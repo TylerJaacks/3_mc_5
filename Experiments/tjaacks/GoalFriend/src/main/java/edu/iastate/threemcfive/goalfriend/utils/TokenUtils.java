@@ -14,7 +14,7 @@ public class TokenUtils {
             return false;
         }
 
-        if (expirationTime > currentTime) {
+        if (expirationTime < currentTime) {
             return false;
         }
 

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
+// T0D0: Make sure constraints and types are correct.
 @Entity
 @Table(name = "users")
 public class User {
