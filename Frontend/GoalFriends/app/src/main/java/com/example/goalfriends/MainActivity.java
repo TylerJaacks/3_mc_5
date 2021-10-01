@@ -1,4 +1,4 @@
-package edu.iastate.kyletodd;
+package com.example.goalfriends;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -41,10 +41,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void register(String userName, String userPassword){
-        if((userName == "kyletodd") && (userPassword == "password"));
+    private void register(String userName, String userPassword) {
+        if ((userName == "kyletodd") && (userPassword == "password")) {
             Intent i = new Intent(MainActivity.this, newActivity.class);
             startActivity(i);
+        }
+
 
     }
 
