@@ -4,15 +4,16 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
+// T0D0: Make sure constraints and types are correct.
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private @NotBlank int id;
-    private @NotBlank String email;
+    private @NotBlank @Column(unique=true) int id;
+    private @NotBlank @Column(unique=true) String email;
     private @NotBlank String password;
-    private @NotBlank String username;
+    private @NotBlank @Column(unique=true) String username;
     private @NotBlank int isLoggedIn;
 
     public User() {

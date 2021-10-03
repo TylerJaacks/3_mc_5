@@ -1,10 +1,14 @@
 package edu.iastate.threemcfive.goalfriend.controllers;
 
+import edu.iastate.threemcfive.goalfriend.constants.ErrorConstants;
+import edu.iastate.threemcfive.goalfriend.domainobjects.Token;
 import edu.iastate.threemcfive.goalfriend.domainobjects.User;
 import edu.iastate.threemcfive.goalfriend.reponses.ErrorResponse;
 import edu.iastate.threemcfive.goalfriend.reponses.IResponse;
 import edu.iastate.threemcfive.goalfriend.reponses.SuccessResponse;
+import edu.iastate.threemcfive.goalfriend.repositories.TokenRepository;
 import edu.iastate.threemcfive.goalfriend.repositories.UserRepository;
+import edu.iastate.threemcfive.goalfriend.utils.TokenUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,24 +16,60 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LogoutController {
     final UserRepository userRepository;
+    final TokenRepository tokenRepository;
 
-    public LogoutController(UserRepository userRepository) {
+    public LogoutController(UserRepository userRepository, TokenRepository tokenRepository) {
         this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
     }
 
     @PostMapping("/logout")
     public IResponse Login(@RequestHeader("email") String email, @RequestHeader("token") String token) {
-        // T0D0: Check if the token is valid i.e. if it isn't expired and check that the token belongs to that email.
+        if (email == null || token == null || email.isEmpty() || token.isEmpty()) {
+            return new ErrorResponse(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were given.");
+        }
+
         User user = userRepository.findByEmail(email);
 
         if (user != null) {
-            user.setIsLoggedIn(false);
+            Token userToken = tokenRepository.getTokenByUser(user);
 
-            userRepository.save(user);
+            if (userToken != null) {
+                if (TokenUtils.isTokenValid(userToken, token)) {
+                    if (user.getIsLoggedIn() == 1) {
+                        user.setIsLoggedIn(false);
 
-            return new SuccessResponse();
+                        // T0D0: It is not deleting tokens like it should.
+                        tokenRepository.delete(userToken);
+
+                        userRepository.save(user);
+                        tokenRepository.save(userToken);
+
+                        return new SuccessResponse();
+                    } else {
+                        tokenRepository.delete(userToken);
+                        tokenRepository.save(userToken);
+
+                        return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_ALREADY_LOGGED_OUT, "User is already logged out.");
+                    }
+                } else {
+                    tokenRepository.delete(userToken);
+                    tokenRepository.save(userToken);
+
+                    return new ErrorResponse(ErrorConstants.ERROR_CODE_TOKEN_EXPIRED, "Token has expired.");
+                }
+            }
+            else {
+                return new ErrorResponse(6, "No Token Available!");
+            }
         }
 
-        return new ErrorResponse(3, "Failed to logout.");
+        if (user != null && user.getIsLoggedIn() == 1) {
+
+        } else if (user != null && user.getIsLoggedIn() == 0) {
+            return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_ALREADY_LOGGED_OUT, "User is already logged out.");
+        }
+
+        return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_DOESNT_EXIST, "User does not exist.");
     }
 }
