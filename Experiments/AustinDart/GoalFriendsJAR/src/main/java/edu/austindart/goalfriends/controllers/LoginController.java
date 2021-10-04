@@ -5,7 +5,6 @@ import edu.austindart.goalfriends.repositories.UserRepository;
 import edu.austindart.goalfriends.responses.ErrorResponse;
 import edu.austindart.goalfriends.responses.IResponse;
 import edu.austindart.goalfriends.responses.LoginSuccessResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,12 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
 
-    @Autowired
-    UserRepository userRepository;
+    final UserRepository userRepository;
 
-   /* public LoginController(UserRepository userRepository){
+    public LoginController(UserRepository userRepository){
         this.userRepository = userRepository;
-    }*/
+    }
 
     @GetMapping("/login")
     public IResponse Login(@RequestHeader("email") String email, @RequestHeader("password") String password){

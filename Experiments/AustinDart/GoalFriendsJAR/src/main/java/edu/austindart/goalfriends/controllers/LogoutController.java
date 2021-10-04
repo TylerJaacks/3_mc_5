@@ -4,10 +4,7 @@ import edu.austindart.goalfriends.domainobjects.User;
 import edu.austindart.goalfriends.repositories.UserRepository;
 import edu.austindart.goalfriends.responses.ErrorResponse;
 import edu.austindart.goalfriends.responses.IResponse;
-import edu.austindart.goalfriends.responses.LoginSuccessResponse;
 import edu.austindart.goalfriends.responses.SuccessResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,12 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LogoutController {
 
-    @Autowired
-    UserRepository userRepository;
+    final UserRepository userRepository;
 
-    /*public LogoutController(UserRepository userRepository){
+    public LogoutController(UserRepository userRepository){
         this.userRepository = userRepository;
-    }*/
+    }
 
     @PostMapping("/logout")
     public IResponse Logout(@RequestHeader("email") String email, @RequestHeader("token") String token){
