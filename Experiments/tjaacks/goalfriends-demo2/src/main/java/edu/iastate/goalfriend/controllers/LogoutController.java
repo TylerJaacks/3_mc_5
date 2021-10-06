@@ -59,15 +59,12 @@ public class LogoutController {
                     return new ErrorResponse(ErrorConstants.ERROR_CODE_TOKEN_EXPIRED, "Token has expired.");
                 }
             }
+            else if (user.getIsLoggedIn() == 0) {
+                return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_ALREADY_LOGGED_OUT, "User is already logged out.");
+            }
             else {
                 return new ErrorResponse(ErrorConstants.ERROR_CODE_TOKEN_NOT_AVAILABLE, "No Token Available!");
             }
-        }
-
-        if (user != null && user.getIsLoggedIn() == 1) {
-
-        } else if (user != null && user.getIsLoggedIn() == 0) {
-            return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_ALREADY_LOGGED_OUT, "User is already logged out.");
         }
 
         return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_DOESNT_EXIST, "User does not exist.");
