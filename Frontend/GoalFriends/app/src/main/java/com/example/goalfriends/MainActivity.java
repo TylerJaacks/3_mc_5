@@ -1,6 +1,7 @@
 package com.example.goalfriends;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText user;
     private EditText password;
     private Button login;
+    private int statusCode;
 
 
     @Override
@@ -78,18 +81,23 @@ public class MainActivity extends AppCompatActivity {
 
         Toast toast = new Toast(getApplicationContext());
 
-        RequestQueue queue = Volley.newRequestQueue(this);
+     /*   RequestQueue queue = Volley.newRequestQueue(this);
+        queue.start();
         String url = "http://coms-309-054.cs.iastate.edu:8080/login";
-        JsonObjectRequest getEmailRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        StringRequest getEmailRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 try {
-                    if(!response.getBoolean("error")) {
-                        JSONObject emailJson = response.getJSONObject("email");
-                        JSONObject passwordJson = response.getJSONObject("password");
-                    }
-                    else{
+                    JSONObject hey = new JSONObject(response);
+                    if (!hey.getBoolean("error")) {
+                        JSONObject emailJson = hey.getJSONObject("email");
+                        JSONObject passwordJson = hey.getJSONObject("password");
+                        toast.setText("Test");
+                        toast.show();
 
+                    } else {
+                        toast.setText("Error");
+                        toast.show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -111,6 +119,76 @@ public class MainActivity extends AppCompatActivity {
                 return params;
             }
         };
+        queue.add(getEmailRequest);
+
+      */
+
+
+        final TextView textView = (TextView) findViewById(R.id.text);
+// ...
+
+// Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://coms-309-054.cs.iastate.edu:8080/login";
+
+// Request a string response from the provided URL.
+        StringRequest stringObjectRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            int statusCode = 0;
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("hey",response);
+                JSONObject responseJSON = null;
+                try {
+                    responseJSON = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(statusCode == 200){
+                    try {
+
+                        String token = responseJSON.getString("token");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    try {
+                        int errorCode = responseJSON.getInt("errorCode");
+                        String errorMessage = responseJSON.getString("errorMessage");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error != null && error.getMessage() != null) {
+                    Log.e("Response error", error.getMessage());
+                }
+            }
+        })
+        {
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                statusCode = response.statusCode;
+                return super.parseNetworkResponse(response);
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json; charset=UTF-8");
+                params.put("email", userEmail);
+                params.put("password", userPassword);
+                return params;
+            }
+        };
+
+// Add the request to the RequestQueue.
+        queue.add(stringObjectRequest);
     }
 
 }
