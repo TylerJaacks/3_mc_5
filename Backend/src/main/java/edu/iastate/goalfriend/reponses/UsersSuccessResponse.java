@@ -1,5 +1,17 @@
 package edu.iastate.goalfriend.reponses;
 
-public class UsersSuccessResponse {
-    // T0D0: List<Users> Probably should show there password just the username and email.
+import edu.iastate.goalfriend.domainobjects.User;
+
+public class UsersSuccessResponse extends SuccessResponse{
+
+    private User user;
+
+    public UsersSuccessResponse(User user){
+        this.user = user;
+    }
+
+    public User getUser(){
+        return user;
+    }
+
 }

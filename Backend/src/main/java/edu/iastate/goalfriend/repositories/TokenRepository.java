@@ -5,5 +5,5 @@ import edu.iastate.goalfriend.domainobjects.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TokenRepository extends JpaRepository<Token, Long> {
-
+    public Token getByToken(String token);
 }
