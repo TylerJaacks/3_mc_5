@@ -4,14 +4,20 @@ import edu.iastate.goalfriend.domainobjects.User;
 
 public class UsersSuccessResponse extends SuccessResponse{
 
-    private User user;
+    private String username;
+    private int id;
 
     public UsersSuccessResponse(User user){
-        this.user = user;
+        this.username = user.getUsername();
+        this.id = user.getId();
     }
 
-    public User getUser(){
-        return user;
+    public String getUsername(){
+        return username;
+    }
+
+    public int getId(){
+        return id;
     }
 
 }

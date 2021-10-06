@@ -24,13 +24,11 @@ public class UsersController {
     private TokenRepository tokenRepository;
 
     @GetMapping("/users")
-    public IResponse usersController(@RequestHeader String tokenString, @RequestParam String username, @RequestParam String email) {
+    public IResponse usersController(@RequestHeader String token, @RequestParam String email) {
 
-        Token token = tokenRepository.getByToken(tokenString);
+        Token tokenObj = tokenRepository.getByToken(token);
 
-        boolean tokenIsValid = TokenUtils.isTokenValid(token, tokenString);
-
-        boolean usernameIsValid = !username.isEmpty() && username != null;
+        boolean tokenIsValid = TokenUtils.isTokenValid(tokenObj, token);
 
         boolean emailIsValid = !email.isEmpty() && email != null;
 
@@ -39,15 +37,12 @@ public class UsersController {
             if(emailIsValid){
                 User user = userRepository.findByEmail(email);
                 return new UsersSuccessResponse(user);
-            }else if(usernameIsValid){
-                User user = userRepository.findByUsername(username);
-                return new UsersSuccessResponse(user);
             }else{
                 return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_DOESNT_EXIST, "Could not find a user with that information.");
             }
 
         }else{
-            return new ErrorResponse(ErrorConstants.ERROR_CODE_TOKEN_NOT_AVAILABLE, "Invalid token.");
+            return new ErrorResponse(ErrorConstants.ERROR_CODE_TOKEN_NOT_AVAILABLE, "Invalid tokenObj.");
         }
     }
 }
