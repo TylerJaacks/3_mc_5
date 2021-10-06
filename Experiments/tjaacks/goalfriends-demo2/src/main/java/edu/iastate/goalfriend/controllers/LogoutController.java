@@ -22,6 +22,7 @@ public class LogoutController {
     @Autowired
     private TokenRepository tokenRepository;
 
+    // T0D0: If user doesn't exist it returns empty instead of ErrorMessage.
     @PostMapping("/logout")
     public IResponse Login(@RequestHeader("email") String email, @RequestHeader("token") String token) {
         if (email == null || token == null || email.isEmpty() || token.isEmpty()) {
@@ -31,18 +32,19 @@ public class LogoutController {
         User user = userRepository.findByEmail(email);
 
         if (user != null) {
-            Token userToken = tokenRepository.getTokenByUser(user);
+            Token userToken = user.getToken();
 
             if (userToken != null) {
                 if (TokenUtils.isTokenValid(userToken, token)) {
                     if (user.getIsLoggedIn() == 1) {
                         user.setIsLoggedIn(false);
 
-                        // T0D0: It is not deleting tokens like it should.
-                        tokenRepository.delete(userToken);
+                        // T0D0: Not deleting token.
+                        tokenRepository.delete(user.getToken());
+                        tokenRepository.save(user.getToken());
 
+                        user.setToken(null);
                         userRepository.save(user);
-                        tokenRepository.save(userToken);
 
                         return new SuccessResponse();
                     } else {
@@ -59,7 +61,7 @@ public class LogoutController {
                 }
             }
             else {
-                return new ErrorResponse(6, "No Token Available!");
+                return new ErrorResponse(ErrorConstants.ERROR_CODE_TOKEN_NOT_AVAILABLE, "No Token Available!");
             }
         }
 

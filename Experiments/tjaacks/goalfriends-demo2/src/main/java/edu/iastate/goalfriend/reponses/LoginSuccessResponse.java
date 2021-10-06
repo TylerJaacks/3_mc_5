@@ -6,18 +6,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.ACCEPTED)
 public class LoginSuccessResponse implements IResponse {
     private String token;
-    private long tokenExpiration;
 
-    public LoginSuccessResponse(String token, long tokenExpiration) {
+    public LoginSuccessResponse(String token) {
         this.token = token;
-        this.tokenExpiration = tokenExpiration;
     }
 
     public String getToken() {
         return token;
-    }
-
-    public long getTokenExpiration() {
-        return tokenExpiration;
     }
 }

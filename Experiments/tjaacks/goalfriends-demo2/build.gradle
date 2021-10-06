@@ -23,6 +23,7 @@ dependencies {
     implementation 'javax.validation:validation-api'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'mysql:mysql-connector-java:5.1.13'
+    implementation 'org.json:json:20171018'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java:5.1.44'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

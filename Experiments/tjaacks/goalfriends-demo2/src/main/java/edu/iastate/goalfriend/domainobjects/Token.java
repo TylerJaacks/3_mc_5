@@ -2,48 +2,44 @@ package edu.iastate.goalfriend.domainobjects;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
-// T0D0: Make sure constraints and types are correct.
 @Entity
 @Table(name="token")
 public class Token implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private @NotBlank @Column(unique=true) int id;
-
-    @OneToOne
-    @JoinTable(name = "users", joinColumns = @JoinColumn(name = "id"))
-    private User user;
+    private @NotBlank @NotNull @Column(unique=true) int id;
 
     @NotBlank
+    @NotNull
     @Column(unique=true)
+    @Size(max = 32)
     private String token;
 
     @NotBlank
+    @NotNull
     private Long creationDate;
 
     @NotBlank
+    @NotNull
     private Long expirationTime;
-
-    public Token(User user, String token, Long creationDate, Long expirationTime) {
-        this.user = user;
-        this.token = token;
-        this.creationDate = creationDate;
-        this.expirationTime = expirationTime;
-    }
 
     public Token() {
 
     }
 
-    public int getId() {
-        return id;
+    public Token(String token, Long creationDate, Long expirationTime) {
+        this.token = token;
+        this.creationDate = creationDate;
+        this.expirationTime = expirationTime;
     }
 
-    public User getUser() {
-        return user;
+    public int getId() {
+        return id;
     }
 
     public String getToken() {
@@ -63,19 +59,18 @@ public class Token implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Token)) return false;
         Token token = (Token) o;
-        return getId() == token.getId() && getUser().equals(token.getUser()) && getToken().equals(token.getToken()) && getCreationDate().equals(token.getCreationDate()) && getExpirationTime().equals(token.getExpirationTime());
+        return getId() == token.getId() && getToken().equals(token.getToken()) && getCreationDate().equals(token.getCreationDate()) && getExpirationTime().equals(token.getExpirationTime());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUser(), getToken(), getCreationDate(), getExpirationTime());
+        return Objects.hash(getId(), getToken(), getCreationDate(), getExpirationTime());
     }
 
     @Override
     public String toString() {
         return "Token{" +
                 "id=" + id +
-                ", user=" + user +
                 ", token=" + token +
                 ", creationDate=" + creationDate +
                 ", expirationDate=" + expirationTime +
