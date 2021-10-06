@@ -22,7 +22,6 @@ public class LogoutController {
     @Autowired
     private TokenRepository tokenRepository;
 
-    // T0D0: If user doesn't exist it returns empty instead of ErrorMessage.
     @PostMapping("/logout")
     public IResponse Login(@RequestHeader("email") String email, @RequestHeader("token") String token) {
         if (email == null || token == null || email.isEmpty() || token.isEmpty()) {
