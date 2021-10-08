@@ -32,6 +32,7 @@ public class RegisterController {
         String email = userJSONObject.getString("email");
         String username = userJSONObject.getString("username");
         String password = userJSONObject.getString("password");
+        String phoneNumber = userJSONObject.getString("phonenumber");
 
         for (User user : users) {
             if (user != null) {
@@ -50,6 +51,8 @@ public class RegisterController {
         newUser.setEmail(email);
         newUser.setUsername(username);
         newUser.setPassword(password);
+        newUser.setPhoneNumber(phoneNumber);
+
 
         userRepository.save(newUser);
 

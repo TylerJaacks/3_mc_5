@@ -15,9 +15,18 @@ public class User {
     private @NotBlank @NotNull String password;
     private @NotBlank @NotNull @Column(unique=true) String username;
     private @NotBlank @NotNull int isLoggedIn = 0;
+    private @NotBlank @NotNull @Column(unique=true) String phoneNumber;
 
     @OneToOne(cascade=CascadeType.ALL)
     private Token token;
+
+    public String getPhoneNumber(){
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber){
+        this.phoneNumber = phoneNumber;
+    }
 
     public int getId() {
         return id;
