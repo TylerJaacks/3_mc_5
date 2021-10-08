@@ -2,10 +2,9 @@ package edu.iastate.goalfriend.controllers;
 
 import edu.iastate.goalfriend.constants.ErrorConstants;
 import edu.iastate.goalfriend.domainobjects.User;
-import edu.iastate.goalfriend.reponses.ErrorResponse;
+import edu.iastate.goalfriend.exceptions.UserAlreadyExistsException;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.SuccessResponse;
-import edu.iastate.goalfriend.repositories.TokenRepository;
 import edu.iastate.goalfriend.repositories.UserRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +18,9 @@ public class RegisterController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private TokenRepository tokenRepository;
-
     @PostMapping("/register")
     @ResponseBody
-    public IResponse registerController(HttpEntity<String> httpEntity) {
+    public IResponse registerController(HttpEntity<String> httpEntity) throws Exception {
         Iterable<User> users = userRepository.findAll();
 
         JSONObject userJSONObject = new JSONObject(httpEntity.getBody());
@@ -37,11 +33,9 @@ public class RegisterController {
         for (User user : users) {
             if (user != null) {
                 if (user.getEmail().equals(email)) {
-                    return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_ALREADY_LOGGED_OUT,
-                            "User already exists with that email.");
+                    throw new UserAlreadyExistsException(ErrorConstants.ERROR_CODE_USER_ALREADY_LOGGED_OUT, "User already exists with that email.");
                 } else if (user.getUsername().equals(username)) {
-                    return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_ALREADY_EXIST_WITH_USERNAME,
-                            "User already exists with that username.");
+                    throw new UserAlreadyExistsException(ErrorConstants.ERROR_CODE_USER_ALREADY_LOGGED_OUT, "User already exists with that username.");
                 }
             }
         }
@@ -52,7 +46,6 @@ public class RegisterController {
         newUser.setUsername(username);
         newUser.setPassword(password);
         newUser.setPhoneNumber(phoneNumber);
-
 
         userRepository.save(newUser);
 

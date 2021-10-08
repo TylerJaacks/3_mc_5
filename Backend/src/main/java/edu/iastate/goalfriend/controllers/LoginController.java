@@ -3,17 +3,17 @@ package edu.iastate.goalfriend.controllers;
 import edu.iastate.goalfriend.constants.ErrorConstants;
 import edu.iastate.goalfriend.domainobjects.Token;
 import edu.iastate.goalfriend.domainobjects.User;
-import edu.iastate.goalfriend.reponses.ErrorResponse;
+import edu.iastate.goalfriend.exceptions.InvalidHeadersException;
+import edu.iastate.goalfriend.exceptions.UserAlreadyLoggedInException;
+import edu.iastate.goalfriend.exceptions.UserDoesNotExistException;
+import edu.iastate.goalfriend.exceptions.WrongPasswordException;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.LoginSuccessResponse;
-import edu.iastate.goalfriend.repositories.TokenRepository;
 import edu.iastate.goalfriend.repositories.UserRepository;
 import edu.iastate.goalfriend.utils.TokenUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,9 +28,9 @@ public class LoginController {
     private UserRepository userRepository;
 
     @GetMapping(path ="/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public IResponse Login(@RequestHeader("email") String email, @RequestHeader("password") String password) {
+    public IResponse Login(@RequestHeader("email") String email, @RequestHeader("password") String password) throws Exception {
         if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
-            return new ErrorResponse(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
+            throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
 
         Iterable<User> userList = userRepository.findAll();
@@ -49,23 +49,23 @@ public class LoginController {
 
                 this.userRepository.save(user);
 
-                JSONObject errorObject = new JSONObject();
+                JSONObject jsonObject = new JSONObject();
                 List<JSONObject> jsonObjectList = new ArrayList<>();
 
-                errorObject.put("token", tokenString);
+                jsonObject.put("token", tokenString);
 
-                jsonObjectList.add(errorObject);
+                jsonObjectList.add(jsonObject);
 
                 return new LoginSuccessResponse(tokenString);
             } else if (user.getEmail().equals(email)
                     && user.getPassword().equals(password)
                     && user.getIsLoggedIn() != 0) {
-                return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_ALREADY_LOGGED_IN, "User already logged in.");
+                throw new UserAlreadyLoggedInException(ErrorConstants.ERROR_CODE_USER_ALREADY_LOGGED_IN, "User already logged in.");
             } else if (user.getEmail().equals(email) && !user.getPassword().equals(password)) {
-                return new ErrorResponse(ErrorConstants.ERROR_CODE_WRONG_PASSWORD, "Wrong Password.");
+                throw new WrongPasswordException(ErrorConstants.ERROR_CODE_WRONG_PASSWORD, "Wrong Password.");
             }
         }
 
-        return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_DOESNT_EXIST, "User doesn't exist.");
+        throw new UserDoesNotExistException(ErrorConstants.ERROR_CODE_USER_DOESNT_EXIST, "User doesn't exist.");
     }
 }

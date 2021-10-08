@@ -3,7 +3,7 @@ package edu.iastate.goalfriend.controllers;
 import edu.iastate.goalfriend.constants.ErrorConstants;
 import edu.iastate.goalfriend.domainobjects.Token;
 import edu.iastate.goalfriend.domainobjects.User;
-import edu.iastate.goalfriend.reponses.ErrorResponse;
+import edu.iastate.goalfriend.exceptions.*;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.SuccessResponse;
 import edu.iastate.goalfriend.repositories.TokenRepository;
@@ -23,9 +23,9 @@ public class LogoutController {
     private TokenRepository tokenRepository;
 
     @PostMapping("/logout")
-    public IResponse Login(@RequestHeader("email") String email, @RequestHeader("token") String token) {
+    public IResponse Login(@RequestHeader("email") String email, @RequestHeader("token") String token) throws Exception {
         if (email == null || token == null || email.isEmpty() || token.isEmpty()) {
-            return new ErrorResponse(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were given.");
+            throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were given.");
         }
 
         User user = userRepository.findByEmail(email);
@@ -50,23 +50,23 @@ public class LogoutController {
                         tokenRepository.delete(userToken);
                         tokenRepository.save(userToken);
 
-                        return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_ALREADY_LOGGED_OUT, "User is already logged out.");
+                        throw new UserAlreadyLoggedOutException(ErrorConstants.ERROR_CODE_USER_ALREADY_LOGGED_OUT, "User is already logged out.");
                     }
                 } else {
                     tokenRepository.delete(userToken);
                     tokenRepository.save(userToken);
 
-                    return new ErrorResponse(ErrorConstants.ERROR_CODE_TOKEN_EXPIRED, "Token has expired.");
+                    throw new TokenHasExpiredException(ErrorConstants.ERROR_CODE_TOKEN_EXPIRED, "Token has expired.");
                 }
             }
             else if (user.getIsLoggedIn() == 0) {
-                return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_ALREADY_LOGGED_OUT, "User is already logged out.");
+                throw new UserAlreadyLoggedOutException(ErrorConstants.ERROR_CODE_USER_ALREADY_LOGGED_OUT, "User is already logged out.");
             }
             else {
-                return new ErrorResponse(ErrorConstants.ERROR_CODE_TOKEN_NOT_AVAILABLE, "No Token Available!");
+                throw new TokenNotAvailableException(ErrorConstants.ERROR_CODE_TOKEN_NOT_AVAILABLE, "No Token Available!");
             }
         }
 
-        return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_DOESNT_EXIST, "User does not exist.");
+        throw new UserDoesNotExistException(ErrorConstants.ERROR_CODE_USER_DOESNT_EXIST, "User does not exist.");
     }
 }

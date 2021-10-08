@@ -3,7 +3,8 @@ package edu.iastate.goalfriend.controllers;
 import edu.iastate.goalfriend.constants.ErrorConstants;
 import edu.iastate.goalfriend.domainobjects.Token;
 import edu.iastate.goalfriend.domainobjects.User;
-import edu.iastate.goalfriend.reponses.ErrorResponse;
+import edu.iastate.goalfriend.exceptions.TokenNotAvailableException;
+import edu.iastate.goalfriend.exceptions.UserDoesNotExistException;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.UsersSuccessResponse;
 import edu.iastate.goalfriend.repositories.TokenRepository;
@@ -24,7 +25,7 @@ public class UsersController {
     private TokenRepository tokenRepository;
 
     @GetMapping("/users")
-    public IResponse usersController(@RequestHeader String token, @RequestParam String email) {
+    public IResponse usersController(@RequestHeader String token, @RequestParam String email) throws Exception {
 
         Token tokenObj = tokenRepository.getByToken(token);
 
@@ -32,17 +33,17 @@ public class UsersController {
 
         boolean emailIsValid = !email.isEmpty() && email != null;
 
-        if(tokenIsValid){
+        if (tokenIsValid) {
 
-            if(emailIsValid){
+            if (emailIsValid) {
                 User user = userRepository.findByEmail(email);
                 return new UsersSuccessResponse(user);
-            }else{
-                return new ErrorResponse(ErrorConstants.ERROR_CODE_USER_DOESNT_EXIST, "Could not find a user with that information.");
+            } else {
+                throw new UserDoesNotExistException(ErrorConstants.ERROR_CODE_USER_DOESNT_EXIST, "Could not find a user with that information.");
             }
 
-        }else{
-            return new ErrorResponse(ErrorConstants.ERROR_CODE_TOKEN_NOT_AVAILABLE, "Invalid tokenObj.");
+        } else {
+            throw new TokenNotAvailableException(ErrorConstants.ERROR_CODE_TOKEN_NOT_AVAILABLE, "Invalid tokenObj.");
         }
     }
 }
