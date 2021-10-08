@@ -81,51 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toast toast = new Toast(getApplicationContext());
 
-     /*   RequestQueue queue = Volley.newRequestQueue(this);
-        queue.start();
-        String url = "http://coms-309-054.cs.iastate.edu:8080/login";
-        StringRequest getEmailRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject hey = new JSONObject(response);
-                    if (!hey.getBoolean("error")) {
-                        JSONObject emailJson = hey.getJSONObject("email");
-                        JSONObject passwordJson = hey.getJSONObject("password");
-                        toast.setText("Test");
-                        toast.show();
-
-                    } else {
-                        toast.setText("Error");
-                        toast.show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("ERROR", "error => " + error.toString());
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Content-Type", "application/json; charset=UTF-8");
-                params.put("email", userEmail);
-                params.put("password", userPassword);
-                return params;
-            }
-        };
-        queue.add(getEmailRequest);
-
-      */
-
-
         final TextView textView = (TextView) findViewById(R.id.text);
-// ...
 
 // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
