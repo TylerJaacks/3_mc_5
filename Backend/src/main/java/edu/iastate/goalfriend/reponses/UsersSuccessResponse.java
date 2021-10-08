@@ -1,7 +1,10 @@
 package edu.iastate.goalfriend.reponses;
 
 import edu.iastate.goalfriend.domainobjects.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+@ResponseStatus(HttpStatus.ACCEPTED)
 public class UsersSuccessResponse extends SuccessResponse{
 
     private String username;
