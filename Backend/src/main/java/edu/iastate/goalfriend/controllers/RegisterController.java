@@ -25,6 +25,7 @@ public class RegisterController {
 
         JSONObject userJSONObject = new JSONObject(httpEntity.getBody());
 
+        // T0D0: Do Error Checking Here.
         String email = userJSONObject.getString("email");
         String username = userJSONObject.getString("username");
         String password = userJSONObject.getString("password");
