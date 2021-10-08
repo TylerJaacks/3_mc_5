@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 login(user.getText().toString().trim(), password.getText().toString().trim());
+
             }
         });
     }
@@ -81,18 +82,17 @@ public class MainActivity extends AppCompatActivity {
 
         Toast toast = new Toast(getApplicationContext());
 
+
         final TextView textView = (TextView) findViewById(R.id.text);
 
-// Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://coms-309-054.cs.iastate.edu:8080/login";
 
-// Request a string response from the provided URL.
         StringRequest stringObjectRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            int statusCode = 0;
 
             @Override
             public void onResponse(String response) {
+
                 Log.d("hey",response);
                 JSONObject responseJSON = null;
                 try {
@@ -104,17 +104,22 @@ public class MainActivity extends AppCompatActivity {
                     try {
 
                         String token = responseJSON.getString("token");
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    Toast.makeText(MainActivity.this, "Successfully Logged in", Toast.LENGTH_LONG).show();
                 }
                 else{
                     try {
                         int errorCode = responseJSON.getInt("errorCode");
                         String errorMessage = responseJSON.getString("errorMessage");
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
+
                 }
             }
         }, new Response.ErrorListener() {
