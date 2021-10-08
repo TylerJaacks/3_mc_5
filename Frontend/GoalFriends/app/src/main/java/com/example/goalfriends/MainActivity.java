@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText password;
     private Button login;
     private int statusCode;
+    public static String token;
 
 
     @Override
@@ -103,12 +104,14 @@ public class MainActivity extends AppCompatActivity {
                 if(statusCode == 200){
                     try {
 
-                        String token = responseJSON.getString("token");
+                        token = responseJSON.getString("token");
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     Toast.makeText(MainActivity.this, "Successfully Logged in", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(MainActivity.this, newActivity.class));
+
                 }
                 else{
                     try {

@@ -132,21 +132,14 @@ public class registerHere extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 } else {
-                    try {
-                        int errorCode = responseJSON.getInt("errorCode");
-                        String errorMessage = responseJSON.getString("errorMessage");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Log.d("hey", "Error");
                 }
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (error != null && error.getMessage() != null) {
                     Log.e("Response error", error.getMessage());
-                }
             }
         }) {
             @Override
@@ -167,7 +160,7 @@ public class registerHere extends AppCompatActivity {
 
                     jsonObject.put("email", regEmail);
                     jsonObject.put("username", regUsername);
-                    jsonObject.put("phone", regPhone);
+                    jsonObject.put("phonenumber", regPhone);
                     jsonObject.put("password", regPassword);
 
                     return jsonObject == null ? null : jsonObject.toString().getBytes("utf-8");
