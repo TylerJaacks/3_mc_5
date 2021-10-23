@@ -86,6 +86,8 @@ public class FriendshipController {
         if (token == null || otherUsername == null || token.isEmpty() || otherUsername.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
+
+        return null;
     }
 
     @GetMapping(path = "/friendship", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -93,5 +95,7 @@ public class FriendshipController {
         if (token == null || token.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
+
+        return null;
     }
 }
