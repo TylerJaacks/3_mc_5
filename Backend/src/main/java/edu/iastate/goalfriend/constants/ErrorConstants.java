@@ -10,5 +10,5 @@ public class ErrorConstants {
     public static final int ERROR_CODE_USER_ALREADY_EXIST_WITH_EMAIL = 7;
     public static final int ERROR_CODE_USER_ALREADY_EXIST_WITH_USERNAME = 8;
     public static final int ERROR_CODE_TOKEN_NOT_AVAILABLE = 9;
-    public static final int ERROR_CODE_INVALID_GOAL_NAME = 10;
+    public static final int ERROR_CODE_FRIENDSHIP_ALREADY_EXISTS = 10;
 }
