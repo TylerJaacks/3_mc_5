@@ -32,7 +32,7 @@ public class FriendshipController {
     FriendshipRepository friendshipRepository;
 
     @PostMapping(path = "/friendship", produces = MediaType.APPLICATION_JSON_VALUE)
-    public IResponse addFriendship(@RequestHeader String token, @RequestHeader String otherUsername) throws InvalidHeadersException, TokenHasExpiredException, UserDoesNotExistException, FriendshipAlreadyExistException {
+    public IResponse addFriendship(@RequestHeader String token, @RequestParam String otherUsername) throws InvalidHeadersException, TokenHasExpiredException, UserDoesNotExistException, FriendshipAlreadyExistException {
         if (token == null || otherUsername == null || token.isEmpty() || otherUsername.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
@@ -62,7 +62,6 @@ public class FriendshipController {
                 throw new FriendshipAlreadyExistException(ErrorConstants.ERROR_CODE_FRIENDSHIP_ALREADY_EXISTS, "You are already friends with this user.");
         }
 
-        // TODO: Update the status of there friendship.
         Friendship userFriendship1 = new Friendship();
         Friendship userFriendship2 = new Friendship();
 
@@ -81,7 +80,7 @@ public class FriendshipController {
     }
 
     @DeleteMapping(path = "/friendship", produces = MediaType.APPLICATION_JSON_VALUE)
-    public IResponse removeFriendship(@RequestHeader String token, @RequestHeader String otherUsername) throws InvalidHeadersException, TokenHasExpiredException, UserDoesNotExistException, FriendshipAlreadyExistException, FriendshipDoesNotExistException {
+    public IResponse removeFriendship(@RequestHeader String token, @RequestParam String otherUsername) throws InvalidHeadersException, TokenHasExpiredException, UserDoesNotExistException, FriendshipAlreadyExistException, FriendshipDoesNotExistException {
         if (token == null || otherUsername == null || token.isEmpty() || otherUsername.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
@@ -105,6 +104,13 @@ public class FriendshipController {
         }
 
         List<Friendship> usersFriends = friendshipRepository.getAllByUser1UsernameEquals(user.getUsername());
+
+        // TODO: Fix Deleting User
+        /**
+         * rg.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [null];
+         * nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement\r\n\tat
+         * org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)\r\n\tat
+         */
 
         for (Friendship friendship : usersFriends) {
             if (friendship.getUser2().getUsername().equals(otherUsername)) {
@@ -145,6 +151,7 @@ public class FriendshipController {
             friends.add(f.getUser1());
         });
 
+        // TODO: Fix this so that is actually returned need to do some JSON shit.
         return new FriendshipsResponse(friends);
     }
 }

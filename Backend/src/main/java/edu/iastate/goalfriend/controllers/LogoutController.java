@@ -38,7 +38,7 @@ public class LogoutController {
                     if (user.getIsLoggedIn() == 1) {
                         user.setIsLoggedIn(false);
 
-                        // T0D0: Not deleting token.
+                        // TODO: Not deleting token.
                         tokenRepository.delete(user.getToken());
                         tokenRepository.save(user.getToken());
 
