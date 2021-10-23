@@ -93,6 +93,7 @@ public class GoalController {
         if(goalToDelete == null){
             throw new InvalidGoalNameException(ErrorConstants.ERROR_CODE_INVALID_GOAL_NAME, goalName + " is not the name of an existing goal!");
         }else{
+            // TODO: Goal is not deleting from database; throws an error
             goalRepository.delete(goalToDelete);
             return new SuccessResponse();
         }
