@@ -1,8 +1,6 @@
 package edu.iastate.goalfriend.controllers;
 
 import edu.iastate.goalfriend.constants.ErrorConstants;
-import edu.iastate.goalfriend.domainobjects.Goal;
-import edu.iastate.goalfriend.domainobjects.User;
 import edu.iastate.goalfriend.exceptions.InvalidHeadersException;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.repositories.GoalRepository;
