@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface GoalRepository extends CrudRepository<Goal, Integer> {
     List<Goal> getAllByGoalOwnerEquals(User goalOwner);
-    List<Goal> getAll();
 }
