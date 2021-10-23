@@ -54,6 +54,7 @@ public class GoalController {
         }
 
         if(goalToReturn == null){
+
             throw new InvalidGoalNameException(ErrorConstants.ERROR_CODE_INVALID_GOAL_NAME, goalName + " is not the name of an existing goal!");
         }else{
             return new GoalSearchSuccessResponse(goalToReturn);
