@@ -50,7 +50,7 @@ public class GoalController {
         Goal goalToEdit = null;
 
         for(Goal goal : goals){
-            if(goal.getGoalName().equalsIgnoreCase(newGoalName)){
+            if(goal.getGoalName().equalsIgnoreCase(newGoalName) && !goalName.equals(newGoalName)){
                 throw new InvalidGoalNameException(ErrorConstants.ERROR_CODE_INVALID_GOAL_NAME, "There is already a goal called " + newGoalName);
             }
             if(goal.getGoalName().equalsIgnoreCase(goalName)){
