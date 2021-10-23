@@ -16,6 +16,15 @@
         android:theme="@style/Theme.GoalFriends"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".PostActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SearchActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="true" />
+        <activity
             android:name=".HomescreenActivity"
             android:exported="true" />
         <activity

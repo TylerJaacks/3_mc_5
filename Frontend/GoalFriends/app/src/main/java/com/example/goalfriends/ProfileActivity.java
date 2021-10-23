@@ -7,42 +7,40 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class HomescreenActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     private ImageButton addGoal;
-    private ImageButton profile;
+    private ImageButton homeScreen;
     private ImageButton search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_homescreen);
+        setContentView(R.layout.activity_profile);
 
         addGoal = (ImageButton) findViewById(R.id.AddGoalbutton);
-        profile = (ImageButton) findViewById(R.id.Homescreenbutton);
+        homeScreen = (ImageButton) findViewById(R.id.Homescreenbutton);
         search = (ImageButton) findViewById(R.id.Searchbutton);
 
         addGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomescreenActivity.this, PostActivity.class));
+                startActivity(new Intent(ProfileActivity.this, PostActivity.class));
             }
         });
 
-        profile.setOnClickListener(new View.OnClickListener() {
+        homeScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomescreenActivity.this, ProfileActivity.class));
+                startActivity(new Intent(ProfileActivity.this, HomescreenActivity.class));
             }
         });
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomescreenActivity.this, SearchActivity.class));
+                startActivity(new Intent(ProfileActivity.this, SearchActivity.class));
             }
         });
     }
-
-
 }
