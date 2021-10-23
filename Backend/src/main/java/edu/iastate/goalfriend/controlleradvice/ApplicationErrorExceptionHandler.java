@@ -90,4 +90,14 @@ public class ApplicationErrorExceptionHandler {
         errorResponse.put("status", HttpStatus.BAD_REQUEST.toString());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(FriendshipAlreadyExistException.class)
+    public ResponseEntity<Map<String, String>> handleNoTokenAvailableException(FriendshipAlreadyExistException e) {
+        Map<String, String> errorResponse = new HashMap<>();
+
+        errorResponse.put("errorCode", String.valueOf(e.getErrorCode()));
+        errorResponse.put("errorMessage", String.valueOf(e.getErrorMessage()));
+        errorResponse.put("status", HttpStatus.BAD_REQUEST.toString());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }
