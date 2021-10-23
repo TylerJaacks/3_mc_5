@@ -23,6 +23,13 @@ public class Goal {
 
     private @NotBlank @NotNull float goalProgress;
 
+    public Goal(String goalName, User goalOwner, GoalCategory goalCategory, float goalProgress){
+        this.goalName = goalName;
+        this.goalOwner = goalOwner;
+        this.goalCategory = goalCategory;
+        this.goalProgress = goalProgress;
+    }
+
     public int getId() {
         return id;
     }
