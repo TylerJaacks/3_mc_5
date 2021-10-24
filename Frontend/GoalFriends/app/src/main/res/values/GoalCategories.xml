@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string-array name="goal_categories">
+        <item>Food</item>
+        <item>Occupational</item>
+        <item>Fitness</item>
+    </string-array>
+</resources>

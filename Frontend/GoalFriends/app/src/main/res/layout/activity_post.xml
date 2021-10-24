@@ -40,12 +40,12 @@
         app:layout_constraintVertical_bias="0.444" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/postGoalCancelButton"
         android:layout_width="60dp"
         android:layout_height="46dp"
         android:background="#000000"
         android:scaleType="fitCenter"
-        android:tint="#FFFFFF"
+        app:tint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textView5"
         app:layout_constraintHorizontal_bias="0.275"
@@ -105,15 +105,16 @@
         app:layout_constraintVertical_bias="0.419" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/GoalCategorySpinner"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
+        android:entries="@array/goal_categories"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.246" />
+        app:layout_constraintVertical_bias="0.27" />
 
     <Button
         android:id="@+id/button"
@@ -134,5 +135,17 @@
         app:layout_constraintVertical_bias="0.856"
         app:rippleColor="#377BB6"
         app:strokeColor="#377BB6" />
+
+    <TextView
+        android:id="@+id/GoalCategoryTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="Goal Category:"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/GoalCategorySpinner"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
