@@ -55,7 +55,7 @@
         app:srcCompat="?attr/homeAsUpIndicator" />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:id="@+id/editTextGoalDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -68,7 +68,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextGoalName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -95,7 +95,7 @@
         app:layout_constraintVertical_bias="0.394" />
 
     <SeekBar
-        android:id="@+id/seekBar3"
+        android:id="@+id/seekBarGoalProg"
         android:layout_width="241dp"
         android:layout_height="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -117,7 +117,7 @@
         app:layout_constraintVertical_bias="0.27" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/postNewGoalButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#377BB6"
