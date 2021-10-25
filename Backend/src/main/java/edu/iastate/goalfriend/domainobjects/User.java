@@ -17,7 +17,7 @@ public class User {
     private @NotBlank @NotNull int isLoggedIn = 0;
     private @NotBlank @NotNull @Column(unique=true) String phoneNumber;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade=CascadeType.ALL, orphanRemoval = true)
     private Token token;
 
     public String getPhoneNumber(){

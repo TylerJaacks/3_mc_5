@@ -15,8 +15,8 @@ public class Friendship {
     private @NotBlank @NotNull
     @Column(unique = true) int id;
 
-    private @NotBlank @NotNull @OneToOne(cascade=CascadeType.ALL) User user1;
-    private @NotBlank @NotNull @OneToOne(cascade=CascadeType.ALL) User user2;
+    private @NotBlank @OneToOne(cascade=CascadeType.ALL, orphanRemoval = true) User user1;
+    private @NotBlank @OneToOne(cascade=CascadeType.ALL, orphanRemoval = true) User user2;
     private @NotBlank @NotNull FriendshipType friendshipType;
 
     public int getId() {

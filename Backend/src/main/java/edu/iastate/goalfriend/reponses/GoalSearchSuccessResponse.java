@@ -11,8 +11,4 @@ public class GoalSearchSuccessResponse implements IResponse {
     public GoalSearchSuccessResponse(Goal goal) {
         this.goal = goal;
     }
-
-    public Goal getGoal(){
-        return goal;
-    }
 }

@@ -23,12 +23,12 @@ public class LogoutController {
     private TokenRepository tokenRepository;
 
     @PostMapping("/logout")
-    public IResponse Login(@RequestHeader("email") String email, @RequestHeader("token") String token) throws Exception {
-        if (email == null || token == null || email.isEmpty() || token.isEmpty()) {
+    public IResponse Login(@RequestHeader("token") String token) throws Exception {
+        if (token == null || token.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were given.");
         }
 
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByToken_Token(token);
 
         if (user != null) {
             Token userToken = user.getToken();
@@ -38,7 +38,6 @@ public class LogoutController {
                     if (user.getIsLoggedIn() == 1) {
                         user.setIsLoggedIn(false);
 
-                        // TODO: Not deleting token.
                         tokenRepository.delete(user.getToken());
                         tokenRepository.save(user.getToken());
 

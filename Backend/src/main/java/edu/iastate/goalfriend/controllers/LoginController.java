@@ -3,12 +3,10 @@ package edu.iastate.goalfriend.controllers;
 import edu.iastate.goalfriend.constants.ErrorConstants;
 import edu.iastate.goalfriend.domainobjects.Token;
 import edu.iastate.goalfriend.domainobjects.User;
-import edu.iastate.goalfriend.exceptions.InvalidHeadersException;
-import edu.iastate.goalfriend.exceptions.UserAlreadyLoggedInException;
-import edu.iastate.goalfriend.exceptions.UserDoesNotExistException;
-import edu.iastate.goalfriend.exceptions.WrongPasswordException;
+import edu.iastate.goalfriend.exceptions.*;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.LoginSuccessResponse;
+import edu.iastate.goalfriend.repositories.TokenRepository;
 import edu.iastate.goalfriend.repositories.UserRepository;
 import edu.iastate.goalfriend.utils.TokenUtils;
 import org.json.JSONObject;
@@ -27,6 +25,9 @@ public class LoginController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TokenRepository tokenRepository;
+
     @GetMapping(path ="/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse Login(@RequestHeader("email") String email, @RequestHeader("password") String password) throws Exception {
         if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
@@ -36,27 +37,77 @@ public class LoginController {
         Iterable<User> userList = userRepository.findAll();
 
         for (User user : userList) {
-            if (user.getEmail().equals(email)
-                    && user.getPassword().equals(password)
-                    && user.getIsLoggedIn() == 0) {
-                user.setIsLoggedIn(1);
+            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                Token foundToken = user.getToken();
 
-                String tokenString = TokenUtils.tokenGenerator();
+                if (foundToken == null) {
+                    user.setIsLoggedIn(1);
 
-                Token token = new Token(tokenString, (new Date()).getTime(), TokenUtils.EXPIRATION_TIME);
+                    String tokenString = TokenUtils.tokenGenerator();
 
-                user.setToken(token);
+                    Token token = new Token(tokenString, (new Date()).getTime(), TokenUtils.EXPIRATION_TIME);
 
-                this.userRepository.save(user);
+                    user.setToken(token);
 
-                JSONObject jsonObject = new JSONObject();
-                List<JSONObject> jsonObjectList = new ArrayList<>();
+                    this.userRepository.save(user);
 
-                jsonObject.put("token", tokenString);
+                    JSONObject jsonObject = new JSONObject();
+                    List<JSONObject> jsonObjectList = new ArrayList<>();
 
-                jsonObjectList.add(jsonObject);
+                    jsonObject.put("token", tokenString);
 
-                return new LoginSuccessResponse(tokenString);
+                    jsonObjectList.add(jsonObject);
+
+                    return new LoginSuccessResponse(tokenString);
+                }
+
+                boolean isTokenValid = TokenUtils.isTokenValid(foundToken, foundToken.getToken());
+
+                if (isTokenValid == true) {
+                    tokenRepository.delete(foundToken);
+                    tokenRepository.save(foundToken);
+
+                    String tokenString = TokenUtils.tokenGenerator();
+
+                    Token token = new Token(tokenString, (new Date()).getTime(), TokenUtils.EXPIRATION_TIME);
+
+                    user.setToken(token);
+
+                    this.userRepository.save(user);
+
+                    JSONObject jsonObject = new JSONObject();
+                    List<JSONObject> jsonObjectList = new ArrayList<>();
+
+                    jsonObject.put("token", tokenString);
+
+                    jsonObjectList.add(jsonObject);
+
+                    return new LoginSuccessResponse(tokenString);
+                }
+
+                if (user.getIsLoggedIn() == 0 || !isTokenValid) {
+                    tokenRepository.delete(foundToken);
+                    tokenRepository.save(foundToken);
+
+                    user.setIsLoggedIn(1);
+
+                    String tokenString = TokenUtils.tokenGenerator();
+
+                    Token token = new Token(tokenString, (new Date()).getTime(), TokenUtils.EXPIRATION_TIME);
+
+                    user.setToken(token);
+
+                    this.userRepository.save(user);
+
+                    JSONObject jsonObject = new JSONObject();
+                    List<JSONObject> jsonObjectList = new ArrayList<>();
+
+                    jsonObject.put("token", tokenString);
+
+                    jsonObjectList.add(jsonObject);
+
+                    return new LoginSuccessResponse(tokenString);
+                }
             } else if (user.getEmail().equals(email)
                     && user.getPassword().equals(password)
                     && user.getIsLoggedIn() != 0) {

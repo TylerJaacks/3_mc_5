@@ -18,7 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class FriendshipController {
@@ -111,9 +113,11 @@ public class FriendshipController {
          * nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement\r\n\tat
          * org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)\r\n\tat
          */
-
         for (Friendship friendship : usersFriends) {
             if (friendship.getUser2().getUsername().equals(otherUsername)) {
+                friendship.setUser1(null);
+                friendship.setUser2(null);
+
                 friendshipRepository.delete(friendship);
                 friendshipRepository.save(friendship);
             }
@@ -123,6 +127,9 @@ public class FriendshipController {
 
         for (Friendship friendship : otherUsersFriends) {
             if (friendship.getUser2().getUsername().equals(user)) {
+                friendship.setUser1(null);
+                friendship.setUser2(null);
+
                 friendshipRepository.delete(friendship);
                 friendshipRepository.save(friendship);
             }
@@ -131,8 +138,11 @@ public class FriendshipController {
         throw new FriendshipDoesNotExistException(ErrorConstants.ERROR_CODE_FRIENDSHIP_DOESNT_EXISTS, "You are already friends with this user.");
     }
 
+    // TODO: Not sure that I like this method of returning a list of friends.
     @GetMapping(path = "/friendship", produces = MediaType.APPLICATION_JSON_VALUE)
-    public IResponse getFriendships(@RequestHeader String token) throws InvalidHeadersException, TokenHasExpiredException {
+    public Map getFriendships(@RequestHeader String token) throws InvalidHeadersException, TokenHasExpiredException {
+        Map<String, String> friendshipMap = new HashMap<>();
+
         if (token == null || token.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
@@ -145,13 +155,13 @@ public class FriendshipController {
 
         User user = userRepository.findByToken_Token(token);
 
-        List<User> friends = new ArrayList<>();
+        int i = 1;
 
-        friendshipRepository.getAllByUser1UsernameEquals(user.getUsername()).stream().forEach(f -> {
-            friends.add(f.getUser1());
-        });
+        for (Friendship friendship : friendshipRepository.getAllByUser1UsernameEquals(user.getUsername())) {
+            friendshipMap.put("friend" + i, friendship.getUser2().getUsername());
+            i += 1;
+        }
 
-        // TODO: Fix this so that is actually returned need to do some JSON shit.
-        return new FriendshipsResponse(friends);
+        return friendshipMap;
     }
 }
