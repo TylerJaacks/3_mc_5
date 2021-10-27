@@ -10,13 +10,13 @@ import static org.mockito.Mockito.*;
 
 public class TokenUtilsTests {
 
-    @Test
-    public void testValidToken() {
-        TokenUtils tokenUtils = mock(TokenUtils.class);
-
-        Token token = new Token("abcdefg", System.currentTimeMillis(), TokenUtils.EXPIRATION_TIME);
-
-        assertTrue(tokenUtils.nonStaticIsTokenValid(token, "abcdefg"));
-    }
+//    @Test
+//    public void testValidToken() {
+//        TokenUtils tokenUtils = mock(TokenUtils.class);
+//
+//        Token token = new Token("abcdefg", System.currentTimeMillis(), TokenUtils.EXPIRATION_TIME);
+//
+//        assertTrue(tokenUtils.nonStaticIsTokenValid(token, "abcdefg"));
+//    }
 
 }
