@@ -10,10 +10,6 @@ import edu.iastate.goalfriend.exceptions.InvalidHeadersException;
 import edu.iastate.goalfriend.reponses.GoalSearchSuccessResponse;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.SuccessResponse;
-import edu.iastate.goalfriend.repositories.GoalRepository;
-import edu.iastate.goalfriend.repositories.TokenRepository;
-import edu.iastate.goalfriend.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,16 +18,7 @@ import java.util.List;
 // get, delete, post, update
 
 @RestController
-public class GoalController {
-    @Autowired
-    private GoalRepository goalRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TokenRepository tokenRepository;
-
+public class GoalController extends CoreController {
     @PutMapping(path = "/goal", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse UpdateGoal(
             @RequestHeader("token") String token,

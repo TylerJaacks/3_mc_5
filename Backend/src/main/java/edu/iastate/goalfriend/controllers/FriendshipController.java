@@ -6,33 +6,18 @@ import edu.iastate.goalfriend.domainobjects.Friendship;
 import edu.iastate.goalfriend.domainobjects.Token;
 import edu.iastate.goalfriend.domainobjects.User;
 import edu.iastate.goalfriend.exceptions.*;
-import edu.iastate.goalfriend.reponses.FriendshipsResponse;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.SuccessResponse;
-import edu.iastate.goalfriend.repositories.FriendshipRepository;
-import edu.iastate.goalfriend.repositories.TokenRepository;
-import edu.iastate.goalfriend.repositories.UserRepository;
 import edu.iastate.goalfriend.utils.TokenUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-public class FriendshipController {
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    TokenRepository tokenRepository;
-
-    @Autowired
-    FriendshipRepository friendshipRepository;
-
+public class FriendshipController extends CoreController {
     @PostMapping(path = "/friendship", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse addFriendship(@RequestHeader String token, @RequestParam String otherUsername) throws InvalidHeadersException, TokenHasExpiredException, UserDoesNotExistException, FriendshipAlreadyExistException {
         if (token == null || otherUsername == null || token.isEmpty() || otherUsername.isEmpty()) {
@@ -60,19 +45,19 @@ public class FriendshipController {
         List<Friendship> usersFriends = friendshipRepository.getAllByUser1UsernameEquals(user.getUsername());
 
         for (Friendship friendship : usersFriends) {
-            if (friendship.getUser2().getUsername().equals(otherUsername))
+            if (friendship.getUsername2().equals(otherUsername))
                 throw new FriendshipAlreadyExistException(ErrorConstants.ERROR_CODE_FRIENDSHIP_ALREADY_EXISTS, "You are already friends with this user.");
         }
 
         Friendship userFriendship1 = new Friendship();
         Friendship userFriendship2 = new Friendship();
 
-        userFriendship1.setUser1(user);
-        userFriendship1.setUser2(otherUser);
+        userFriendship1.setUsername1(user.getUsername());
+        userFriendship1.setUsername1(otherUser.getUsername());
         userFriendship1.setFriendshipType(FriendshipType.FRIENDS);
 
-        userFriendship2.setUser1(otherUser);
-        userFriendship2.setUser2(user);
+        userFriendship2.setUsername1(otherUser.getUsername());
+        userFriendship2.setUsername2(user.getUsername());
         userFriendship2.setFriendshipType(FriendshipType.FRIENDS);
 
         friendshipRepository.save(userFriendship1);
@@ -114,10 +99,7 @@ public class FriendshipController {
          * org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)\r\n\tat
          */
         for (Friendship friendship : usersFriends) {
-            if (friendship.getUser2().getUsername().equals(otherUsername)) {
-                friendship.setUser1(null);
-                friendship.setUser2(null);
-
+            if (friendship.getUsername2().equals(otherUsername)) {
                 friendshipRepository.delete(friendship);
                 friendshipRepository.save(friendship);
             }
@@ -126,10 +108,7 @@ public class FriendshipController {
         List<Friendship> otherUsersFriends = friendshipRepository.getAllByUser1UsernameEquals(otherUser.getUsername());
 
         for (Friendship friendship : otherUsersFriends) {
-            if (friendship.getUser2().getUsername().equals(user)) {
-                friendship.setUser1(null);
-                friendship.setUser2(null);
-
+            if (friendship.getUsername2().equals(user)) {
                 friendshipRepository.delete(friendship);
                 friendshipRepository.save(friendship);
             }
@@ -158,7 +137,7 @@ public class FriendshipController {
         int i = 1;
 
         for (Friendship friendship : friendshipRepository.getAllByUser1UsernameEquals(user.getUsername())) {
-            friendshipMap.put("friend" + i, friendship.getUser2().getUsername());
+            friendshipMap.put("friend" + i, friendship.getUsername2());
             i += 1;
         }
 

@@ -3,14 +3,14 @@ package edu.iastate.goalfriend.controllers;
 import edu.iastate.goalfriend.constants.ErrorConstants;
 import edu.iastate.goalfriend.domainobjects.Token;
 import edu.iastate.goalfriend.domainobjects.User;
-import edu.iastate.goalfriend.exceptions.*;
+import edu.iastate.goalfriend.exceptions.InvalidHeadersException;
+import edu.iastate.goalfriend.exceptions.UserAlreadyLoggedInException;
+import edu.iastate.goalfriend.exceptions.UserDoesNotExistException;
+import edu.iastate.goalfriend.exceptions.WrongPasswordException;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.LoginSuccessResponse;
-import edu.iastate.goalfriend.repositories.TokenRepository;
-import edu.iastate.goalfriend.repositories.UserRepository;
 import edu.iastate.goalfriend.utils.TokenUtils;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -21,13 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-public class LoginController {
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TokenRepository tokenRepository;
-
+public class LoginController extends CoreController {
     @GetMapping(path ="/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse Login(@RequestHeader("email") String email, @RequestHeader("password") String password) throws Exception {
         if (email == null || password == null || email.isEmpty() || password.isEmpty()) {

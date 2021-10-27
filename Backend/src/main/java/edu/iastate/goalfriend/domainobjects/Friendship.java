@@ -15,8 +15,9 @@ public class Friendship {
     private @NotBlank @NotNull
     @Column(unique = true) int id;
 
-    private @NotBlank @OneToOne(cascade=CascadeType.ALL, orphanRemoval = true) User user1;
-    private @NotBlank @OneToOne(cascade=CascadeType.ALL, orphanRemoval = true) User user2;
+    // TODO: These should be a relationship but I don't care to fix this for demo3.
+    private @NotBlank String username1;
+    private @NotBlank String username2;
     private @NotBlank @NotNull FriendshipType friendshipType;
 
     public int getId() {
@@ -35,20 +36,20 @@ public class Friendship {
         this.friendshipType = friendshipType;
     }
 
-    public User getUser1() {
-        return user1;
+    public String getUsername1() {
+        return username1;
     }
 
-    public void setUser1(User user1) {
-        this.user1 = user1;
+    public void setUsername1(String username1) {
+        this.username1 = username1;
     }
 
-    public User getUser2() {
-        return user2;
+    public String getUsername2() {
+        return username2;
     }
 
-    public void setUser2(User user2) {
-        this.user2 = user2;
+    public void setUsername2(String username2) {
+        this.username2 = username2;
     }
 
     @Override
@@ -56,20 +57,20 @@ public class Friendship {
         if (this == o) return true;
         if (!(o instanceof Friendship)) return false;
         Friendship that = (Friendship) o;
-        return getId() == that.getId() && getUser1().equals(that.getUser1()) && getUser2().equals(that.getUser2()) && getFriendshipType() == that.getFriendshipType();
+        return getId() == that.getId() && getUsername1().equals(that.getUsername1()) && getUsername2().equals(that.getUsername2()) && getFriendshipType() == that.getFriendshipType();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUser1(), getUser2(), getFriendshipType());
+        return Objects.hash(getId(), getUsername1(), getUsername2(), getFriendshipType());
     }
 
     @Override
     public String toString() {
         return "Friendship{" +
                 "id=" + id +
-                ", user1=" + user1 +
-                ", user2=" + user2 +
+                ", username1=" + username1 +
+                ", username2=" + username2 +
                 ", friendshipType=" + friendshipType +
                 '}';
     }

@@ -5,19 +5,14 @@ import edu.iastate.goalfriend.domainobjects.User;
 import edu.iastate.goalfriend.exceptions.UserAlreadyExistsException;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.SuccessResponse;
-import edu.iastate.goalfriend.repositories.UserRepository;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class RegisterController {
-    @Autowired
-    private UserRepository userRepository;
-
+public class RegisterController extends CoreController {
     @PostMapping("/register")
     @ResponseBody
     public IResponse registerController(HttpEntity<String> httpEntity) throws Exception {

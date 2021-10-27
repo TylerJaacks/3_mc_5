@@ -6,22 +6,13 @@ import edu.iastate.goalfriend.domainobjects.User;
 import edu.iastate.goalfriend.exceptions.*;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.SuccessResponse;
-import edu.iastate.goalfriend.repositories.TokenRepository;
-import edu.iastate.goalfriend.repositories.UserRepository;
 import edu.iastate.goalfriend.utils.TokenUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LogoutController {
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TokenRepository tokenRepository;
-
+public class LogoutController extends CoreController {
     @PostMapping("/logout")
     public IResponse Login(@RequestHeader("token") String token) throws Exception {
         if (token == null || token.isEmpty()) {
