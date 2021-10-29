@@ -28,10 +28,10 @@ public class HomescreenActivity extends AppCompatActivity {
 
 
         addGoal = (ImageButton) findViewById(R.id.AddGoalbutton);
-        profile = (ImageButton) findViewById(R.id.Homescreenbutton);
+        profile = (ImageButton) findViewById(R.id.Profilebutton);
         search = (ImageButton) findViewById(R.id.Searchbutton);
 
-        // Uncomment to add 10 placeholder goals to the RecyclerView
+        // Uncomment to add 10 placeholder goals to the RecyclerView for testing
         // goalset = Goal.populateGoal(10);
 
         recyclerView = findViewById(R.id.rvGoals);
