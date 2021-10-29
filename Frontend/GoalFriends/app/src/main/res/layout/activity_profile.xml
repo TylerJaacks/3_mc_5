@@ -35,10 +35,10 @@
         android:backgroundTint="@color/charcoal"
         android:padding="20dp"
         android:scaleType="fitCenter"
+        android:src="@drawable/homescreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/AddGoalbutton"
-        tools:ignore="SpeakableTextPresentCheck"
-        tools:src="@drawable/homescreen" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageButton
         android:id="@+id/Searchbutton"
@@ -51,5 +51,16 @@
         android:src="@drawable/search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/Homescreenbutton" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is the Profile Page"
+        android:textSize="36dp"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

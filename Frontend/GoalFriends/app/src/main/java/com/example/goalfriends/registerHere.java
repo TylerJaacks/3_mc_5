@@ -11,6 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -36,6 +41,11 @@ public class registerHere extends AppCompatActivity {
     private EditText password;
     private EditText cpassword;
     private int statusCode;
+    private static final String TAG = "registerHere";
+    private SharedPreferencesHelper mSharedPreferencesHelper;
+    private ValidEmail mEmailValidator;
+    private ValidPhoneNumber mPhoneValidator;
+    private ValidPassword mPasswordValidator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +60,37 @@ public class registerHere extends AppCompatActivity {
         password = (EditText) findViewById(R.id.SetPassword);
         cpassword = (EditText) findViewById(R.id.ConfirmPassword);
 
+        mEmailValidator = new ValidEmail();
+        email.addTextChangedListener(mEmailValidator);
+
+        mPasswordValidator = new ValidPassword();
+        password.addTextChangedListener(mEmailValidator);
+
+        mPhoneValidator = new ValidPhoneNumber();
+        phone.addTextChangedListener(mEmailValidator);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mSharedPreferencesHelper = new SharedPreferencesHelper(sharedPreferences);
+        populateUi();
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(registerHere.this, MainActivity.class));
             }
+
+
         });
+
+
 
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Add more requirements for registration (e.g. All text fields must be non-empty, phone number and email must be in correct formats)
+
                 register(username.getText().toString().trim(), email.getText().toString().trim(), phone.getText().toString().trim(),
                         password.getText().toString().trim(), cpassword.getText().toString().trim());
+                // TODO: Add more requirements for registration (e.g. All text fields must be non-empty, phone number and email must be in correct formats)
 
                 if (password.getText().toString().equals(cpassword.getText().toString()) && !password.getText().toString().matches("")) {
                     Toast.makeText(registerHere.this, "Account Created!", Toast.LENGTH_LONG).show();
@@ -73,28 +101,52 @@ public class registerHere extends AppCompatActivity {
                     cpassword.getText().clear();
                 }
 
+                String nName = username.getText().toString();
+                String nEmail = email.getText().toString();
+                String nPhone = phone.getText().toString();
+                String nPassword = password.getText().toString();
 
+            SharedPreferenceEntry sharedPreferenceEntry = new SharedPreferenceEntry(nName, nEmail, nPhone, nPassword);
+                boolean isSuccess = mSharedPreferencesHelper.savePersonalInfo(sharedPreferenceEntry);
+                if (isSuccess) {
+                    Toast.makeText(registerHere.this, "Personal information saved", Toast.LENGTH_LONG).show();
+                    Log.i(TAG, "Personal information saved");
+                } else {
+                    Log.e(TAG, "Failed to write personal information to SharedPreferences");
+                }
             }
         });
 
 
     }
+    private void populateUi() {
+        SharedPreferenceEntry sharedPreferenceEntry;
+        sharedPreferenceEntry = mSharedPreferencesHelper.getPersonalInfo();
+        username.setText(sharedPreferenceEntry.getName());
+        email.setText(sharedPreferenceEntry.getEmail());
+        phone.setText(sharedPreferenceEntry.getEmail());
+        password.setText(sharedPreferenceEntry.getEmail());
+    }
+
 
     private void register(String regUsername, String regEmail, String regPhone, String regPassword, String regCpassword) {
         if (regUsername.isEmpty()) {
             username.setError("Username is required");
             username.requestFocus();
             return;
-        } else if (regEmail.isEmpty()) {
-            email.setError("Email is required");
+        } else if (!mEmailValidator.isValid()){
+            email.setError("Invalid Email");
+            Log.w(TAG,"Not saving personal information: Invalid Email");
             email.requestFocus();
             return;
-        } else if (regPhone.isEmpty()) {
-            phone.setError("Phone Number is required");
+        } else if (!mPhoneValidator.isValid()){
+            phone.setError("Invalid Phone Number");
+            Log.w(TAG,"Not saving personal information: Invalid Phone Number");
             phone.requestFocus();
             return;
-        } else if (regPassword.isEmpty()) {
-            password.setError("Password is required");
+        } else if (!mPasswordValidator.isValid()){
+            password.setError("Invalid Password");
+            Log.w(TAG,"Not saving personal information: Invalid Password");
             password.requestFocus();
             return;
         } else if (regCpassword.isEmpty()) {
@@ -181,4 +233,5 @@ public class registerHere extends AppCompatActivity {
 // Add the request to the RequestQueue.
         queue.add(stringObjectRequest);
     }
+
 }
