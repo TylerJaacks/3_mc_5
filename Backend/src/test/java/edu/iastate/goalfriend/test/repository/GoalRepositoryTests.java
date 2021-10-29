@@ -1,11 +1,9 @@
-package edu.iastate.goalfriend.controller;
+package edu.iastate.goalfriend.test.repository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import static org.mockito.Mockito.when;
-
-public class FriendshipControllerTests extends ControllerTests {
+public class GoalRepositoryTests extends BaseRepositoryTest {
     @Override
     @BeforeEach
     public void testSetup() {

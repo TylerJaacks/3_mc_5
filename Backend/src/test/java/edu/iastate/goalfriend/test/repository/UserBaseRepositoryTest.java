@@ -1,12 +1,10 @@
-package edu.iastate.goalfriend.controller;
+package edu.iastate.goalfriend.test.repository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.when;
-
-public class UserControllerTests extends ControllerTests {
+public class UserBaseRepositoryTest extends BaseRepositoryTest {
     @Test
     public void findByEmail() {
 

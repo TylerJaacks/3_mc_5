@@ -1,4 +1,4 @@
-package edu.iastate.goalfriend.controller;
+package edu.iastate.goalfriend.test.repository;
 
 import edu.iastate.goalfriend.FriendshipType;
 import edu.iastate.goalfriend.domainobjects.Friendship;
@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
-public abstract class ControllerTests {
+public abstract class BaseRepositoryTest {
     protected final String USERNAME1 = "test1";
     protected final String EMAIL1 = "test@test.com";
     protected final String PHONE1 = "12345678";
