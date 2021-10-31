@@ -90,7 +90,6 @@ public class registerHere extends AppCompatActivity {
 
                 register(username.getText().toString().trim(), email.getText().toString().trim(), phone.getText().toString().trim(),
                         password.getText().toString().trim(), cpassword.getText().toString().trim());
-                // TODO: Add more requirements for registration (e.g. All text fields must be non-empty, phone number and email must be in correct formats)
 
                 if (password.getText().toString().equals(cpassword.getText().toString()) && !password.getText().toString().matches("")) {
                     Toast.makeText(registerHere.this, "Account Created!", Toast.LENGTH_LONG).show();

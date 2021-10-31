@@ -12,6 +12,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageButton addGoal;
     private ImageButton homeScreen;
     private ImageButton search;
+    private ImageButton settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,7 @@ public class ProfileActivity extends AppCompatActivity {
         addGoal = (ImageButton) findViewById(R.id.AddGoalbutton);
         homeScreen = (ImageButton) findViewById(R.id.Homescreenbutton);
         search = (ImageButton) findViewById(R.id.Searchbutton);
+        settings = (ImageButton) findViewById(R.id.settingsButton);
 
         addGoal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +42,13 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, SearchActivity.class));
+            }
+        });
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, SettingsActivity.class));
             }
         });
     }
