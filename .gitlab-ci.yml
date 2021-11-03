@@ -17,7 +17,7 @@ build:
   stage: build
   script:
     - cd Backend/
-    - gradle assemble
+    - sudo ./gradlew assemble
   tags:
     - BACKEND
   artifacts:
@@ -33,7 +33,7 @@ tests:
     - BACKEND
   script:
     - cd Backend
-    - gradle check
+    - sudo ./gradlew check
 
 deploy:
   stage: deploy
@@ -41,4 +41,6 @@ deploy:
     - BACKEND
   script:
     - cd Backend/build/libs/
+    - sudo systemctl stop httpd.service
+    - sudo systemctl stop tomcat.service
     - java -jar goalfriend-0.0.1-SNAPSHOT.jar
