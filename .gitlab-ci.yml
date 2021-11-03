@@ -16,7 +16,7 @@ gradlebuild:
 
 gradletests:
   gradlebuild:
-  stage: gradlebuild
+  stage: gradletest
   tags:
     - BACKEND
   script:
