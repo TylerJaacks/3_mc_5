@@ -17,7 +17,7 @@ build:
   stage: build
   script:
     - cd Backend/
-    - sudo ./gradlew assemble
+    - gradle assemble
   tags:
     - BACKEND
   artifacts:
@@ -33,7 +33,7 @@ tests:
     - BACKEND
   script:
     - cd Backend
-    - sudo ./gradlew check
+    - gradle check
 
 deploy:
   stage: deploy
