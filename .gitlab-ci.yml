@@ -9,4 +9,4 @@ gradlebuild:
     - BACKEND
   script:
     - cd Backend
-    - gradle build
+    - gradle assemble
