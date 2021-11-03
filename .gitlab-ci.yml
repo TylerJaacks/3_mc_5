@@ -1,26 +1,34 @@
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  CI_DEBUG_SERVICES: trace
+
 stages:
-  - gradlebuild
-  - gradletests
+  - build
+  - tests
   - deploy
 
-gradlebuild:
-  stage: gradlebuild
-  tags:
-    - BACKEND
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+build:
+  stage: build
   script:
-    - cd Backend
-    - gradle assemble
+    - cd Backend/
+    - ./gradlew assemble
   artifacts:
     paths:
-      - Backend/build/libs/goalfriend-0.0.1-SNAPSHOT.jar
+      - build/libs/*.jar
+    expire_in: 1 week
+  only:
+    - main
 
-gradletests:
-  stage: gradletests
+tests:
+  stage: tests
   tags:
     - BACKEND
   script:
     - cd Backend
-    - gradle test
+    - ./gradlew check
 
 deploy:
   stage: deploy
