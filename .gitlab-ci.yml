@@ -1,14 +1,7 @@
-variables:
-  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
-  CI_DEBUG_SERVICES: trace
-
 stages:
   - build
   - tests
   - deploy
-
-before_script:
-  - export GRADLE_USER_HOME=`pwd`/.gradle
 
 build:
   stage: build
