@@ -14,7 +14,7 @@ build:
   stage: build
   script:
     - cd Backend/
-    - ./gradlew assemble
+    - gradle assemble
   artifacts:
     paths:
       - build/libs/*.jar
@@ -28,7 +28,7 @@ tests:
     - BACKEND
   script:
     - cd Backend
-    - ./gradlew check
+    - gradle check
 
 deploy:
   stage: deploy
