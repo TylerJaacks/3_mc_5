@@ -21,3 +21,11 @@ gradletests:
   script:
     - cd Backend
     - gradle test
+
+deploy:
+  stage: deploy
+  tags:
+    - BACKEND
+  script:
+    - cd Backend/build/libs/
+    - java -jar goalfriend-0.0.1-SNAPSHOT.jar
