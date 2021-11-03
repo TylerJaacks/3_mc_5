@@ -18,6 +18,8 @@ build:
   script:
     - cd Backend/
     - ./gradlew assemble
+  tags:
+    - BACKEND
   artifacts:
     paths:
       - build/libs/*.jar
