@@ -10,3 +10,6 @@ gradlebuild:
   script:
     - cd Backend
     - gradle assemble
+  artifacts:
+    paths:
+      - Backend/build/libs/goalfriend-0.0.1-SNAPSHOT.jar
