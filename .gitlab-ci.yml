@@ -15,7 +15,6 @@ gradlebuild:
       - Backend/build/libs/goalfriend-0.0.1-SNAPSHOT.jar
 
 gradletests:
-  gradlebuild:
   stage: gradletest
   tags:
     - BACKEND
