@@ -1,10 +1,10 @@
-package edu.iastate.goalfriend.test.repository;
+// package edu.iastate.goalfriend.test.repository;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+// import org.junit.jupiter.api.AfterEach;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.Test;
 
-public class UserBaseRepositoryTest extends BaseRepositoryTest {
+// public class UserBaseRepositoryTest extends BaseRepositoryTest {
 //     @Test
 //     public void findByEmail() {
         
