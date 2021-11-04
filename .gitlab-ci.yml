@@ -9,14 +9,12 @@ build:
     - cd Backend/
     - gradle assemble
     - ls -la build/
+    - ls -la build/libs
   tags:
     - BACKEND
   artifacts:
     paths:
-      - build/libs/*.jar
-    expire_in: 1 week
-  only:
-    - main
+      - libs/*.jar
 
 tests:
   stage: tests
