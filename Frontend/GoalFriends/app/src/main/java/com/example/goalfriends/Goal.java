@@ -59,17 +59,4 @@ public class Goal {
     public void setProgress(int prog) {
         this.progress = prog;
     }
-
-    public static ArrayList<Goal> populateGoal(int amount) {
-        ArrayList<Goal> arr = new ArrayList<Goal>(amount);
-        for (int i = 0; i < amount; i++) {
-            arr.add(new Goal("Goal " + (i + 1)));
-        }
-
-        return arr;
-    }
-
-    public String displayGoal() {
-        return "Name: " + this.name + " Description : " + this.description + " Category: " + this.category + " Progress: " + this.progress;
-    }
 }
