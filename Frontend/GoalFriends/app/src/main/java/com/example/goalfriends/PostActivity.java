@@ -84,10 +84,10 @@ public class PostActivity extends AppCompatActivity {
         }
 
         // Temp: Only used for testing, will replace and use API with backend
-        Goal newGoal = new Goal(goalName, goalCat, goalDesc, goalProg);
-        HomescreenActivity.goalset.add(newGoal);
-        Toast.makeText(PostActivity.this, "New Goal Succesfully Posted", Toast.LENGTH_LONG).show();
-        startActivity(new Intent(PostActivity.this, HomescreenActivity.class));
+//        Goal newGoal = new Goal(goalName, goalCat, goalDesc, goalProg);
+//        HomescreenActivity.goalset.add(newGoal);
+//        Toast.makeText(PostActivity.this, "New Goal Succesfully Posted", Toast.LENGTH_LONG).show();
+//        startActivity(new Intent(PostActivity.this, HomescreenActivity.class));
 
         Toast toast = new Toast(getApplicationContext());
 
