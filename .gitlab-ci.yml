@@ -3,17 +3,12 @@ stages:
   - tests
   - deploy
 
-cache:
-  paths:
-    - .gradle/wrapper
-    - .gradle/caches
-
 build:
   stage: build
   script:
     - cd Backend/
     - gradle assemble
-    - cd build/ | ls -la
+    - ls -la build/
   tags:
     - BACKEND
   artifacts:
