@@ -13,6 +13,7 @@ build:
   script:
     - cd Backend/
     - gradle assemble
+    - ls -la
   tags:
     - BACKEND
   artifacts:
