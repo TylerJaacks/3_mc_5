@@ -1,44 +1,45 @@
 stages:
-  - build
-  - tests
-  - deploy
+  - backend_build
+  - backend_tests
+  - frontend_build
+  - frontend_tests
 
-before_script:
-  - echo `pwd`
-  - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE"
-  - export GRADLE_USER_HOME=`pwd`/.gradle
-
-cache:
-  paths:
-    - .gradle/wrapper
-    - .gradle/caches
-
-build:
-  stage: build
+backend_build:
+  stage: backend_build
   script:
     - cd Backend/
     - gradle assemble
+    - ls -la build/
+    - ls -la build/libs
   tags:
     - BACKEND
   artifacts:
     paths:
-      - build/libs/*.jar
-    expire_in: 1 week
-  only:
-    - main
+      - libs/*.jar
 
-tests:
-  stage: tests
+backend_tests:
+  stage: backend_tests
   tags:
     - BACKEND
   script:
     - cd Backend
     - gradle check
 
-deploy:
-  stage: deploy
-  tags:
-    - BACKEND
-  script:
-    - cd Backend/build/libs/
-    - java -jar goalfriend-0.0.1-SNAPSHOT.jar
+frontend_build:
+    stage: frontend_build
+    tags:
+      - FRONTEND
+    script:
+      - cd Frontend/GoalFriends
+      - gradle assemble
+    artifacts:
+      paths:
+        - app/build/outputs/
+
+frontend_tests:
+    stage: frontend_tests
+    tags:
+      - FRONTEND
+    script:
+      - cd Frontend/GoalFriends
+      - gradle -Pci --console=plain :app:testDebug

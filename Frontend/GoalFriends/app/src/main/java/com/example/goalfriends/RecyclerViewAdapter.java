@@ -65,7 +65,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         private void populateGoalRows(ItemViewHolder viewHolder, int position){
             Goal goalX = goalsList.get(position);
-            viewHolder.tvGoal.setText(goalX.displayGoal());
+            viewHolder.tvGoal.setText(GoalUtil.DisplayGoal(goalX));
         }
 
 
