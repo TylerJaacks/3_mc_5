@@ -1,9 +1,5 @@
-ls 
 
 cd Frontend/
-
-ls
-
 cd GoalFriends/
 
 ls
