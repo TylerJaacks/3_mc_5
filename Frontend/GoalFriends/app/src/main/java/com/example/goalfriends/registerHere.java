@@ -93,7 +93,7 @@ public class registerHere extends AppCompatActivity {
 
                 if (password.getText().toString().equals(cpassword.getText().toString()) && !password.getText().toString().matches("")) {
                     Toast.makeText(registerHere.this, "Account Created!", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(registerHere.this, MainActivity.class));
+                    return;
                 } else {
                     Toast.makeText(registerHere.this, "Confirm Password must match Password!", Toast.LENGTH_LONG).show();
                     password.getText().clear();
@@ -110,8 +110,13 @@ public class registerHere extends AppCompatActivity {
                 if (isSuccess) {
                     Toast.makeText(registerHere.this, "Personal information saved", Toast.LENGTH_LONG).show();
                     Log.i(TAG, "Personal information saved");
+                    //startActivity(new Intent(registerHere.this, MainActivity.class));
                 } else {
                     Log.e(TAG, "Failed to write personal information to SharedPreferences");
+                }
+
+                if(mEmailValidator.isValid() && mPhoneValidator.isValid() && mPasswordValidator.isValid()){
+                    startActivity(new Intent(registerHere.this, MainActivity.class));
                 }
             }
         });
