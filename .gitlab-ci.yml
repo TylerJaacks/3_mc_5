@@ -1,9 +1,11 @@
+stages:
+  - build_image
+
 before_script:
   - docker info
 
 build_image:
   script:
-    - git clone git@git.linux.iastate.edu:cs309/fall2021/3_mc_5.git
     - cd Docker/
     - docker build -t "coms309"  -f Dockerfile.dockerfile .
   tags:
