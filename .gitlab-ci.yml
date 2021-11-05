@@ -2,6 +2,7 @@ stages:
   - build_image
   - backend_build
   - backend_test
+  - frontend_build
 
 before_script:
   - docker info
@@ -23,9 +24,7 @@ backend_build:
     - cd Docker/
     - docker run -v /home/gitlab-runner/artifacts:/artifacts --network=host --entrypoint /bin/bash coms309 -c ./backend_build.sh
     - mkdir /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
-    - ls /home/gitlab-runner/artifacts/
     - cp -r /home/gitlab-runner/artifacts/* /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
-    - ls /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
   artifacts:
     paths:
       - /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/*.jar
@@ -37,3 +36,13 @@ backend_test:
   script:
     - cd Docker/
     - docker run --network=host --entrypoint /bin/bash coms309 -c ./backend_test.sh
+
+frontend_build:
+  stage: frontend_build
+  tags:
+    - FRONTEND
+  script:
+    - cd Docker/
+    - docker run -v /home/gitlab-runner/artifacts:/artifacts --network=host --entrypoint /bin/bash coms309 -c ./frontend_build.sh
+    - tree ../
+    - tree /
