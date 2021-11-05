@@ -1,13 +1,14 @@
 stages:
   - build_image
-  # - backend_build
-  # - backend_test
+  - backend_build
+  - backend_test
   - frontend_build
-  # - frontend_test
-  - upload_artifacts
+  - frontend_test
+  - deploy_backend
 
 before_script:
   - docker info
+  # Kill all Java programs.
 
 build_image:
   stage: build_image
@@ -16,25 +17,29 @@ build_image:
     - FRONTEND  
   script:
     - cd Docker/
-    - docker build --network=host -t "coms309"  -f Dockerfile.dockerfile .
+    - docker build --no-cache --network=host -t "coms309"  -f Dockerfile.dockerfile .
 
-# backend_build:
-#   stage: backend_build
-#   tags:
-#     - BACKEND
-#   script:
-#     - cd Docker/
-#     - docker run -v /home/gitlab-runner/artifacts:/artifacts --network=host --entrypoint /bin/bash coms309 -c ./backend_build.sh
-#     - mkdir /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
-#     - cp -r /home/gitlab-runner/artifacts/* /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
+backend_build:
+  stage: backend_build
+  tags:
+    - BACKEND
+  script:
+    - cd Docker/
+    - docker run -v /home/gitlab-runner/artifacts:/artifacts --network=host --entrypoint /bin/bash coms309 -c ./backend_build.sh
+    - mkdir /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/backend-artifacts/
+    - cp -r /home/gitlab-runner/artifacts/* /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/backend-artifacts/
+  artifacts:
+    paths:
+      - /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/backend-artifacts/*
 
-# backend_test:
-#   stage: backend_test
-#   tags:
-#     - BACKEND
-#   script:
-#     - cd Docker/
-#     - docker run --network=host --entrypoint /bin/bash coms309 -c ./backend_test.sh
+backend_test:
+  stage: backend_test
+  tags:
+    - BACKEND
+  allow_failure: true
+  script:
+    - cd Docker/
+    - docker run --network=host --entrypoint /bin/bash coms309 -c ./backend_test.sh
 
 frontend_build:
   stage: frontend_build
@@ -43,26 +48,26 @@ frontend_build:
   script:
     - cd Docker/
     - docker run -v /home/gitlab-runner/artifacts:/artifacts --network=host --entrypoint /bin/bash coms309 -c ./frontend_build.sh
-    - mkdir /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
-    - cp -r /home/gitlab-runner/artifacts/* /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
-
-# frontend_test:
-#   stage: frontend_test
-#   tags:
-#     - FRONTEND
-#   allow_failure: true
-#   script:
-#     - cd Docker/
-#     - docker run --network=host --entrypoint /bin/bash coms309 -c ./frontend_test.sh
-
-upload_artifacts:
-  stage: upload_artifacts
-  tags:
-    - BACKEND,FRONTEND
-  script:
-    ls /artifacts
-    echo Test
-    ls /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
+    - mkdir /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/frontend-artifacts/
+    - cp -r /home/gitlab-runner/artifacts/* /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/frontend-artifacts/
   artifacts:
     paths:
-      - /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/*
+      - /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/frontend-artifacts/*
+
+frontend_test:
+  stage: frontend_test
+  tags:
+    - FRONTEND
+  allow_failure: true
+  script:
+    - cd Docker/
+    - docker run --network=host --entrypoint /bin/bash coms309 -c ./frontend_test.sh
+
+deploy_backend:
+  stage: deploy_backend
+  tags:
+    - BACKEND
+  script:
+    - ls /home/gitlab-runner/artifacts
+    - cd /home/gitlab-runner/artifacts
+    - java -jar artifacts/goalfriend-0.0.1-SNAPSHOT.jar
