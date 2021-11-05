@@ -22,11 +22,11 @@ backend_build:
   script:
     - cd Docker/
     - docker run -v /home/gitlab-runner/artifacts:/artifacts --network=host --entrypoint /bin/bash coms309 -c ./backend_build.sh
-    - ls /home/gitlab-runner/artifacts/
-    - pwd
+    - mkdir /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
+    - cp /home/gitlab-runner/artifacts/ /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
   artifacts:
     paths:
-      - /artifacts/*.jar
+      - /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/*.jar
 
 backend_test:
   stage: backend_test
