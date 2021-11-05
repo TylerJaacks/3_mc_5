@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
 }
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 android {
     compileSdk 31
 

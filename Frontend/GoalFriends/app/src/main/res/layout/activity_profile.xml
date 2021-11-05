@@ -49,7 +49,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <View
-        android:id="@+id/view2"
+        android:id="@+id/view3"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:background="@color/black"
@@ -214,7 +214,7 @@
     <Button
         android:id="@+id/editProfileButton"
         android:layout_width="388dp"
-        android:layout_height="39dp"
+        android:layout_height="48dp"
         android:background="#1750B5"
         android:backgroundTint="#8C3535"
         android:foregroundTint="#953A3A"
