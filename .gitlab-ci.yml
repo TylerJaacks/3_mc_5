@@ -5,8 +5,7 @@ build_image:
   script:
     - git clone git@git.linux.iastate.edu:cs309/fall2021/3_mc_5.git
     - cd Docker/
-    - docker build -t Dockerfile.dockerfile .
-    - docker run Dockerfile
+    - docker build -t "coms309"  -f Dockerfile.dockerfile .
   tags:
     - BACKEND
     - FRONTEND  
