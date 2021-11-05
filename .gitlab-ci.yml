@@ -4,7 +4,7 @@ stages:
   - backend_test
   - frontend_build
   - frontend_test
-  - deploy
+  - deploy_backend
 
 before_script:
   - docker info
@@ -65,8 +65,8 @@ frontend_test:
     - cd Docker/
     - docker run --network=host --entrypoint /bin/bash coms309 -c ./frontend_test.sh
 
-deploy:
-  stage: deploy
+deploy_backend:
+  stage: deploy_backend
   tags:
     - BACKEND
   scripts:
