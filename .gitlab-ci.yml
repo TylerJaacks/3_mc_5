@@ -21,7 +21,8 @@ backend_build:
     - BACKEND
   script:
     - cd Docker/
-    -  docker run -v /home/gitlab-runner/artifacts:/artifacts --network=host --entrypoint /bin/bash coms309 -c ./backend_build.sh
+    - docker run -v /home/gitlab-runner/artifacts:/artifacts --network=host --entrypoint /bin/bash coms309 -c ./backend_build.sh
+    - ls /home/gitlab-runner/artifacts/
 
 backend_test:
   stage: backend_test
