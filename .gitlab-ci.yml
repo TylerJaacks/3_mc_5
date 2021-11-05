@@ -15,8 +15,8 @@ build_image:
     - cd Docker/
     - docker build --network=host -t "coms309"  -f Dockerfile.dockerfile .
 
-backend_test:
-  stage: backend_test
+backend_build:
+  stage: backend_build
   tags:
     - BACKEND
   script:
