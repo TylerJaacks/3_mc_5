@@ -5,9 +5,10 @@ before_script:
   - docker info
 
 build_image:
-  script:
-    - cd Docker/
-    - docker build -t "coms309"  -f Dockerfile.dockerfile .
+  stage: build_image
   tags:
     - BACKEND
     - FRONTEND  
+  script:
+    - cd Docker/
+    - docker build -t "coms309"  -f Dockerfile.dockerfile .
