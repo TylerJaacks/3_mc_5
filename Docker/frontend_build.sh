@@ -8,6 +8,6 @@ export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/bin/
 
 chmod +x gradlew
 
-./gradlew build
+./gradlew assembleDebug
 
 cp app/build/outputs/apk/debug/app-debug.apk /artifacts
