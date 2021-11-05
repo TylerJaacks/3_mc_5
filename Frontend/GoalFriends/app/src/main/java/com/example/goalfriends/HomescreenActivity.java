@@ -19,9 +19,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.simple.parser.*;
 
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +53,7 @@ public class HomescreenActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.rvGoals);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewAdapter = new RecyclerViewAdapter(this, goalset);
+        recyclerViewAdapter = new RecyclerViewAdapter(this, getGoals(MainActivity.token));
         recyclerView.setAdapter(recyclerViewAdapter);
 
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -81,9 +84,10 @@ public class HomescreenActivity extends AppCompatActivity {
         });
     }
 
-    private Goal getGoal(String token) {
+    private ArrayList<Goal> getGoals(String token) {
 
         JSONObject getGoalData = new JSONObject();
+        ArrayList<Goal> goalList = new ArrayList<Goal>();
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
@@ -92,6 +96,17 @@ public class HomescreenActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, getGoalData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                try {
+                    JSONArray  arr = response.getJSONArray("Goals");
+                    for (int i = 0; i < arr.length(); i++) {
+                        JSONObject goalJS = arr.getJSONObject(i);
+                        goalList.add(new Goal(goalJS.getString("name"), goalJS.getString("description"), goalJS.getString("category"), goalJS.getInt("progress")));
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
 
             }
         }, new Response.ErrorListener() {
@@ -103,12 +118,13 @@ public class HomescreenActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("token", MainActivity.token);
+                params.put("token", token);
                 return params;
             }
         };
 
         queue.add(jsonObjectRequest);
-        return new Goal();
+
+        return goalList;
     }
 }
