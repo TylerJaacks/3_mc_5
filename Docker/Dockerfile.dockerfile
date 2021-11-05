@@ -60,42 +60,5 @@ RUN chmod +x backend_build.sh
 RUN chmod +x backend_test.sh
 RUN chmod +x backend_deploy.sh
 
-<<<<<<< HEAD
-# # Run the Gradle test task.
-# RUN ./gradlew test
-
-# RUN cd ..
-# --------------------------------------------------------------------------------------
-
-# ---------------------------------------BACKEND----------------------------------------
-RUN cd Backend/
-WORKDIR /3_mc_5/Backend/
-RUN chmod +x gradlew
-
-# Run the Gradle assemble task.
-RUN ./gradlew assemble
-
-RUN ls -la
-
-# Move the artifacts to a deploy directory.
-RUN cp build/libs/GoalFriends-1.0-SNAPSHOT.jar /root/deployment/backend.jar
-
-# TODO: Upload artifacts to GitLab.
-
-# Run the Gradle test task.
-RUN ./gradlew test
-
-# Deploy the application.
-RUN cd /root/deployment
-
-# Expose the application port.
-EXPOSE 8080
-
-# Run the application.
-RUN java -jar backend.jar
-
-#---------------------------------------------------------------------------------------
-=======
 RUN chmod +x frontend_build.sh
 RUN chmod +x frontend_test.sh
->>>>>>> main
