@@ -17,7 +17,7 @@ build_image:
     - FRONTEND  
   script:
     - cd Docker/
-    - docker build --network=host -t "coms309"  -f Dockerfile.dockerfile .
+    - docker build --nocache --network=host -t "coms309"  -f Dockerfile.dockerfile .
 
 backend_build:
   stage: backend_build
