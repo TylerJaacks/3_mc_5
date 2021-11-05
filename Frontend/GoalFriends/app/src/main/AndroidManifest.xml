@@ -16,6 +16,9 @@
         android:theme="@style/Theme.GoalFriends"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".EditProfile"
+            android:exported="true" />
+        <activity
             android:name=".SearchableActivity"
             android:exported="true">
             <intent-filter>

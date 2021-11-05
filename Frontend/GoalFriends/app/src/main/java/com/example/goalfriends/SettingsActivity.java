@@ -18,7 +18,6 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
 
-        cancel = (ImageButton) findViewById(R.id.settingsCancelButton);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -30,6 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
     }
 
 
@@ -39,4 +39,6 @@ public class SettingsActivity extends AppCompatActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
     }
+
+
 }

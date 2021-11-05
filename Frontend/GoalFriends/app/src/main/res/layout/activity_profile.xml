@@ -212,7 +212,7 @@
         app:layout_constraintVertical_bias="0.306" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/editProfileButton"
         android:layout_width="388dp"
         android:layout_height="39dp"
         android:background="#1750B5"
