@@ -1,7 +1,7 @@
 stages:
   - build_image
-  - backend_build
-  - backend_test
+  # - backend_build
+  # - backend_test
   - frontend_build
   - frontend_test
   - upload_artifacts
@@ -18,23 +18,23 @@ build_image:
     - cd Docker/
     - docker build --network=host -t "coms309"  -f Dockerfile.dockerfile .
 
-backend_build:
-  stage: backend_build
-  tags:
-    - BACKEND
-  script:
-    - cd Docker/
-    - docker run -v /home/gitlab-runner/artifacts:/artifacts --network=host --entrypoint /bin/bash coms309 -c ./backend_build.sh
-    - mkdir /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
-    - cp -r /home/gitlab-runner/artifacts/* /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
+# backend_build:
+#   stage: backend_build
+#   tags:
+#     - BACKEND
+#   script:
+#     - cd Docker/
+#     - docker run -v /home/gitlab-runner/artifacts:/artifacts --network=host --entrypoint /bin/bash coms309 -c ./backend_build.sh
+#     - mkdir /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
+#     - cp -r /home/gitlab-runner/artifacts/* /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
 
-backend_test:
-  stage: backend_test
-  tags:
-    - BACKEND
-  script:
-    - cd Docker/
-    - docker run --network=host --entrypoint /bin/bash coms309 -c ./backend_test.sh
+# backend_test:
+#   stage: backend_test
+#   tags:
+#     - BACKEND
+#   script:
+#     - cd Docker/
+#     - docker run --network=host --entrypoint /bin/bash coms309 -c ./backend_test.sh
 
 frontend_build:
   stage: frontend_build
@@ -49,6 +49,7 @@ frontend_test:
   stage: frontend_test
   tags:
     - FRONTEND
+  allow_failure: true
   script:
     - cd Docker/
     - docker run --network=host --entrypoint /bin/bash coms309 -c ./frontend_test.sh
