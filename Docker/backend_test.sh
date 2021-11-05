@@ -1,4 +1,4 @@
-cd Frontend/
+cd Backend/
 
 chmod +x gradlew
 
