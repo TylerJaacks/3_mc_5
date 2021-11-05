@@ -21,8 +21,7 @@ backend_build:
     - BACKEND
   script:
     - cd Docker/
-    - docker run --network=host --entrypoint /bin/bash coms309 -c ./backend_build.sh
-    - docker cp coms309:"Backend/build/libs/goalfriend-0.0.1-SNAPSHOT.jar" " "~/deployment"
+    -  docker run -v /home/gitlab-runner/artifacts:/artifacts --network=host --entrypoint /bin/bash coms309 -c ./backend_build.sh
 
 backend_test:
   stage: backend_test
