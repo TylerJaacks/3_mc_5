@@ -49,47 +49,16 @@ RUN git clone git@git.linux.iastate.edu:cs309/fall2021/3_mc_5.git
 # Set the working directory to the repository.
 WORKDIR /3_mc_5
 
-# ---------------------------------------FRONTEND---------------------------------------
-# RUN cd Frontend/
-# WORKDIR /3_mc_5/Frontend/GoalFriends
+ADD backend_build.sh /3_mc_5/
+ADD backend_test.sh /3_mc_5/
+ADD backend_deploy.sh /3_mc_5/
 
-# # Run the Gradle assemble task.
-# RUN chmod +x gradlew
-# RUN ./gradlew assemble
+ADD frontend_build.sh /3_mc_5/
+ADD frontend_test.sh /3_mc_5/
 
-# # TODO: Upload Artifacts to GitLab.
+RUN chmod +x backend_build.sh
+RUN chmod +x backend_test.sh
+RUN chmod +x backend_deploy.sh
 
-# # Run the Gradle test task.
-# RUN ./gradlew test
-
-# RUN cd ..
-# --------------------------------------------------------------------------------------
-
-# ---------------------------------------BACKEND----------------------------------------
-RUN cd Backend/
-WORKDIR /3_mc_5/Backend/
-RUN chmod +x gradlew
-
-RUN ls
-
-# Run the Gradle assemble task.
-RUN ./gradlew assemble
-
-# TODO: Move the artifacts to a deploy directory.
-
-# TODO: Upload artifacts to GitLab.
-
-# Run the Gradle test task.
-RUN ./gradlew test
-
-# TODO: Deploy the application.
-
-RUN pwd
-
-RUN cd ../deployment
-
-EXPOSE 8080
-
-RUN java -jar backend.jar
-
-#---------------------------------------------------------------------------------------
+RUN chmod +x frontend_build.sh
+RUN chmod +x frontend_test.sh
