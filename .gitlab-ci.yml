@@ -57,6 +57,8 @@ upload_artifacts:
   stage: upload_artifacts
   tags:
     - BACKEND,FRONTEND
+  script:
+    ls /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/
   artifacts:
     paths:
       - /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/artifacts/*
