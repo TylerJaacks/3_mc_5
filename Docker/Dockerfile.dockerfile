@@ -70,26 +70,26 @@ RUN cd Backend/
 WORKDIR /3_mc_5/Backend/
 RUN chmod +x gradlew
 
-RUN ls
-
 # Run the Gradle assemble task.
 RUN ./gradlew assemble
 
-# TODO: Move the artifacts to a deploy directory.
+RUN ls -la
+
+# Move the artifacts to a deploy directory.
+RUN cp build/libs/GoalFriends-1.0-SNAPSHOT.jar /root/deployment/backend.jar
 
 # TODO: Upload artifacts to GitLab.
 
 # Run the Gradle test task.
 RUN ./gradlew test
 
-# TODO: Deploy the application.
+# Deploy the application.
+RUN cd /root/deployment
 
-RUN pwd
-
-RUN cd ../deployment
-
+# Expose the application port.
 EXPOSE 8080
 
+# Run the application.
 RUN java -jar backend.jar
 
 #---------------------------------------------------------------------------------------
