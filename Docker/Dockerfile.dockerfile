@@ -70,6 +70,8 @@ RUN cd Backend/
 WORKDIR /3_mc_5/Backend/
 RUN chmod +x gradlew
 
+RUN ls
+
 # Run the Gradle assemble task.
 RUN ./gradlew assemble
 
