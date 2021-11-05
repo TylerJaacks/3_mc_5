@@ -1,5 +1,6 @@
 stages:
   - build_image
+  - build_backend
 
 before_script:
   - docker info
@@ -12,3 +13,11 @@ build_image:
   script:
     - cd Docker/
     - docker build --network=host -t "coms309"  -f Dockerfile.dockerfile .
+
+build_backend:
+  stage: build_backend
+  tags:
+    - BACKEND
+  script:
+    - cd Docker/
+    - docker run --network=host -it --entrypoint /bin/bash coms309 -c ./backend_build.sh

@@ -2,4 +2,4 @@ cd Backend/
 
 chmod +x gradlew
 
-./gradlew test
+./gradlew testcl
