@@ -1,24 +1,12 @@
-stages:
-  - build
-  - tests
+before_script:
+  - docker info
 
-build:
-  stage: build
+build_image:
   script:
-    - cd Backend/
-    - gradle assemble
-    - ls -la build/
-    - ls -la build/libs
+    - git clone git@git.linux.iastate.edu:cs309/fall2021/3_mc_5.git
+    - cd Docker/
+    - docker build -t Dockerfile.dockerfile .
+    - docker run Dockerfile
   tags:
     - BACKEND
-  artifacts:
-    paths:
-      - libs/*.jar
-
-tests:
-  stage: tests
-  tags:
-    - BACKEND
-  script:
-    - cd Backend
-    - gradle check
+    - FRONTEND  
