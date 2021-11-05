@@ -1,6 +1,7 @@
 stages:
   - build_image
-  - build_backend
+  - backend_test
+  - backend_test
 
 before_script:
   - docker info
@@ -14,10 +15,19 @@ build_image:
     - cd Docker/
     - docker build --network=host -t "coms309"  -f Dockerfile.dockerfile .
 
-build_backend:
-  stage: build_backend
+backend_test:
+  stage: backend_test
   tags:
     - BACKEND
   script:
     - cd Docker/
     - docker run --network=host --entrypoint /bin/bash coms309 -c ./backend_build.sh
+    - docker cp coms309:"Backend/build/libs/goalfriend-0.0.1-SNAPSHOT.jar" " "~/deployment"
+
+backend_test:
+  stage: backend_test
+  tags:
+    - BACKEND
+  script:
+    - cd Docker/
+    - docker run --network=host --entrypoint /bin/bash coms309 -c ./backend_test.sh
