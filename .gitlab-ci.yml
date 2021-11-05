@@ -1,6 +1,6 @@
 stages:
   - build_image
-  - backend_test
+  - backend_build
   - backend_test
 
 before_script:
