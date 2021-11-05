@@ -2,6 +2,7 @@ package edu.iastate.goalfriend.controllers;
 
 import edu.iastate.goalfriend.GoalCategory;
 import edu.iastate.goalfriend.constants.ErrorConstants;
+import edu.iastate.goalfriend.domainobjects.Friendship;
 import edu.iastate.goalfriend.domainobjects.Goal;
 import edu.iastate.goalfriend.domainobjects.Token;
 import edu.iastate.goalfriend.domainobjects.User;
@@ -13,7 +14,9 @@ import edu.iastate.goalfriend.reponses.SuccessResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // get, delete, post, update
 
@@ -135,5 +138,26 @@ public class GoalController extends CoreController {
         }else{
             return new GoalSearchSuccessResponse(goalToReturn);
         }
+    }
+
+    @GetMapping(path = "/goal/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map GetAllGoal(@RequestHeader("token") String token) throws InvalidHeadersException, InvalidGoalNameException {
+        if (token == null || token.isEmpty()) {
+            throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
+        }
+        Token tokenObj = tokenRepository.getByToken(token);
+        User user = userRepository.findByToken(tokenObj);
+        List<Goal> goals = goalRepository.getAllByGoalOwnerEquals(user);
+
+        Map<String, String> goalsMap = new HashMap<>();
+
+        int i = 1;
+
+        for (Goal goal : goalRepository.getAllByGoalOwnerEquals(user)) {
+            goalsMap.put("gaol" + i, goal.getGoalName());
+            i += 1;
+        }
+
+        return goalsMap;
     }
 }
