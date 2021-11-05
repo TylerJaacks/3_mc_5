@@ -1,45 +1,9 @@
-stages:
-  - backend_build
-  - backend_tests
-  - frontend_build
-  - frontend_tests
+before_script:
+  - docker info
 
-backend_build:
-  stage: backend_build
+build_image:
   script:
-    - cd Backend/
-    - gradle assemble
-    - ls -la build/
-    - ls -la build/libs
-  tags:
-    - BACKEND
-  artifacts:
-    paths:
-      - libs/*.jar
-
-backend_tests:
-  stage: backend_tests
-  tags:
-    - BACKEND
-  script:
-    - cd Backend
-    - gradle check
-
-frontend_build:
-    stage: frontend_build
-    tags:
-      - FRONTEND
-    script:
-      - cd Frontend/GoalFriends
-      - gradle assemble
-    artifacts:
-      paths:
-        - app/build/outputs/
-
-frontend_tests:
-    stage: frontend_tests
-    tags:
-      - FRONTEND
-    script:
-      - cd Frontend/GoalFriends
-      - gradle -Pci --console=plain :app:testDebug
+    - git clone git@git.linux.iastate.edu:cs309/fall2021/3_mc_5.git
+    - cd Docker/
+    - docker build -t Dockerfile.dockerfile .
+    - docker run Dockerfile
