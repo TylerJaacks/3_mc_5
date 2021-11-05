@@ -11,16 +11,6 @@ public class TokenUtils {
 
     public static final long EXPIRATION_TIME = 3600000L;
 
-    public boolean nonStaticIsTokenValid(Token token, String tokenStr){
-        Long currentTime = (new Date()).getTime();
-        Long expirationTime = token.getCreationDate() + token.getExpirationTime();
-
-        if (!token.getToken().equals(tokenStr)) return false;
-        if (expirationTime < currentTime) return false;
-
-        return true;
-    }
-
     public static boolean isTokenValid(Token token, String tokenStr) {
         Long currentTime = (new Date()).getTime();
         Long expirationTime = token.getCreationDate() + token.getExpirationTime();
