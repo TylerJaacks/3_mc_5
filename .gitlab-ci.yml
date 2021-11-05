@@ -20,4 +20,4 @@ build_backend:
     - BACKEND
   script:
     - cd Docker/
-    - docker run --network=host -it --entrypoint /bin/bash coms309 -c ./backend_build.sh
+    - docker run --network=host --entrypoint /bin/bash coms309 -c ./backend_build.sh
