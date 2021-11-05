@@ -6,5 +6,9 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface FriendshipRepository extends CrudRepository<Friendship, Integer> {
-    List<Friendship> getAllByUser1UsernameEquals(String username);
+    List<Friendship> getAllByUsername1(String username);
+    List<Friendship> getAllByUsername2(String username);
+
+    List<Friendship> getAllByUsername1Equals(String username);
+    List<Friendship> getAllByUsername2Equals(String username);
 }
