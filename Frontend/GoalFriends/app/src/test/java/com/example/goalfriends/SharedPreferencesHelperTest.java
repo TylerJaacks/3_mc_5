@@ -68,7 +68,7 @@ public class SharedPreferencesHelperTest {
     }
 
     @Test
-    public void sharedPreferencesHelper_WrongEntry() {
+    public void sharedPreferencesHelper_DifferentEntry() {
         // Save the personal information to SharedPreferences
         boolean success = mMockSharedPreferencesHelper.savePersonalInfo(mSharedPreferenceEntry);
         assertThat("Checking that SharedPreferenceEntry.save... returns true",

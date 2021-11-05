@@ -64,10 +64,10 @@ public class registerHere extends AppCompatActivity {
         email.addTextChangedListener(mEmailValidator);
 
         mPasswordValidator = new ValidPassword();
-        password.addTextChangedListener(mEmailValidator);
+        password.addTextChangedListener(mPasswordValidator);
 
         mPhoneValidator = new ValidPhoneNumber();
-        phone.addTextChangedListener(mEmailValidator);
+        phone.addTextChangedListener(mPhoneValidator);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mSharedPreferencesHelper = new SharedPreferencesHelper(sharedPreferences);
@@ -93,7 +93,7 @@ public class registerHere extends AppCompatActivity {
 
                 if (password.getText().toString().equals(cpassword.getText().toString()) && !password.getText().toString().matches("")) {
                     Toast.makeText(registerHere.this, "Account Created!", Toast.LENGTH_LONG).show();
-                    return;
+                    startActivity(new Intent(registerHere.this, MainActivity.class));
                 } else {
                     Toast.makeText(registerHere.this, "Confirm Password must match Password!", Toast.LENGTH_LONG).show();
                     password.getText().clear();
@@ -110,13 +110,8 @@ public class registerHere extends AppCompatActivity {
                 if (isSuccess) {
                     Toast.makeText(registerHere.this, "Personal information saved", Toast.LENGTH_LONG).show();
                     Log.i(TAG, "Personal information saved");
-                    //startActivity(new Intent(registerHere.this, MainActivity.class));
                 } else {
                     Log.e(TAG, "Failed to write personal information to SharedPreferences");
-                }
-
-                if(mEmailValidator.isValid() && mPhoneValidator.isValid() && mPasswordValidator.isValid()){
-                    startActivity(new Intent(registerHere.this, MainActivity.class));
                 }
             }
         });
@@ -128,8 +123,8 @@ public class registerHere extends AppCompatActivity {
         sharedPreferenceEntry = mSharedPreferencesHelper.getPersonalInfo();
         username.setText(sharedPreferenceEntry.getName());
         email.setText(sharedPreferenceEntry.getEmail());
-        phone.setText(sharedPreferenceEntry.getEmail());
-        password.setText(sharedPreferenceEntry.getEmail());
+        phone.setText(sharedPreferenceEntry.getPhone());
+        password.setText(sharedPreferenceEntry.getPassword());
     }
 
 
