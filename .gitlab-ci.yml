@@ -4,9 +4,13 @@ stages:
   - backend_test
   - frontend_build
   - frontend_test
+  - deploy
 
 before_script:
   - docker info
+  - rm -rf /home/gitlab-runner/artifacts/*
+  - mkdir /home/gitlab-runner/artifacts/
+  # Kill all Java programs.
 
 build_image:
   stage: build_image
@@ -60,3 +64,12 @@ frontend_test:
   script:
     - cd Docker/
     - docker run --network=host --entrypoint /bin/bash coms309 -c ./frontend_test.sh
+
+deploy_test:
+  stage: deploy
+  tags:
+    - BACKEND
+  scripts:
+    - ls /home/gitlab-runner/artifacts
+    - cd /home/gitlab-runner/artifacts
+    - java -jar artifacts/goalfriend-0.0.1-SNAPSHOT.jar

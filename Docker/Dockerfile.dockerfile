@@ -32,9 +32,6 @@ RUN chmod +x /opt/license_accepter.sh && /opt/license_accepter.sh $ANDROID_SDK_R
 RUN $ANDROID_SDK_ROOT/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --update
 RUN $ANDROID_SDK_ROOT/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --install "platform-tools" "platforms;android-31" "build-tools;30.0.2"
 
-# Expose the ADB port.
-EXPOSE 5037
-
 # Add SSH Key to Docker container.
 RUN mkdir /root/.ssh
 RUN ssh-keyscan -H git.linux.iastate.edu >> /root/.ssh/known_hosts
