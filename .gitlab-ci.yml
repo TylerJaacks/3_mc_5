@@ -25,7 +25,7 @@ backend_build:
     - ls /home/gitlab-runner/artifacts/
   artifacts:
     paths:
-      - /home/gitlab-runner/artifacts/*
+      - /artifacts/*
 
 backend_test:
   stage: backend_test
