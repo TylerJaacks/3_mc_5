@@ -8,8 +8,6 @@ stages:
 
 before_script:
   - docker info
-  - rm -rf /home/gitlab-runner/artifacts/*
-  - mkdir /home/gitlab-runner/artifacts/
   # Kill all Java programs.
 
 build_image:
