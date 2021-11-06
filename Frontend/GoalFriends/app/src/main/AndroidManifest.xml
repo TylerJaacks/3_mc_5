@@ -63,7 +63,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".registerHere"
+            android:name=".RegisterHere"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
