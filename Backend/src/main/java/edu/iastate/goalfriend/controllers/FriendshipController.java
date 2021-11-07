@@ -18,6 +18,15 @@ import java.util.Map;
 
 @RestController
 public class FriendshipController extends CoreController {
+    /**
+     * HTTP Resource Path: /friendship
+     * HTTP Method: POST
+     * HTTP Parameter: token
+     * HTTP Parameter: otherUser
+     *
+     * @param token A valid Token used to identify the user.
+     * @param otherUsername The username of the user that you wish to friend.
+     */
     @PostMapping(path = "/friendship", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse addFriendship(@RequestHeader String token, @RequestParam String otherUsername) throws InvalidHeadersException, TokenHasExpiredException, UserDoesNotExistException, FriendshipAlreadyExistException {
         if (token == null || otherUsername == null || token.isEmpty() || otherUsername.isEmpty()) {
@@ -42,7 +51,7 @@ public class FriendshipController extends CoreController {
             throw new UserDoesNotExistException(ErrorConstants.ERROR_CODE_USER_DOESNT_EXIST, "This user doesn't exist.");
         }
 
-        List<Friendship> usersFriends = friendshipRepository.getAllByUser1UsernameEquals(user.getUsername());
+        List<Friendship> usersFriends = friendshipRepository.getAllByUsername1(user.getUsername());
 
         for (Friendship friendship : usersFriends) {
             if (friendship.getUsername2().equals(otherUsername))
@@ -53,7 +62,7 @@ public class FriendshipController extends CoreController {
         Friendship userFriendship2 = new Friendship();
 
         userFriendship1.setUsername1(user.getUsername());
-        userFriendship1.setUsername1(otherUser.getUsername());
+        userFriendship1.setUsername2(otherUser.getUsername());
         userFriendship1.setFriendshipType(FriendshipType.FRIENDS);
 
         userFriendship2.setUsername1(otherUser.getUsername());
@@ -66,6 +75,15 @@ public class FriendshipController extends CoreController {
         return new SuccessResponse();
     }
 
+    /**
+     * HTTP Resource Path: /friendship
+     * HTTP Method: DELETE
+     * HTTP Parameter: token
+     * HTTP Parameter: otherUser
+     *
+     * @param token
+     * @param otherUsername
+     */
     @DeleteMapping(path = "/friendship", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse removeFriendship(@RequestHeader String token, @RequestParam String otherUsername) throws InvalidHeadersException, TokenHasExpiredException, UserDoesNotExistException, FriendshipAlreadyExistException, FriendshipDoesNotExistException {
         if (token == null || otherUsername == null || token.isEmpty() || otherUsername.isEmpty()) {
@@ -90,7 +108,7 @@ public class FriendshipController extends CoreController {
             throw new UserDoesNotExistException(ErrorConstants.ERROR_CODE_USER_DOESNT_EXIST, "This user doesn't exist.");
         }
 
-        List<Friendship> usersFriends = friendshipRepository.getAllByUser1UsernameEquals(user.getUsername());
+        List<Friendship> usersFriends = friendshipRepository.getAllByUsername1Equals(user.getUsername());
 
         // TODO: Fix Deleting User
         /**
@@ -98,23 +116,42 @@ public class FriendshipController extends CoreController {
          * nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement\r\n\tat
          * org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)\r\n\tat
          */
+
+        boolean userFound1 = false;
+        boolean userFound2 = false;
+
         for (Friendship friendship : usersFriends) {
             if (friendship.getUsername2().equals(otherUsername)) {
+                friendship.setUsername1(null);
+                friendship.setUsername2(null);
+
                 friendshipRepository.delete(friendship);
                 friendshipRepository.save(friendship);
+
+                userFound1 = true;
             }
         }
 
-        List<Friendship> otherUsersFriends = friendshipRepository.getAllByUser1UsernameEquals(otherUser.getUsername());
+        List<Friendship> otherUsersFriends = friendshipRepository.getAllByUsername1Equals(otherUser.getUsername());
 
         for (Friendship friendship : otherUsersFriends) {
-            if (friendship.getUsername2().equals(user)) {
+            if (friendship.getUsername2().equals(user.getUsername())) {
+                friendship.setUsername1(null);
+                friendship.setUsername2(null);
+
                 friendshipRepository.delete(friendship);
                 friendshipRepository.save(friendship);
+
+                userFound2 = true;
             }
         }
 
-        throw new FriendshipDoesNotExistException(ErrorConstants.ERROR_CODE_FRIENDSHIP_DOESNT_EXISTS, "You are already friends with this user.");
+        if (userFound1 && userFound2) {
+            return new SuccessResponse();
+        }
+        else {
+            throw new FriendshipDoesNotExistException(ErrorConstants.ERROR_CODE_FRIENDSHIP_DOESNT_EXISTS, "You are already friends with this user.");
+        }
     }
 
     // TODO: Not sure that I like this method of returning a list of friends.
@@ -136,7 +173,7 @@ public class FriendshipController extends CoreController {
 
         int i = 1;
 
-        for (Friendship friendship : friendshipRepository.getAllByUser1UsernameEquals(user.getUsername())) {
+        for (Friendship friendship : friendshipRepository.getAllByUsername1Equals(user.getUsername())) {
             friendshipMap.put("friend" + i, friendship.getUsername2());
             i += 1;
         }

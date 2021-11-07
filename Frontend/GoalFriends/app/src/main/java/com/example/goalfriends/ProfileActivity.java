@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -13,6 +14,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageButton homeScreen;
     private ImageButton search;
     private ImageButton settings;
+    private Button editProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
         homeScreen = (ImageButton) findViewById(R.id.Homescreenbutton);
         search = (ImageButton) findViewById(R.id.Searchbutton);
         settings = (ImageButton) findViewById(R.id.settingsButton);
+        editProfile = (Button) findViewById(R.id.editProfileButton);
 
         addGoal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +52,13 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, SettingsActivity.class));
+            }
+        });
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, EditProfileActivity.class));
             }
         });
     }

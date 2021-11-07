@@ -1,45 +1,73 @@
 stages:
+  - build_image
   - backend_build
-  - backend_tests
+  - backend_test
   - frontend_build
-  - frontend_tests
+  - frontend_test
+  - deploy_backend
+
+before_script:
+  - docker info
+  # Kill all Java programs.
+
+build_image:
+  stage: build_image
+  tags:
+    - BACKEND
+    - FRONTEND  
+  script:
+    - cd Docker/
+    - docker build --no-cache --network=host -t "coms309"  -f Dockerfile.dockerfile .
 
 backend_build:
   stage: backend_build
-  script:
-    - cd Backend/
-    - gradle assemble
-    - ls -la build/
-    - ls -la build/libs
   tags:
     - BACKEND
+  script:
+    - cd Docker/
+    - docker run -v /home/gitlab-runner/artifacts:/artifacts --network=host --entrypoint /bin/bash coms309 -c ./backend_build.sh
+    - mkdir /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/backend-artifacts/
+    - cp -r /home/gitlab-runner/artifacts/* /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/backend-artifacts/
   artifacts:
     paths:
-      - libs/*.jar
+      - /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/backend-artifacts/*
 
-backend_tests:
-  stage: backend_tests
+backend_test:
+  stage: backend_test
+  tags:
+    - BACKEND
+  allow_failure: true
+  script:
+    - cd Docker/
+    - docker run --network=host --entrypoint /bin/bash coms309 -c ./backend_test.sh
+
+frontend_build:
+  stage: frontend_build
+  tags:
+    - FRONTEND
+  script:
+    - cd Docker/
+    - docker run -v /home/gitlab-runner/artifacts:/artifacts --network=host --entrypoint /bin/bash coms309 -c ./frontend_build.sh
+    - mkdir /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/frontend-artifacts/
+    - cp -r /home/gitlab-runner/artifacts/* /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/frontend-artifacts/
+  artifacts:
+    paths:
+      - /home/gitlab-runner/builds/nACox5oU/0/cs309/fall2021/3_mc_5/frontend-artifacts/*
+
+frontend_test:
+  stage: frontend_test
+  tags:
+    - FRONTEND
+  allow_failure: true
+  script:
+    - cd Docker/
+    - docker run --network=host --entrypoint /bin/bash coms309 -c ./frontend_test.sh
+
+deploy_backend:
+  stage: deploy_backend
   tags:
     - BACKEND
   script:
-    - cd Backend
-    - gradle check
-
-frontend_build:
-    stage: frontend_build
-    tags:
-      - FRONTEND
-    script:
-      - cd Frontend/GoalFriends
-      - gradle assemble
-    artifacts:
-      paths:
-        - app/build/outputs/
-
-frontend_tests:
-    stage: frontend_tests
-    tags:
-      - FRONTEND
-    script:
-      - cd Frontend/GoalFriends
-      - gradle -Pci --console=plain :app:testDebug
+    - ls /home/gitlab-runner/artifacts
+    - cd /home/gitlab-runner/artifacts
+    - java -jar artifacts/goalfriend-0.0.1-SNAPSHOT.jar

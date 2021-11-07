@@ -49,7 +49,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <View
-        android:id="@+id/view2"
+        android:id="@+id/view3"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:background="@color/black"
@@ -100,7 +100,7 @@
         android:layout_height="wrap_content"
         android:text="Goals Here"
         android:textSize="36dp"
-        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -125,9 +125,13 @@
         android:layout_height="49dp"
         android:backgroundTint="#00000000"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/settings"
-        tools:layout_editor_absoluteX="343dp"
-        tools:layout_editor_absoluteY="10dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.008"
+        app:srcCompat="@drawable/settings" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -202,21 +206,24 @@
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.249" />
+        app:layout_constraintVertical_bias="0.306" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/editProfileButton"
         android:layout_width="388dp"
-        android:layout_height="39dp"
+        android:layout_height="48dp"
         android:background="#1750B5"
         android:backgroundTint="#8C3535"
         android:foregroundTint="#953A3A"
         android:text="Edit Profile"
         app:iconTint="#FFFFFF"
-        tools:layout_editor_absoluteX="11dp"
-        tools:layout_editor_absoluteY="212dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.388" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
