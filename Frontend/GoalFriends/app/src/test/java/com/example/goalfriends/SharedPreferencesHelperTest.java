@@ -7,11 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+//import org.mockito.runners.MockitoJUnitRunner;
 import android.content.SharedPreferences;
-/**
- * Unit tests for the {@link SharedPreferencesHelper} that mocks {@link SharedPreferences}.
- */
+
 @RunWith(MockitoJUnitRunner.class)
 public class SharedPreferencesHelperTest {
     private static final String TEST_NAME = "Test name";
