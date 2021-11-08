@@ -9,6 +9,9 @@ import edu.iastate.goalfriend.exceptions.*;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.SuccessResponse;
 import edu.iastate.goalfriend.utils.TokenUtils;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,20 +21,23 @@ import java.util.Map;
 
 @RestController
 public class FriendshipController extends CoreController {
-    /**
-     * HTTP Resource Path: /friendship
-     * HTTP Method: POST
-     * HTTP Parameter: token
-     * HTTP Parameter: otherUser
-     *
-     * @param token A valid Token used to identify the user.
-     * @param otherUsername The username of the user that you wish to friend.
-     */
-    @PostMapping(path = "/friendship", produces = MediaType.APPLICATION_JSON_VALUE)
-    public IResponse addFriendship(@RequestHeader String token, @RequestParam String otherUsername) throws InvalidHeadersException, TokenHasExpiredException, UserDoesNotExistException, FriendshipAlreadyExistException {
+    private void checkForValidHeaders(String token, String otherUsername) throws InvalidHeadersException {
         if (token == null || otherUsername == null || token.isEmpty() || otherUsername.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
+    }
+
+    @ApiOperation(value = "Creates a friendship between two users.", response = Iterable.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully created a friendship between two people."),
+            @ApiResponse(code = 400, message = "Invalid headers provided."),
+            @ApiResponse(code = 400, message = "Token is expired."),
+            @ApiResponse(code = 400, message = "Friendship already exists."),
+            @ApiResponse(code = 400, message = "User does not exist.")
+    })
+    @PostMapping(path = "/friendship", produces = MediaType.APPLICATION_JSON_VALUE)
+    public IResponse addFriendship(@RequestHeader String token, @RequestParam String otherUsername) throws CoreException {
+        checkForValidHeaders(token, otherUsername);
 
         Token userToken = tokenRepository.getByToken(token);
 
@@ -75,20 +81,16 @@ public class FriendshipController extends CoreController {
         return new SuccessResponse();
     }
 
-    /**
-     * HTTP Resource Path: /friendship
-     * HTTP Method: DELETE
-     * HTTP Parameter: token
-     * HTTP Parameter: otherUser
-     *
-     * @param token
-     * @param otherUsername
-     */
+    @ApiOperation(value = "Deletes a friendship between two users.", response = Iterable.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully removed a friendship between two people."),
+            @ApiResponse(code = 400, message = "Invalid headers provided."),
+            @ApiResponse(code = 400, message = "Token is expired."),
+            @ApiResponse(code = 400, message = "User does not exist.")
+    })
     @DeleteMapping(path = "/friendship", produces = MediaType.APPLICATION_JSON_VALUE)
-    public IResponse removeFriendship(@RequestHeader String token, @RequestParam String otherUsername) throws InvalidHeadersException, TokenHasExpiredException, UserDoesNotExistException, FriendshipAlreadyExistException, FriendshipDoesNotExistException {
-        if (token == null || otherUsername == null || token.isEmpty() || otherUsername.isEmpty()) {
-            throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
-        }
+    public IResponse removeFriendship(@RequestHeader String token, @RequestParam String otherUsername) throws CoreException {
+        checkForValidHeaders(token, otherUsername);
 
         Token userToken = tokenRepository.getByToken(token);
 
@@ -155,8 +157,15 @@ public class FriendshipController extends CoreController {
     }
 
     // TODO: Not sure that I like this method of returning a list of friends.
+    @ApiOperation(value = "Get a list of friendships.", response = Iterable.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully got a list of friendships."),
+            @ApiResponse(code = 400, message = "Invalid headers provided."),
+            @ApiResponse(code = 400, message = "Token is expired."),
+            @ApiResponse(code = 400, message = "Friendship already exists."),
+    })
     @GetMapping(path = "/friendship", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map getFriendships(@RequestHeader String token) throws InvalidHeadersException, TokenHasExpiredException {
+    public Map getFriendships(@RequestHeader String token) throws CoreException {
         Map<String, String> friendshipMap = new HashMap<>();
 
         if (token == null || token.isEmpty()) {

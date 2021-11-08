@@ -1,6 +1,6 @@
 package edu.iastate.goalfriend.exceptions;
 
-public class FriendshipAlreadyExistException  extends Exception {
+public class FriendshipAlreadyExistException extends CoreException {
     private int errorCode;
     private String errorMessage;
 

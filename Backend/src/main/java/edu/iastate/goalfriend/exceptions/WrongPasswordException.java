@@ -1,6 +1,6 @@
 package edu.iastate.goalfriend.exceptions;
 
-public class WrongPasswordException extends Exception {
+public class WrongPasswordException extends CoreException {
     private int errorCode;
     private String errorMessage;
 

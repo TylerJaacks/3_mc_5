@@ -1,6 +1,6 @@
 package edu.iastate.goalfriend.exceptions;
 
-public class FriendshipDoesNotExistException extends Throwable {
+public class FriendshipDoesNotExistException extends CoreException {
     private int errorCode;
     private String errorMessage;
 

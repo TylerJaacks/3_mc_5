@@ -1,6 +1,6 @@
 package edu.iastate.goalfriend.exceptions;
 
-public class InvalidGoalNameException extends Exception {
+public class InvalidGoalNameException extends CoreException {
     private int errorCode;
     private String errorMessage;
 

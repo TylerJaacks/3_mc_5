@@ -1,6 +1,6 @@
 package edu.iastate.goalfriend.exceptions;
 
-public class InvalidHeadersException extends Exception {
+public class InvalidHeadersException extends CoreException {
     private int errorCode;
     private String errorMessage;
 

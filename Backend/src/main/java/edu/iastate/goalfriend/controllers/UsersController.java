@@ -3,6 +3,7 @@ package edu.iastate.goalfriend.controllers;
 import edu.iastate.goalfriend.constants.ErrorConstants;
 import edu.iastate.goalfriend.domainobjects.Token;
 import edu.iastate.goalfriend.domainobjects.User;
+import edu.iastate.goalfriend.exceptions.CoreException;
 import edu.iastate.goalfriend.exceptions.TokenNotAvailableException;
 import edu.iastate.goalfriend.exceptions.UserDoesNotExistException;
 import edu.iastate.goalfriend.reponses.IResponse;
@@ -26,7 +27,7 @@ public class UsersController extends CoreController {
             @ApiResponse(code = 400, message = "Provided token is invalid.")
     })
     @GetMapping(value = "/users", produces = "application/json")
-    public IResponse usersController(@RequestHeader String token, @RequestParam String email) throws Exception {
+    public IResponse usersController(@RequestHeader String token, @RequestParam String email) throws CoreException {
 
         Token tokenObj = tokenRepository.getByToken(token);
 

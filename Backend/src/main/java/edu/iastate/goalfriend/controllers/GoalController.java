@@ -6,6 +6,7 @@ import edu.iastate.goalfriend.domainobjects.Friendship;
 import edu.iastate.goalfriend.domainobjects.Goal;
 import edu.iastate.goalfriend.domainobjects.Token;
 import edu.iastate.goalfriend.domainobjects.User;
+import edu.iastate.goalfriend.exceptions.CoreException;
 import edu.iastate.goalfriend.exceptions.InvalidGoalNameException;
 import edu.iastate.goalfriend.exceptions.InvalidHeadersException;
 import edu.iastate.goalfriend.reponses.GoalSearchSuccessResponse;
@@ -18,8 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// get, delete, post, update
-
 @RestController
 public class GoalController extends CoreController {
     @PutMapping(path = "/goal", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -28,7 +27,7 @@ public class GoalController extends CoreController {
             @RequestParam("goalName") String goalName,
             @RequestParam("newGoalName") String newGoalName,
             @RequestParam("goalCategory") String goalCategoryStr,
-            @RequestParam("goalProgress") String goalProgressStr) throws InvalidHeadersException, InvalidGoalNameException {
+            @RequestParam("goalProgress") String goalProgressStr) throws CoreException {
         if (token == null || goalName == null || token.isEmpty() || goalName.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
@@ -64,7 +63,7 @@ public class GoalController extends CoreController {
     @DeleteMapping(path = "/goal", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse DeleteGoal(
             @RequestHeader("token") String token,
-            @RequestParam("goalName") String goalName) throws InvalidHeadersException, InvalidGoalNameException {
+            @RequestParam("goalName") String goalName) throws CoreException {
         if (token == null || goalName == null || token.isEmpty() || goalName.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
@@ -92,7 +91,7 @@ public class GoalController extends CoreController {
     @PostMapping(path = "/goal", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse AddGoal(
             @RequestHeader("token") String token,
-            @RequestParam("goalName") String goalName) throws InvalidHeadersException, InvalidGoalNameException {
+            @RequestParam("goalName") String goalName) throws CoreException {
         if (token == null || goalName == null || token.isEmpty() || goalName.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
@@ -116,7 +115,7 @@ public class GoalController extends CoreController {
     @GetMapping(path = "/goal", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse GetGoal(
             @RequestHeader("token") String token,
-            @RequestParam("goalName") String goalName) throws InvalidHeadersException, InvalidGoalNameException {
+            @RequestParam("goalName") String goalName) throws CoreException {
         if (token == null || goalName == null || token.isEmpty() || goalName.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
@@ -141,7 +140,7 @@ public class GoalController extends CoreController {
     }
 
     @GetMapping(path = "/goal/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map GetAllGoal(@RequestHeader("token") String token) throws InvalidHeadersException, InvalidGoalNameException {
+    public Map GetAllGoal(@RequestHeader("token") String token) throws CoreException {
         if (token == null || token.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }

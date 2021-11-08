@@ -1,6 +1,6 @@
 package edu.iastate.goalfriend.exceptions;
 
-public class TokenHasExpiredException extends Exception {
+public class TokenHasExpiredException extends CoreException {
     private int errorCode;
     private String errorMessage;
 

@@ -1,6 +1,6 @@
 package edu.iastate.goalfriend.exceptions;
 
-public class UserDoesNotExistException extends Exception {
+public class UserDoesNotExistException extends CoreException {
     private int errorCode;
     private String errorMessage;
 

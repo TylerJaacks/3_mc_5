@@ -1,6 +1,6 @@
 package edu.iastate.goalfriend.exceptions;
 
-public class UserAlreadyLoggedOutException extends Exception {
+public class UserAlreadyLoggedOutException extends CoreException {
     private int errorCode;
     private String errorMessage;
 

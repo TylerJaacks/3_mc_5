@@ -26,7 +26,7 @@ public class LogoutController extends CoreController {
             @ApiResponse(code = 400, message = "User doesn't exist.")
     })
     @PostMapping("/logout")
-    public IResponse Login(@RequestHeader("token") String token) throws Exception {
+    public IResponse Login(@RequestHeader("token") String token) throws CoreException {
         if (token == null || token.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were given.");
         }

@@ -2,6 +2,7 @@ package edu.iastate.goalfriend.controllers;
 
 import edu.iastate.goalfriend.constants.ErrorConstants;
 import edu.iastate.goalfriend.domainobjects.User;
+import edu.iastate.goalfriend.exceptions.CoreException;
 import edu.iastate.goalfriend.exceptions.UserAlreadyExistsException;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.SuccessResponse;
@@ -26,7 +27,7 @@ public class RegisterController extends CoreController {
     })
     @PostMapping("/register")
     @ResponseBody
-    public IResponse registerController(HttpEntity<String> httpEntity) throws Exception {
+    public IResponse registerController(HttpEntity<String> httpEntity) throws CoreException {
         Iterable<User> users = userRepository.findAll();
 
         JSONObject userJSONObject = new JSONObject(httpEntity.getBody());

@@ -1,6 +1,6 @@
 package edu.iastate.goalfriend.exceptions;
 
-public class TokenNotAvailableException extends Exception {
+public class TokenNotAvailableException extends CoreException {
     private int errorCode;
     private String errorMessage;
 
