@@ -5,14 +5,25 @@ import edu.iastate.goalfriend.domainobjects.User;
 import edu.iastate.goalfriend.exceptions.UserAlreadyExistsException;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.SuccessResponse;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+// TODO: Rewrite this to be a model.
+// TODO: Do better documentation here.
 @RestController
 public class RegisterController extends CoreController {
+    @ApiOperation(value = "Registers a new user.", response = Iterable.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully registered a new user."),
+            @ApiResponse(code = 400, message = "This user are exists with this email."),
+            @ApiResponse(code = 400, message = "This user are exists with this username.")
+    })
     @PostMapping("/register")
     @ResponseBody
     public IResponse registerController(HttpEntity<String> httpEntity) throws Exception {

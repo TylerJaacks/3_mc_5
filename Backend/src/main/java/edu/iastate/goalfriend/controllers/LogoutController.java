@@ -7,12 +7,24 @@ import edu.iastate.goalfriend.exceptions.*;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.SuccessResponse;
 import edu.iastate.goalfriend.utils.TokenUtils;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LogoutController extends CoreController {
+    @ApiOperation(value = "Logs out a logged in user.", response = SuccessResponse.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully logged out a user."),
+            @ApiResponse(code = 400, message = "Invalid headers were provided."),
+            @ApiResponse(code = 400, message = "User already logged out."),
+            @ApiResponse(code = 400, message = "User token has expired."),
+            @ApiResponse(code = 400, message = "User token has is unavailable."),
+            @ApiResponse(code = 400, message = "User doesn't exist.")
+    })
     @PostMapping("/logout")
     public IResponse Login(@RequestHeader("token") String token) throws Exception {
         if (token == null || token.isEmpty()) {
