@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+/**
+ * This EditProfileActivity class will allow users to edit their personal
+ * profile. They will be able to change their profile picture and description.
+ * @author Kyle Todd
+ */
 public class EditProfileActivity extends AppCompatActivity {
 
     private ImageButton backButton;

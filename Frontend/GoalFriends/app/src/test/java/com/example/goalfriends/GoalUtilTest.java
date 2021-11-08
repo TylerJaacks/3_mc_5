@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import android.content.SharedPreferences;
+//import android.content.SharedPreferences;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GoalUtilTest {
