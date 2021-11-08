@@ -36,6 +36,33 @@ configurations.all {
     }
 }
 
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.0.3"
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 19
+        packageName "com.example.goalfriends"
+        testPackageName "com.example.goalfriends.test"
+
+    }
+    sourceSets {
+        main {
+            java {
+
+            }
+        }
+        androidTest {
+            java {
+                exclude '**/EmailTest.java'
+                exclude '**/GoalUtilTest.java'
+                exclude '**/SharedPreferencesHelperTest.java'
+            }
+        }
+    }
+}
+
 
 dependencies {
 
