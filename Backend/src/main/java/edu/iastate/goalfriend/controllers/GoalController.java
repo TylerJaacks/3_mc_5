@@ -12,6 +12,9 @@ import edu.iastate.goalfriend.exceptions.InvalidHeadersException;
 import edu.iastate.goalfriend.reponses.GoalSearchSuccessResponse;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.SuccessResponse;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +24,14 @@ import java.util.Map;
 
 @RestController
 public class GoalController extends CoreController {
+
+    @ApiOperation(value = "Edits a Goal.", response = Iterable.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully edited a goal ."),
+            @ApiResponse(code = 400, message = "Invalid headers provided."),
+            @ApiResponse(code = 400, message = "Token is expired."),
+            @ApiResponse(code = 400, message = "Invalid goal name."),
+    })
     @PutMapping(path = "/goal", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse UpdateGoal(
             @RequestHeader("token") String token,
@@ -60,6 +71,13 @@ public class GoalController extends CoreController {
         }
     }
 
+    @ApiOperation(value = "Deletes a Goal.", response = Iterable.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully deleted a goal ."),
+            @ApiResponse(code = 400, message = "Invalid headers provided."),
+            @ApiResponse(code = 400, message = "Token is expired."),
+            @ApiResponse(code = 400, message = "Invalid goal name."),
+    })
     @DeleteMapping(path = "/goal", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse DeleteGoal(
             @RequestHeader("token") String token,
@@ -88,6 +106,13 @@ public class GoalController extends CoreController {
         }
     }
 
+    @ApiOperation(value = "Adds a Goal.", response = Iterable.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully added a goal ."),
+            @ApiResponse(code = 400, message = "Invalid headers provided."),
+            @ApiResponse(code = 400, message = "Token is expired."),
+            @ApiResponse(code = 400, message = "Invalid goal name."),
+    })
     @PostMapping(path = "/goal", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse AddGoal(
             @RequestHeader("token") String token,
@@ -112,6 +137,13 @@ public class GoalController extends CoreController {
         return new SuccessResponse();
     }
 
+    @ApiOperation(value = "Gets a Goal from the given goal name.", response = Iterable.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully found the goal ."),
+            @ApiResponse(code = 400, message = "Invalid headers provided."),
+            @ApiResponse(code = 400, message = "Token is expired."),
+            @ApiResponse(code = 400, message = "Invalid goal name."),
+    })
     @GetMapping(path = "/goal", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse GetGoal(
             @RequestHeader("token") String token,
@@ -139,6 +171,13 @@ public class GoalController extends CoreController {
         }
     }
 
+    @ApiOperation(value = "Gets all goals belonging to a user.", response = Iterable.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully found the goals of the user ."),
+            @ApiResponse(code = 400, message = "Invalid headers provided."),
+            @ApiResponse(code = 400, message = "Token is expired."),
+            @ApiResponse(code = 400, message = "Invalid goal name."),
+    })
     @GetMapping(path = "/goal/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map GetAllGoal(@RequestHeader("token") String token) throws CoreException {
         if (token == null || token.isEmpty()) {

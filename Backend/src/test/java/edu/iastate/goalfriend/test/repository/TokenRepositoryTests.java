@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 public class TokenRepositoryTests {
 
     @Test
-    public void getUserTest(){
+    public void getTokenTest(){
 
         TokenRepository tokenRepository = mock(TokenRepository.class);
 
