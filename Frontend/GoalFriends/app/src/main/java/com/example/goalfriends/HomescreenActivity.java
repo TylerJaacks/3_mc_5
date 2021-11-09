@@ -29,7 +29,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * Homescreen page that has 3 navigation buttons at the bottom. Also has 2 infinite scrolls
+ * views that show the user's current goals and their friends recent activity.
+ */
 public class HomescreenActivity extends AppCompatActivity {
 
     private ImageButton addGoal;
@@ -85,6 +88,11 @@ public class HomescreenActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sends a volley GET request to the server to get an ArrayList of all of the user's current goals.
+     * @param token String representing the user's current token to be sent as a header.
+     * @return ArrayList of the user's current goals form the server
+     */
     private ArrayList<Goal> getGoals(String token) {
 
         JSONObject getGoalData = new JSONObject();
