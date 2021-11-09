@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Homescreen page that has 3 navigation buttons at the bottom. Also has 2 infinite scrolls
+ * Homescreen page that has 3 navigation buttons at the bottom. Also has two infinite scrolls
  * views that show the user's current goals and their friends recent activity.
  */
 public class HomescreenActivity extends AppCompatActivity {
