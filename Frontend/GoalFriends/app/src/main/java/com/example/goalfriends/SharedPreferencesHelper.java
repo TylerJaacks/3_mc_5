@@ -2,8 +2,14 @@ package com.example.goalfriends;
 
 import android.content.SharedPreferences;
 
+/**
+ * This SharedPreferencesHelper class saves the most recent register attempt
+ * credentials and returns the credentials on the register page.
+ *
+ * @author Kyle Todd
+ */
 public class SharedPreferencesHelper {
-    // Keys for saving values in SharedPreferences.
+
     static final String KEY_NAME = "key_name";
     static final String KEY_EMAIL = "key_email";
     static final String KEY_PHONE = "key_phone";
@@ -16,6 +22,12 @@ public class SharedPreferencesHelper {
         mSharedPreferences = sharedPreferences;
     }
 
+    /**
+     * This method saves the personal info of the users credentials
+     * after they register.
+     * @param sharedPreferenceEntry
+     * @return True if all info is entered
+     */
     public boolean savePersonalInfo(SharedPreferenceEntry sharedPreferenceEntry){
 
         SharedPreferences.Editor editor = mSharedPreferences.edit();
@@ -27,6 +39,10 @@ public class SharedPreferencesHelper {
         return editor.commit();
     }
 
+    /**
+     * This method gets the info of the users most recent register attempt
+     * @return SharedPreferenceEntry of String name, email, phone, and password
+     */
     public SharedPreferenceEntry getPersonalInfo() {
 
         String name = mSharedPreferences.getString(KEY_NAME, "");

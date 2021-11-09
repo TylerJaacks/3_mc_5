@@ -4,6 +4,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import java.util.regex.Pattern;
 
+/**
+ * This ValidEmail class implements the correct Email Pattern, so
+ * users will not implement the incorrect Email.
+ * @author Kyle Todd
+ */
 public class ValidEmail implements TextWatcher{
     public static final Pattern EMAIL_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +

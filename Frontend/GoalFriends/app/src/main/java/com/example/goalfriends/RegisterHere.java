@@ -31,6 +31,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * This RegisterHere class is used when a user registers for GoalFriends.
+ * The user will have to enter in their username, email, phone number, and
+ * password. Their credentials will be saved for them to login.
+ */
 public class RegisterHere extends AppCompatActivity {
 
     private Button cancel;
@@ -123,6 +129,10 @@ public class RegisterHere extends AppCompatActivity {
 
 
     }
+
+    /**
+     * Populates the UI of the most recent register attempt.
+     */
     private void populateUi() {
         SharedPreferenceEntry sharedPreferenceEntry;
         sharedPreferenceEntry = mSharedPreferencesHelper.getPersonalInfo();
@@ -132,7 +142,14 @@ public class RegisterHere extends AppCompatActivity {
         password.setText(sharedPreferenceEntry.getEmail());
     }
 
-
+    /**
+     * Makes sure the entered credentials are valid.
+     * @param regUsername Username as a String
+     * @param regEmail Email as a String
+     * @param regPhone Phone Number as a String
+     * @param regPassword Password as a String
+     * @param regCpassword Confirmed Password as a String
+     */
     private void register(String regUsername, String regEmail, String regPhone, String regPassword, String regCpassword) {
         if (regUsername.isEmpty()) {
             username.setError("Username is required");

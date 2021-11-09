@@ -6,6 +6,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
+/**
+ * This SettingsActivity class will hold all the settings of
+ * our application.
+ *
+ * @author Kyle Todd
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     @Override

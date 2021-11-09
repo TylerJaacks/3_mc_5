@@ -8,6 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+/**
+ * This ProfileActivity class is used to represent a users profile on Goal Friends.
+ * Here a user will be able to edit their profile, check the amount of goals, see
+ * their current goals, see their amount of followers, and who they are following.
+ */
 public class ProfileActivity extends AppCompatActivity {
 
     private ImageButton addGoal;

@@ -4,6 +4,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import java.util.regex.Pattern;
 
+/**
+ * This ValidPassword class implements the correct Password Pattern, so
+ * users will not implement the incorrect Password.
+ * @author Kyle Todd
+ */
 public class ValidPassword implements TextWatcher{
     public static final Pattern PASSWORD_PATTERN = Pattern.compile(
             "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$"
