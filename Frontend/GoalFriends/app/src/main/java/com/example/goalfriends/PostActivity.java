@@ -30,6 +30,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * New goal page that allows the user to create a goal.
+ * PostGoal() method sends the user's custom goal to the server to be stored.
+ */
 public class PostActivity extends AppCompatActivity {
 
     private Spinner spinner;
@@ -72,6 +76,14 @@ public class PostActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sends a volley POST request to the server to store the user's new goal.
+     * Sends the goal name, description, category and progress as headers.
+     * @param goalName Name of the new goal as a String
+     * @param goalDesc Description of the new goal as a String
+     * @param goalCat Category of the new goal as a String
+     * @param goalProg Progress of the new goal as an Int
+     */
     private void PostGoal(String goalName, String goalDesc, String goalCat, int goalProg) {
         if (goalName.isEmpty()) {
             goalNameText.setError("Goal Name is required");
