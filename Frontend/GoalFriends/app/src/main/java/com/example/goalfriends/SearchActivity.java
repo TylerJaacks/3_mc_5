@@ -15,6 +15,10 @@ import android.widget.SearchView.OnQueryTextListener;
 
 import java.util.ArrayList;
 
+/**
+ * Search page that allows the user to search for other users in
+ * the server to view their goals or add them as friends.
+ */
 public class SearchActivity extends AppCompatActivity {
 
     private SearchView searchView;
