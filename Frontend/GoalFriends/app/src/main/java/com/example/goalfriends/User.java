@@ -1,57 +1,46 @@
 package com.example.goalfriends;
 
 public class User {
-    private String mName;
-    private String mBio;
-    private int mFollowerCount;
-    private int mFollowingCount;
-    private int mGoalCount;
+    private String name;
+    private int friends;
+    private int GoalCount;
 
-    public User(String name, String bio, int followerCount, int followingCount, int goalCount){
-        mName = name;
-        mBio = bio;
-        mFollowerCount = followerCount;
-        mFollowingCount = followingCount;
-        mGoalCount = goalCount;
+    public User(){
+        this.name = "User";
+        this.friends = 0;
+        this.GoalCount = 0;
     }
 
-    public String getmName() {
-        return mName;
+    public User(String name) {
+        this();
+        this.name = name;
     }
 
-    public void setmName(String mName) {
-        this.mName = mName;
+    public User(String name, int friends, int GoalCount){
+        this.name = name;
+        this.friends = friends;
+        this.GoalCount = GoalCount;
     }
 
-    public String getmBio() {
-        return mBio;
+    public String getName() { return this.name; }
+
+    public void setName(String mName) {
+        this.name = mName;
     }
 
-    public void setmBio(String mBio) {
-        this.mBio = mBio;
+    public int getFriends() {
+        return this.friends;
     }
 
-    public int getmFollowerCount() {
-        return mFollowerCount;
+    public void setFriends(int numFriends) {
+        this.friends = numFriends;
     }
 
-    public void setmFollowerCount(int mFollowerCount) {
-        this.mFollowerCount = mFollowerCount;
+    public int getGoalCount() {
+        return this.GoalCount;
     }
 
-    public int getmFollowingCount() {
-        return mFollowingCount;
-    }
-
-    public void setmFollowingCount(int mFollowingCount) {
-        this.mFollowingCount = mFollowingCount;
-    }
-
-    public int getmGoalCount() {
-        return mGoalCount;
-    }
-
-    public void setmGoalCount(int mGoalCount) {
-        this.mGoalCount = mGoalCount;
+    public void setGoalCount(int mGoalCount) {
+        this.GoalCount = mGoalCount;
     }
 }

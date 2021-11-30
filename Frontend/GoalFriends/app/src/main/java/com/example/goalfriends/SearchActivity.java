@@ -13,7 +13,21 @@ import android.widget.Toast;
 import android.app.SearchManager;
 import android.widget.SearchView.OnQueryTextListener;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Search page that allows the user to search for other users in
@@ -69,5 +83,49 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private ArrayList<User> getUsers(String token) {
+
+        JSONObject getUserData = new JSONObject();
+        ArrayList<User> userList = new ArrayList<User>();
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, getUserData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray arr = response.getJSONArray("Users");
+                    for (int i = 0; i < arr.length(); i++) {
+                        JSONObject userJS = arr.getJSONObject(i);
+                        userList.add(new User(userJS.getString("name")));
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", token);
+                return params;
+            }
+        };
+
+        queue.add(jsonObjectRequest);
+
+        return userList;
     }
 }
