@@ -91,7 +91,7 @@ public class SearchActivity extends AppCompatActivity {
         ArrayList<User> userList = new ArrayList<User>();
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
+        String url = "http://coms-309-054.cs.iastate.edu:8080/AllUsers/all";
 
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, getUserData, new Response.Listener<JSONObject>() {
