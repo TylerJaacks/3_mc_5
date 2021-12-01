@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -40,6 +41,8 @@ public class SearchActivity extends AppCompatActivity {
     private ArrayList<String> list;
     private ArrayAdapter<String > adapter;
     private ImageButton cancelButton;
+
+    public String otherUserToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,24 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
                 return false;
+            }
+        });
+
+        // Click listener for the search list
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View v, int position,
+                                    long arg3)
+            {
+                String username = (String)adapter.getItemAtPosition(position);
+                // Starts the Profile Activity with a bundle containing the username of the searched user
+                Intent intent = new Intent(SearchActivity.this, ProfileActivity.class);
+                Bundle b = new Bundle();
+                b.putString("username", username);
+                intent.putExtras(b);
+                startActivity(intent);
+                finish();
             }
         });
     }

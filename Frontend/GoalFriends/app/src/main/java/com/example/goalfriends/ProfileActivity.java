@@ -47,6 +47,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        String token = MainActivity.token;
+
         addGoal = (ImageButton) findViewById(R.id.AddGoalbutton);
         homeScreen = (ImageButton) findViewById(R.id.Homescreenbutton);
         search = (ImageButton) findViewById(R.id.Searchbutton);
@@ -55,11 +57,21 @@ public class ProfileActivity extends AppCompatActivity {
         Friends = (TextView) findViewById(R.id.textView14);
         goalCount = (TextView) findViewById(R.id.textView15);
 
-        mainUser = getUsername(MainActivity.token);
+        Bundle b = getIntent().getExtras();
+
+        if (b != null) {
+            String otherUsername = b.getString("username");
+            token = getToken(otherUsername);
+        }
+
+
+        mainUser = getUsername(token);
 
         Username.setText(mainUser.getName());
         Friends.setText(mainUser.getFriends());
         goalCount.setText(mainUser.getGoalCount());
+
+
 
         //TODO: Add the users personal goals to their profile page w/ RecyclerView
 
@@ -135,5 +147,10 @@ public class ProfileActivity extends AppCompatActivity {
         };
 
         return user;
+    }
+
+    // TODO: Add GET request to get user's token with the username
+    private String getToken(String username) {
+        return "";
     }
 }
