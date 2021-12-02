@@ -116,7 +116,8 @@ public class GoalController extends CoreController {
     @PostMapping(path = "/goal", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse AddGoal(
             @RequestHeader("token") String token,
-            @RequestParam("goalName") String goalName) throws CoreException {
+            @RequestParam("goalName") String goalName,
+            @RequestParam("goalCategory") String goalCategory) throws CoreException {
         if (token == null || goalName == null || token.isEmpty() || goalName.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
@@ -130,7 +131,15 @@ public class GoalController extends CoreController {
             }
         }
 
-        Goal goal = new Goal(goalName, user, GoalCategory.NOT_SET, 0f);
+        GoalCategory category;
+
+        try{
+            category = GoalCategory.valueOf(goalCategory);
+        }catch(IllegalArgumentException e){
+            category = GoalCategory.NOT_SET;
+        }
+
+        Goal goal = new Goal(goalName, user, category, 0f);
 
         goalRepository.save(goal);
 
