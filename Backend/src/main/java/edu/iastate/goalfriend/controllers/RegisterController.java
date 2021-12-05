@@ -57,6 +57,6 @@ public class RegisterController extends CoreController {
 
         userRepository.save(newUser);
 
-        return new SuccessResponse();
+        return new SuccessResponse("User Successfully Registered.");
     }
 }

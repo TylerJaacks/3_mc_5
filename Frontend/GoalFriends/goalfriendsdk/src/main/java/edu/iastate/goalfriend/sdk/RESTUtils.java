@@ -4,21 +4,24 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
+
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class RESTUtils {
-    private JSONObject volleyRequest(Context context, int httpMethod, String url, Map<String, String> params, Map<String, String> headers) {
+    public JSONObject volleyRequest(Context context, int httpMethod, String url, JSONObject requestBody, Map<String, String> params, Map<String, String> headers) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         AtomicReference<JSONObject> responseJsonObject = new AtomicReference<>(new JSONObject());
+
+        int statusCode = -1;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(httpMethod, url, null, response -> {
             Log.d("goalfriend-sdk", "Response: " + response);
@@ -43,6 +46,16 @@ public class RESTUtils {
                 } else {
                     return params;
                 }
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+
+            @Override
+            public byte[] getBody()  {
+                return requestBody  == null ? null : requestBody.toString().getBytes(StandardCharsets.UTF_8);
             }
 
             @Override
