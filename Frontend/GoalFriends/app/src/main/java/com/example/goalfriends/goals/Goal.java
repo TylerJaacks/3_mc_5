@@ -26,6 +26,11 @@ public class Goal {
         this.progress = 0;
     }
 
+    @Override
+    public String toString(){
+        return name + ": " + progress + "% Finished.";
+    }
+
     /**
      * Goal constructor that only sets the name.
      * All other instance values are the default.
