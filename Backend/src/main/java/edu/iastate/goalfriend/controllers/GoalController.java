@@ -201,7 +201,7 @@ public class GoalController extends CoreController {
         int i = 1;
 
         for (Goal goal : goalRepository.getAllByGoalOwnerEquals(user)) {
-            goalsMap.put("gaol" + i, goal.getGoalName());
+            goalsMap.put("Goal" + i, goal.getGoalName());
             i += 1;
         }
 
