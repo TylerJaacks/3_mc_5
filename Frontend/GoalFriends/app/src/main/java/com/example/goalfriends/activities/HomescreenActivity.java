@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -17,9 +20,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.goalfriends.RestUtilities;
 import com.example.goalfriends.goals.Goal;
 import com.example.goalfriends.R;
 import com.example.goalfriends.RecyclerViewAdapter;
+import com.example.goalfriends.threads.UpdateGoalListThread;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +32,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Homescreen page that has 3 navigation buttons at the bottom. Also has two infinite scrolls
@@ -38,9 +45,13 @@ public class HomescreenActivity extends AppCompatActivity {
     private ImageButton addGoal;
     private ImageButton profile;
     private ImageButton search;
-    RecyclerView recyclerView;
-    RecyclerViewAdapter recyclerViewAdapter;
-    public static ArrayList<Goal> goalset = new ArrayList<Goal>();
+
+    public static ArrayList<String> listItems = new ArrayList<String>();
+
+    public static ArrayAdapter<String> adapter;
+
+    ListView goalListView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +66,31 @@ public class HomescreenActivity extends AppCompatActivity {
         // Uncomment to add 10 placeholder goals to the RecyclerView for testing
         // goalset = Goal.populateGoal(10);
 
-        recyclerView = findViewById(R.id.rvGoals);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewAdapter = new RecyclerViewAdapter(this, getGoals(MainActivity.token));
-        recyclerView.setAdapter(recyclerViewAdapter);
+        goalListView = (ListView) findViewById(R.id.rvList);
 
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                listItems);
 
+        goalListView.setAdapter(adapter);
+
+        /*ArrayList<Goal> goals = getGoals(MainActivity.token);
+
+        for(Goal goal : goals){
+            System.out.println(goal.toString());
+            listItems.add(goal.toString());
+        }*/
+
+        updateAdapter();
+
+        String url = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
+
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("token", MainActivity.token);
+
+        UpdateGoalListThread uglt = new UpdateGoalListThread(this, Request.Method.GET, url, new JSONObject(), new HashMap<>(), headers);
+        uglt.start();
         // TODO: Add click listeners to goal rows that way when users tap on a goal it brings them to a page where they can edit it
-        // recyclerViewAdapter.setClickListener(this);
 
 
         addGoal.setOnClickListener(new View.OnClickListener() {
@@ -88,21 +115,38 @@ public class HomescreenActivity extends AppCompatActivity {
         });
     }
 
+    public static void updateAdapter(){
+        adapter.notifyDataSetChanged();
+    }
+
     /**
      * Sends a volley GET request to the server to get an ArrayList of all of the user's current goals.
      * @param token String representing the user's current token to be sent as a header.
      * @return ArrayList of the user's current goals form the server
      */
-    private ArrayList<Goal> getGoals(String token) {
+    /*private ArrayList<Goal> getGoals(String token) {
 
-        JSONObject getGoalData = new JSONObject();
+        String response;
         ArrayList<Goal> goalList = new ArrayList<Goal>();
 
-        RequestQueue queue = Volley.newRequestQueue(this);
+        //RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
 
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("token", MainActivity.token);
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, getGoalData, new Response.Listener<JSONObject>() {
+        try {
+            response = RestUtilities.volleyRequestStr(this, Request.Method.GET, url, new JSONObject(), new HashMap<>(), headers);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+        /*JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, getGoalData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -132,8 +176,10 @@ public class HomescreenActivity extends AppCompatActivity {
             }
         };
 
-        queue.add(jsonObjectRequest);
+
+
+        queue.add(jsonObjectRequest); *-/
 
         return goalList;
-    }
+    }*/
 }

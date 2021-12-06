@@ -217,6 +217,7 @@ public class RegisterHere extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e("Response error", "THERE WAS AN ERROR! IT SHOULD BE RIGHT BELOW THIS MESSAGE");
                 Log.e("Response error", error.getMessage());
             }
         }) {
