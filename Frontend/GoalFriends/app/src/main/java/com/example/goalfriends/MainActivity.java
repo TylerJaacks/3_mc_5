@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     Toast.makeText(MainActivity.this, "Successfully Logged in", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(MainActivity.this, newActivity.class));
+                    startActivity(new Intent(MainActivity.this, HomescreenActivity.class));
 
                 }
                 else{

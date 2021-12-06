@@ -155,17 +155,17 @@ public class RegisterHere extends AppCompatActivity {
             username.setError("Username is required");
             username.requestFocus();
             return;
-        } else if (!mEmailValidator.isValid()){
+        } else if (regEmail.isEmpty()){
             email.setError("Invalid Email");
             Log.w(TAG,"Not saving personal information: Invalid Email");
             email.requestFocus();
             return;
-        } else if (!mPhoneValidator.isValid()){
+        } else if (regPhone.isEmpty()){
             phone.setError("Invalid Phone Number");
             Log.w(TAG,"Not saving personal information: Invalid Phone Number");
             phone.requestFocus();
             return;
-        } else if (!mPasswordValidator.isValid()){
+        } else if (regPassword.isEmpty()){
             password.setError("Invalid Password");
             Log.w(TAG,"Not saving personal information: Invalid Password");
             password.requestFocus();
