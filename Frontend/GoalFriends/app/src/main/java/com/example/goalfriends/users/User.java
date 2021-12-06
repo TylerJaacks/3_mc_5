@@ -1,4 +1,4 @@
-package com.example.goalfriends;
+package com.example.goalfriends.users;
 
 public class User {
     private String name;

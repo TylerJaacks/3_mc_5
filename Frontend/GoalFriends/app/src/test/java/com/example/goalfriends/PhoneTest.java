@@ -3,6 +3,8 @@ package com.example.goalfriends;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import com.example.goalfriends.validityutils.ValidEmail;
+
 public class PhoneTest {
     @Test
     public void phoneValid_CorrectPhoneNoSpace_ReturnsTrue(){

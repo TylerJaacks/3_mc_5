@@ -1,4 +1,4 @@
-package com.example.goalfriends;
+package com.example.goalfriends.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -24,6 +23,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.goalfriends.R;
+import com.example.goalfriends.SharedPreferenceEntry;
+import com.example.goalfriends.SharedPreferencesHelper;
+import com.example.goalfriends.validityutils.ValidEmail;
+import com.example.goalfriends.validityutils.ValidPassword;
+import com.example.goalfriends.validityutils.ValidPhoneNumber;
 
 import org.json.JSONException;
 import org.json.JSONObject;

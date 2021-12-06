@@ -18,14 +18,14 @@
             android:name=".Chat"
             android:exported="true" />
         <activity
-            android:name=".EditProfileActivity"
+            android:name=".activities.EditProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:exported="true"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".SearchableActivity"
+            android:name=".activities.SearchableActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -36,19 +36,19 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".PostActivity"
+            android:name=".activities.PostActivity"
             android:exported="true" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".activities.SearchActivity"
             android:exported="true" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".activities.ProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".HomescreenActivity"
+            android:name=".activities.HomescreenActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,7 +57,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".newActivity"
+            android:name=".activities.newActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -66,7 +66,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterHere"
+            android:name=".activities.RegisterHere"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

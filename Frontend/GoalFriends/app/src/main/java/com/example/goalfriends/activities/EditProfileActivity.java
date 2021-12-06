@@ -1,4 +1,4 @@
-package com.example.goalfriends;
+package com.example.goalfriends.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+
+import com.example.goalfriends.R;
 
 /**
  * This EditProfileActivity class will allow users to edit their personal

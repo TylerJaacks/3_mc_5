@@ -1,4 +1,4 @@
-package com.example.goalfriends;
+package com.example.goalfriends.validityutils;
 
 import android.text.Editable;
 import android.text.TextWatcher;

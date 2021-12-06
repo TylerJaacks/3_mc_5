@@ -1,4 +1,4 @@
-package com.example.goalfriends;
+package com.example.goalfriends.goals;
 
 import java.util.ArrayList;
 

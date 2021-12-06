@@ -3,7 +3,10 @@ package com.example.goalfriends;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
-import org.junit.Before;
+
+import com.example.goalfriends.goals.Goal;
+import com.example.goalfriends.goals.GoalUtil;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

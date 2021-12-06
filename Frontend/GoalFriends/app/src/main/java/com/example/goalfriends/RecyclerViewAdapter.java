@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.goalfriends.goals.Goal;
+import com.example.goalfriends.goals.GoalUtil;
 
 import java.util.List;
 

@@ -2,6 +2,8 @@ package com.example.goalfriends;
 
 import static org.junit.Assert.*;
 
+import com.example.goalfriends.validityutils.ValidPassword;
+
 import org.junit.Test;
 
 public class PasswordTest {

@@ -3,6 +3,8 @@ package com.example.goalfriends;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import com.example.goalfriends.validityutils.ValidEmail;
+
 public class EmailTest {
     @Test
     public void emailValid_CorrectEmailFormat_ReturnsTrue(){

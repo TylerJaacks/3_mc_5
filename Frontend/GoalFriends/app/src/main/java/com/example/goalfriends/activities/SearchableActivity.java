@@ -1,8 +1,10 @@
-package com.example.goalfriends;
+package com.example.goalfriends.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.goalfriends.R;
 
 public class SearchableActivity extends AppCompatActivity {
 

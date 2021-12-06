@@ -1,10 +1,12 @@
-package com.example.goalfriends;
+package com.example.goalfriends.activities;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.example.goalfriends.R;
 
 /**
  * This SettingsActivity class will hold all the settings of

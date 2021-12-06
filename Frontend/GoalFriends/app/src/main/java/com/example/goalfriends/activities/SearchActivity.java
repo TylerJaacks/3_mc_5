@@ -1,4 +1,4 @@
-package com.example.goalfriends;
+package com.example.goalfriends.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,8 +11,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
-import android.app.SearchManager;
-import android.widget.SearchView.OnQueryTextListener;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -21,6 +19,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.goalfriends.R;
+import com.example.goalfriends.users.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;

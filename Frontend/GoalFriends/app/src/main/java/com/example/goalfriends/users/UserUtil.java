@@ -1,5 +1,7 @@
-package com.example.goalfriends;
+package com.example.goalfriends.users;
 
+
+import com.example.goalfriends.users.User;
 
 import java.util.ArrayList;
 
