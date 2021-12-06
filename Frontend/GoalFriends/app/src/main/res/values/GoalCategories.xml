@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="goal_categories">
-        <item>Food</item>
-        <item>Occupational</item>
-        <item>Fitness</item>
+        <item>NOT_SET</item>
+        <item>FITNESS</item>
+        <item>FOOD</item>
+        <item>SOCIAL</item>
+        <item>OTHER</item>
     </string-array>
 </resources>

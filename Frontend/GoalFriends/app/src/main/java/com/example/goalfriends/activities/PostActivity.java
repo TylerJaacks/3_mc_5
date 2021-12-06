@@ -2,6 +2,7 @@ package com.example.goalfriends.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,9 +20,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.goalfriends.R;
+import com.example.goalfriends.RestUtilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 /**
  * New goal page that allows the user to create a goal.
@@ -65,6 +69,7 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 PostGoal(goalNameText.getText().toString(), goalDescText.getText().toString(), spinner.getSelectedItem().toString(), goalProgBar.getProgress());
+                startActivity(new Intent(PostActivity.this, HomescreenActivity.class));
             }
         });
     }
@@ -87,7 +92,7 @@ public class PostActivity extends AppCompatActivity {
             goalDescText.requestFocus();
             return;
         }
-
+        String token = MainActivity.token;
         // Temp: Only used for testing, will replace and use API with backend
 //        Goal newGoal = new Goal(goalName, goalCat, goalDesc, goalProg);
 //        HomescreenActivity.goalset.add(newGoal);
@@ -98,7 +103,7 @@ public class PostActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         //TODO: Change url to be New Goal Url
-        String url = "http://coms-309-054.cs.iastate.edu:8080/login";
+        String url = "http://coms-309-054.cs.iastate.edu:8080/goal?goalName=" + goalName + "&" + "goalCategory=" + goalCat;
 
         JSONObject postGoalData = new JSONObject();
 
@@ -111,19 +116,13 @@ public class PostActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, postGoalData, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Toast.makeText(PostActivity.this, "New Goal Succesfully Posted", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(PostActivity.this, HomescreenActivity.class));
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-    });
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("token", token);
 
-        queue.add(jsonObjectRequest);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("goalName", goalName);
+        params.put("goalCategory", goalCat);
+
+        RestUtilities.volleyRequest(this, Request.Method.POST, url, postGoalData, params, headers);
     }
 }
