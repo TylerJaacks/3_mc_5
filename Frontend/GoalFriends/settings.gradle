@@ -6,5 +6,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Goal Friends"
+
 include ':app'
-include ':goalfriendsdk'
