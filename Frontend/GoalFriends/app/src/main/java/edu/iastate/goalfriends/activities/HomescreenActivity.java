@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import edu.iastate.goalfriends.R;
@@ -29,6 +32,8 @@ public class HomescreenActivity extends AppCompatActivity {
     private ImageButton addGoal;
     private ImageButton profile;
     private ImageButton search;
+
+    public static String editingGoalName = "N/A";
 
     public static ArrayList<String> userGoalsArrayList = new ArrayList<>();
     public static ArrayList<String> friendsGoalArrayList = new ArrayList<>();
@@ -73,6 +78,15 @@ public class HomescreenActivity extends AppCompatActivity {
         UpdateFriendGoalsListThread updateFriendGoalsListThread =
                 new UpdateFriendGoalsListThread(this, Request.Method.GET, friendGoalsEndpoint, new JSONObject(), new HashMap<>(), headers);
         updateFriendGoalsListThread.start();
+
+        userGoalsListView.setOnItemClickListener((parent, view, position, id) -> {
+            if(view instanceof TextView){
+                TextView tv = (TextView)  view;
+                String text = tv.getText().toString();
+                editingGoalName = text;
+                startActivity(new Intent(HomescreenActivity.this, EditGoalActivity.class));
+            }
+        });
 
         addGoal.setOnClickListener(v -> startActivity(new Intent(HomescreenActivity.this, PostActivity.class)));
         profile.setOnClickListener(v -> startActivity(new Intent(HomescreenActivity.this, ProfileActivity.class)));

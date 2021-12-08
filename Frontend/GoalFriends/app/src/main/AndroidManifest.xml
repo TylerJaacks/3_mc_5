@@ -10,8 +10,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.GoalFriends">
+        android:theme="@style/Theme.GoalFriends"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activities.EditGoalActivity"
+            android:exported="true" />
         <activity
             android:name=".Chat"
             android:exported="true" />
