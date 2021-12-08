@@ -1,6 +1,7 @@
 package edu.iastate.goalfriends.activities;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -45,6 +46,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     private TextView goalCount;
     private User otherUser;
     private Button addFriend;
+    private ImageButton cancelButton;
 
     public static ArrayList<String> listItems = new ArrayList<>();
     public static ArrayAdapter<String> adapter;
@@ -64,6 +66,8 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         goalCount = (TextView) findViewById(R.id.otherUserGoalNumber);
         goalListView = (ListView) findViewById(R.id.otherUsergoalList);
         addFriend = (Button) findViewById(R.id.AddFriendButton);
+        cancelButton = (ImageButton) findViewById(R.id.otherProfileCancel);
+
 
         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,
@@ -104,6 +108,8 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         homeScreen.setOnClickListener(v -> startActivity(new Intent(OtherUserProfileActivity.this, HomescreenActivity.class)));
 
         search.setOnClickListener(v -> startActivity(new Intent(OtherUserProfileActivity.this, SearchActivity.class)));
+
+        cancelButton.setOnClickListener(v -> startActivity(new Intent(OtherUserProfileActivity.this, SearchActivity.class)));
 
         addFriend.setOnClickListener(v -> addFriend(otherUsername, MainActivity.token));
 
