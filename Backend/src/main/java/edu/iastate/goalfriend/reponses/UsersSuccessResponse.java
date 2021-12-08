@@ -22,5 +22,4 @@ public class UsersSuccessResponse extends SuccessResponse{
     public int getId(){
         return id;
     }
-
 }
