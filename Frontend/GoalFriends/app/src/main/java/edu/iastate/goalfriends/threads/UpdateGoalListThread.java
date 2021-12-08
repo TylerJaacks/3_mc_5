@@ -13,6 +13,7 @@ import com.android.volley.toolbox.Volley;
 import edu.iastate.goalfriends.RestUtilities;
 import edu.iastate.goalfriends.activities.HomescreenActivity;
 import edu.iastate.goalfriends.activities.MainActivity;
+import edu.iastate.goalfriends.activities.ProfileActivity;
 import edu.iastate.goalfriends.goals.Goal;
 
 import org.json.JSONException;
@@ -45,6 +46,7 @@ public class UpdateGoalListThread extends Thread{
         this.params = params;
         this.headers = headers;
     }
+
 
     @Override
     public synchronized void start() {
