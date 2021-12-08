@@ -33,7 +33,7 @@ public class HomescreenActivity extends AppCompatActivity {
     private ImageButton addGoal;
     private ImageButton profile;
     private ImageButton search;
-    private Button refreshButton;
+    private ImageButton refreshButton;
 
     public static String editingGoalName = "N/A";
 
@@ -53,7 +53,7 @@ public class HomescreenActivity extends AppCompatActivity {
         addGoal = (ImageButton) findViewById(R.id.AddGoalbutton);
         profile = (ImageButton) findViewById(R.id.Profilebutton);
         search = (ImageButton) findViewById(R.id.Searchbutton);
-        refreshButton = (Button) findViewById(R.id.refreshButton);
+        refreshButton = (ImageButton) findViewById(R.id.refreshButton);
 
         userGoalsListView = (ListView) findViewById(R.id.rvList);
         friendsGoalsListView = (ListView) findViewById(R.id.friendsActivityListView);
