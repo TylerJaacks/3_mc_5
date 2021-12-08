@@ -1,5 +1,7 @@
 package edu.iastate.goalfriend.domainobjects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -40,6 +42,7 @@ public class User {
         this.email = email;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -56,6 +59,7 @@ public class User {
         this.username = name;
     }
 
+    @JsonIgnore
     public int getIsLoggedIn() {
         return isLoggedIn;
     }
@@ -68,6 +72,7 @@ public class User {
         this.isLoggedIn = isLoggedIn ? 1 : 0;
     }
 
+    @JsonIgnore
     public Token getToken() {
         return token;
     }

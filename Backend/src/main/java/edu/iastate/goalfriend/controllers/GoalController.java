@@ -10,6 +10,7 @@ import edu.iastate.goalfriend.exceptions.CoreException;
 import edu.iastate.goalfriend.exceptions.FriendshipDoesNotExistException;
 import edu.iastate.goalfriend.exceptions.InvalidGoalNameException;
 import edu.iastate.goalfriend.exceptions.InvalidHeadersException;
+import edu.iastate.goalfriend.reponses.GoalListSuccessResponse;
 import edu.iastate.goalfriend.reponses.GoalSearchSuccessResponse;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.SuccessResponse;
@@ -190,24 +191,16 @@ public class GoalController extends CoreController {
             @ApiResponse(code = 400, message = "Invalid goal name."),
     })
     @GetMapping(path = "/goal/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map GetAllGoal(@RequestHeader("token") String token) throws CoreException {
+    public IResponse GetAllGoal(@RequestHeader("token") String token) throws CoreException {
         if (token == null || token.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
+
         Token tokenObj = tokenRepository.getByToken(token);
         User user = userRepository.findByToken(tokenObj);
         List<Goal> goals = goalRepository.getAllByGoalOwnerEquals(user);
 
-        Map<String, String> goalsMap = new HashMap<>();
-
-        int i = 1;
-
-        for (Goal goal : goalRepository.getAllByGoalOwnerEquals(user)) {
-            goalsMap.put("Goal" + i, goal.getGoalName());
-            i += 1;
-        }
-
-        return goalsMap;
+        return new GoalListSuccessResponse(goals);
     }
 
     @ApiOperation(value = "Gets all goals belonging to a user.", response = Iterable.class)
@@ -218,7 +211,7 @@ public class GoalController extends CoreController {
             @ApiResponse(code = 400, message = "Invalid goal name."),
     })
     @GetMapping(path = "/goal/friends/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map GetAllFriendsGoal(@RequestHeader("token") String token) throws CoreException {
+    public IResponse GetAllFriendsGoal(@RequestHeader("token") String token) throws CoreException {
         if (token == null || token.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
@@ -226,19 +219,15 @@ public class GoalController extends CoreController {
         Token tokenObj = tokenRepository.getByToken(token);
         User user = userRepository.findByToken(tokenObj);
 
-        Map<String, String> goalsMap = new HashMap<>();
+        List<Goal> goals = new ArrayList<>();
 
         for (Friendship friendship : friendshipRepository.getAllByUsername1(user.getUsername())) {
             User friend = userRepository.findByUsername(friendship.getUsername2());
+            List<Goal> friendGoals = goalRepository.getAllByGoalOwnerEquals(friend);
 
-            int i = 1;
-
-            for (Goal goal : goalRepository.getAllByGoalOwnerEquals(friend)) {
-                goalsMap.put("Goal (Owner: " + goal.getGoalOwner().getUsername() + ") " + i, goal.getGoalName());
-                i += 1;
-            }
+            goals.addAll(friendGoals);
         }
 
-        return goalsMap;
+        return new GoalListSuccessResponse(goals);
     }
 }
