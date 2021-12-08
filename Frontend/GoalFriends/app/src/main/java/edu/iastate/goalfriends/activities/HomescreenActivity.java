@@ -46,7 +46,7 @@ public class HomescreenActivity extends AppCompatActivity {
         goalListView = (ListView) findViewById(R.id.rvList);
 
         adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1,
+                R.layout.homescreen_listview,
                 listItems);
 
         goalListView.setAdapter(adapter);
