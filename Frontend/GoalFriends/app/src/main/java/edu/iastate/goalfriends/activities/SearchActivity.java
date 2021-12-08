@@ -55,6 +55,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
         list = new ArrayList<>();
+        list.add("Test");
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
@@ -95,8 +96,9 @@ public class SearchActivity extends AppCompatActivity {
                                     long arg3)
             {
                 String username = (String)adapter.getItemAtPosition(position);
-                // Starts the Profile Activity with a bundle containing the username of the searched user
-                Intent intent = new Intent(SearchActivity.this, ProfileActivity.class);
+
+                // Starts the Other User Profile Activity with a bundle containing the username of the searched user
+                Intent intent = new Intent(SearchActivity.this, OtherUserProfileActivity.class);
                 Bundle b = new Bundle();
                 b.putString("username", username);
                 intent.putExtras(b);
