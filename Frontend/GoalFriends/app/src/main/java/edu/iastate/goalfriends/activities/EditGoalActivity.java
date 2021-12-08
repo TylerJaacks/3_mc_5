@@ -23,6 +23,7 @@ import java.util.HashMap;
 
 import edu.iastate.goalfriends.R;
 import edu.iastate.goalfriends.RestUtilities;
+import edu.iastate.goalfriends.threads.EditGoalThread;
 
 public class EditGoalActivity extends AppCompatActivity {
 
@@ -50,52 +51,22 @@ public class EditGoalActivity extends AppCompatActivity {
             startActivity(new Intent(EditGoalActivity.this, HomescreenActivity.class));
         });
 
+
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("token", MainActivity.token);
+
         editGoalButton.setOnClickListener(view -> {
-            EditGoal(goalNameText.getText().toString(), oldName, goalDescText.getText().toString(), spinner.getSelectedItem().toString(), goalProgBar.getProgress());
+            String url = "http://coms-309-054.cs.iastate.edu:8080/goal?goalName=" + oldName + "&newGoalName=" + goalNameText.getText().toString() +
+                    "&goalCategory=" + spinner.getSelectedItem().toString() + "&goalProgress=" + goalProgBar.getProgress();
+
+            final String newurl = url.replace(" ", "%20");
+            EditGoalThread egt = new EditGoalThread(EditGoalActivity.this, Request.Method.PUT, newurl, new JSONObject(), new HashMap<String, String>(), headers);
+            egt.start();
+            //EditGoal(goalNameText.getText().toString(), oldName, goalDescText.getText().toString(), spinner.getSelectedItem().toString(), goalProgBar.getProgress());
             startActivity(new Intent(EditGoalActivity.this, HomescreenActivity.class));
             HomescreenActivity.editingGoalName = "N/A";
         });
 
-    }
-
-    private void EditGoal(String goalName, String newGoalName, String goalDesc, String goalCat, int goalProg) {
-        if (goalName.isEmpty()) {
-            goalNameText.setError("Goal Name is required");
-            goalNameText.requestFocus();
-            return;
-        } else if (goalDesc.isEmpty()) {
-            goalDescText.setError("Goal Description is required");
-            goalDescText.requestFocus();
-            return;
-        }
-        String token = MainActivity.token;
-
-        Toast toast = new Toast(getApplicationContext());
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        //TODO: Change url to be New Goal Url
-        String url = "http://coms-309-054.cs.iastate.edu:8080/goal?goalName=" + goalName + "&newGoalName=" + newGoalName + "&goalCategory=" + goalCat +
-                "&goalProgress=" + goalProg;
-
-        JSONObject postGoalData = new JSONObject();
-
-        try {
-            postGoalData.put("name", goalName);
-            postGoalData.put("description", goalDesc);
-            postGoalData.put("category", goalCat);
-            postGoalData.put("progress", goalProg);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("token", token);
-
-        HashMap<String, String> params = new HashMap<>();
-        params.put("goalName", goalName);
-        params.put("goalCategory", goalCat);
-
-        RestUtilities.volleyRequest(this, Request.Method.PUT, url, postGoalData, params, headers);
     }
 
 }

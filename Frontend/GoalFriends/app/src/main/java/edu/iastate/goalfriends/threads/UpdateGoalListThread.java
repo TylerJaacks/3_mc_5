@@ -30,7 +30,6 @@ public class UpdateGoalListThread extends Thread{
 
     public static String responseString = "-1";
 
-    private boolean running = true;
     private int httpMethod;
     private String url;
     private JSONObject requestBody;
@@ -95,25 +94,6 @@ public class UpdateGoalListThread extends Thread{
         };
         queue.add(sr);
     }
-
-    private ArrayList<Goal> getGoals(String token) {
-
-        String response;
-        ArrayList<Goal> goalList = new ArrayList<>();
-
-        String url = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
-
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("token", MainActivity.token);
-
-        try {
-            response = RestUtilities.volleyRequestStr(activity.getApplicationContext(), Request.Method.GET, url, new JSONObject(), new HashMap<>(), headers);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return goalList;
-    }
 }
 
 class UpdateList implements Runnable {
@@ -163,7 +143,7 @@ class RestartThread implements Runnable {
     @Override
     public void run(){
         UpdateGoalListThread.responseString = "-1";
-        UpdateGoalListThread uglt = new UpdateGoalListThread(activity, httpMethod, url, requestBody, params, headers);
-        uglt.start();
+        /*UpdateGoalListThread uglt = new UpdateGoalListThread(activity, httpMethod, url, requestBody, params, headers);
+        uglt.start();*/
     }
 }

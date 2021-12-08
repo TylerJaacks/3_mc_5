@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class HomescreenActivity extends AppCompatActivity {
     private ImageButton addGoal;
     private ImageButton profile;
     private ImageButton search;
+    private Button refreshButton;
 
     public static String editingGoalName = "N/A";
 
@@ -51,6 +53,7 @@ public class HomescreenActivity extends AppCompatActivity {
         addGoal = (ImageButton) findViewById(R.id.AddGoalbutton);
         profile = (ImageButton) findViewById(R.id.Profilebutton);
         search = (ImageButton) findViewById(R.id.Searchbutton);
+        refreshButton = (Button) findViewById(R.id.refreshButton);
 
         userGoalsListView = (ListView) findViewById(R.id.rvList);
         friendsGoalsListView = (ListView) findViewById(R.id.friendsActivityListView);
@@ -68,16 +71,7 @@ public class HomescreenActivity extends AppCompatActivity {
 
         updateAdapter();
 
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("token", MainActivity.token);
-
-        UpdateGoalListThread updateUserGoalsListThread =
-                new UpdateGoalListThread (this, Request.Method.GET, userGoalsEndpoint, new JSONObject(), new HashMap<>(), headers);
-        updateUserGoalsListThread.start();
-
-        UpdateFriendGoalsListThread updateFriendGoalsListThread =
-                new UpdateFriendGoalsListThread(this, Request.Method.GET, friendGoalsEndpoint, new JSONObject(), new HashMap<>(), headers);
-        updateFriendGoalsListThread.start();
+        refreshGoals();
 
         userGoalsListView.setOnItemClickListener((parent, view, position, id) -> {
             if(view instanceof TextView){
@@ -91,6 +85,20 @@ public class HomescreenActivity extends AppCompatActivity {
         addGoal.setOnClickListener(v -> startActivity(new Intent(HomescreenActivity.this, PostActivity.class)));
         profile.setOnClickListener(v -> startActivity(new Intent(HomescreenActivity.this, ProfileActivity.class)));
         search.setOnClickListener(v -> startActivity(new Intent(HomescreenActivity.this, SearchActivity.class)));
+        refreshButton.setOnClickListener(v -> refreshGoals());
+    }
+
+    private void refreshGoals(){
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("token", MainActivity.token);
+
+        UpdateGoalListThread updateUserGoalsListThread =
+                new UpdateGoalListThread (this, Request.Method.GET, userGoalsEndpoint, new JSONObject(), new HashMap<>(), headers);
+        updateUserGoalsListThread.start();
+
+        UpdateFriendGoalsListThread updateFriendGoalsListThread =
+                new UpdateFriendGoalsListThread(this, Request.Method.GET, friendGoalsEndpoint, new JSONObject(), new HashMap<>(), headers);
+        updateFriendGoalsListThread.start();
     }
 
     public static void updateAdapter(){

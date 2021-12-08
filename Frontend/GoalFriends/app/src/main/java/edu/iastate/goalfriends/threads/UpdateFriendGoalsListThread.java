@@ -135,8 +135,8 @@ class RestartFriendsGoalListThread implements Runnable {
 
     @Override
     public void run(){
-        UpdateGoalListThread .responseString = "-1";
-        UpdateGoalListThread  updateGoalListThread = new UpdateGoalListThread(activity, httpMethod, url, requestBody, params, headers);
-        updateGoalListThread.start();
+        UpdateFriendGoalsListThread.responseString = "-1";
+        /*UpdateGoalListThread  updateGoalListThread = new UpdateGoalListThread(activity, httpMethod, url, requestBody, params, headers);
+        updateGoalListThread.start();*/
     }
 }
