@@ -6,6 +6,7 @@ import edu.iastate.goalfriend.domainobjects.User;
 import edu.iastate.goalfriend.exceptions.CoreException;
 import edu.iastate.goalfriend.exceptions.TokenNotAvailableException;
 import edu.iastate.goalfriend.exceptions.UserDoesNotExistException;
+import edu.iastate.goalfriend.reponses.AllUsersSuccessResponse;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.UsersSuccessResponse;
 import edu.iastate.goalfriend.utils.TokenUtils;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // TODO: Do more documentation of the API.
 @RestController
@@ -44,6 +48,34 @@ public class UsersController extends CoreController {
                 throw new UserDoesNotExistException(ErrorConstants.ERROR_CODE_USER_DOESNT_EXIST, "Could not find a user with that information.");
             }
 
+        } else {
+            throw new TokenNotAvailableException(ErrorConstants.ERROR_CODE_TOKEN_NOT_AVAILABLE, "Invalid tokenObj.");
+        }
+    }
+
+    @ApiOperation(value = "Find a Registered User.", response = Iterable.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful found a user with given email and a valid token."),
+            @ApiResponse(code = 400, message = "User doesn't exist with this email."),
+            @ApiResponse(code = 400, message = "Provided token is invalid.")
+    })
+    @GetMapping(value = "/users/all", produces = "application/json")
+    public IResponse usersController(@RequestHeader String token) throws CoreException {
+
+        Token tokenObj = tokenRepository.getByToken(token);
+
+        boolean tokenIsValid = TokenUtils.isTokenValid(tokenObj, token);
+
+        List<User> userArrayList = new ArrayList<>();
+
+        if (tokenIsValid) {
+            Iterable<User> userList = userRepository.findAll();
+
+            for (User user : userList) {
+                userArrayList.add(user);
+            }
+
+            return new AllUsersSuccessResponse(userArrayList);
         } else {
             throw new TokenNotAvailableException(ErrorConstants.ERROR_CODE_TOKEN_NOT_AVAILABLE, "Invalid tokenObj.");
         }

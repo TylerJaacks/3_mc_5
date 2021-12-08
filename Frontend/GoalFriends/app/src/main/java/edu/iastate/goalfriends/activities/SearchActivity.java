@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -20,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import edu.iastate.goalfriends.R;
+import edu.iastate.goalfriends.threads.SearchUsersThread;
 import edu.iastate.goalfriends.users.User;
 
 import org.json.JSONArray;
@@ -36,13 +38,14 @@ import java.util.Map;
  */
 public class SearchActivity extends AppCompatActivity {
 
+    public static final String USERS_ENDPOINT = "http://coms-309-054.cs.iastate.edu:8080/users/all";
     private SearchView searchView;
     private ListView listView;
     private ArrayList<String> list;
     private ArrayAdapter<String > adapter;
     private ImageButton cancelButton;
 
-    public String otherUserToken;
+    public JSONObject usersJSONObject = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,18 +63,22 @@ public class SearchActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
 
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(SearchActivity.this, "Search Canceled", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(SearchActivity.this, HomescreenActivity.class));
-
-            }
+        cancelButton.setOnClickListener(view -> {
+            Toast.makeText(SearchActivity.this, "Search Canceled", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(SearchActivity.this, HomescreenActivity.class));
         });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Map<String, String> headers = new HashMap<>();
+
+                headers.put("token", MainActivity.token);
+
+                SearchUsersThread searchUsersThread = new SearchUsersThread(SearchActivity.this, Request.Method.GET, USERS_ENDPOINT, new JSONObject(), new HashMap<>(), headers);
+                searchUsersThread.start();
+
+                // TODO: Parse the JSON Object.
 
                 if (list.contains(query)){
                     adapter.getFilter().filter(query);
@@ -100,49 +107,5 @@ public class SearchActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-    }
-
-    private ArrayList<User> getUsers(String token) {
-
-        JSONObject getUserData = new JSONObject();
-        ArrayList<User> userList = new ArrayList<User>();
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://coms-309-054.cs.iastate.edu:8080/AllUsers/all";
-
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, getUserData, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray arr = response.getJSONArray("Users");
-                    for (int i = 0; i < arr.length(); i++) {
-                        JSONObject userJS = arr.getJSONObject(i);
-                        userList.add(new User(userJS.getString("name")));
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("token", token);
-                return params;
-            }
-        };
-
-        queue.add(jsonObjectRequest);
-
-        return userList;
     }
 }
