@@ -28,7 +28,7 @@ import java.util.HashMap;
  */
 public class HomescreenActivity extends AppCompatActivity {
     private static final String userGoalsEndpoint = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
-    private static final String friendGoalsEndpoint = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
+    private static final String friendGoalsEndpoint = "http://coms-309-054.cs.iastate.edu:8080/goal/friends/all";
 
     private ImageButton addGoal;
     private ImageButton profile;

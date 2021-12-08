@@ -89,22 +89,16 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         // Click listener for the search list
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View v, int position,
-                                    long arg3)
-            {
-                String username = (String)adapter.getItemAtPosition(position);
+        listView.setOnItemClickListener((adapter, v, position, arg3) -> {
+            String username = (String)adapter.getItemAtPosition(position);
 
-                // Starts the Other User Profile Activity with a bundle containing the username of the searched user
-                Intent intent = new Intent(SearchActivity.this, OtherUserProfileActivity.class);
-                Bundle b = new Bundle();
-                b.putString("username", username);
-                intent.putExtras(b);
-                startActivity(intent);
-                finish();
-            }
+            // Starts the Other User Profile Activity with a bundle containing the username of the searched user
+            Intent intent = new Intent(SearchActivity.this, OtherUserProfileActivity.class);
+            Bundle b = new Bundle();
+            b.putString("username", username);
+            intent.putExtras(b);
+            startActivity(intent);
+            finish();
         });
     }
 
