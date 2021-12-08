@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -14,11 +16,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import edu.iastate.goalfriends.R;
+import edu.iastate.goalfriends.threads.UpdateGoalListThread;
 import edu.iastate.goalfriends.users.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +43,11 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView goalCount;
     private User mainUser;
 
+    public static ArrayList<String> listItems = new ArrayList<>();
+    public static ArrayAdapter<String> adapter;
+
+    ListView goalListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +62,29 @@ public class ProfileActivity extends AppCompatActivity {
         Username = (TextView) findViewById(R.id.textView10);
         Friends = (TextView) findViewById(R.id.textView14);
         goalCount = (TextView) findViewById(R.id.textView15);
+        goalListView = (ListView) findViewById(R.id.goalList);
+
+        adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,
+                listItems);
+
+        goalListView.setAdapter(adapter);
+
+        updateAdapter();
+
+
+
+        String url = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
+
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("token", MainActivity.token);
+
+//TODO Make new goallistthread
+        // = new UpdateGoalListThread(this, Request.Method.GET, url, new JSONObject(), new HashMap<>(), headers);
+        //uglt.start();
 
         Bundle b = getIntent().getExtras();
+
 
         if (b != null) {
             String otherUsername = b.getString("username");
@@ -118,5 +148,10 @@ public class ProfileActivity extends AppCompatActivity {
     // TODO: Add GET request to get user's token with the username
     private String getToken(String username) {
         return "";
+    }
+}
+
+    public static void updateAdapter(){
+        adapter.notifyDataSetChanged();
     }
 }
