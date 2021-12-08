@@ -7,6 +7,7 @@ import edu.iastate.goalfriend.domainobjects.Goal;
 import edu.iastate.goalfriend.domainobjects.Token;
 import edu.iastate.goalfriend.domainobjects.User;
 import edu.iastate.goalfriend.exceptions.CoreException;
+import edu.iastate.goalfriend.exceptions.FriendshipDoesNotExistException;
 import edu.iastate.goalfriend.exceptions.InvalidGoalNameException;
 import edu.iastate.goalfriend.exceptions.InvalidHeadersException;
 import edu.iastate.goalfriend.reponses.GoalSearchSuccessResponse;
@@ -18,6 +19,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,18 +51,18 @@ public class GoalController extends CoreController {
 
         Goal goalToEdit = null;
 
-        for(Goal goal : goals){
-            if(goal.getGoalName().equalsIgnoreCase(newGoalName) && !goalName.equals(newGoalName)){
+        for (Goal goal : goals) {
+            if (goal.getGoalName().equalsIgnoreCase(newGoalName) && !goalName.equals(newGoalName)) {
                 throw new InvalidGoalNameException(ErrorConstants.ERROR_CODE_INVALID_GOAL_NAME, "There is already a goal called " + newGoalName);
             }
-            if(goal.getGoalName().equalsIgnoreCase(goalName)){
+            if (goal.getGoalName().equalsIgnoreCase(goalName)) {
                 goalToEdit = goal;
             }
         }
 
-        if(goalToEdit == null){
+        if (goalToEdit == null) {
             throw new InvalidGoalNameException(ErrorConstants.ERROR_CODE_INVALID_GOAL_NAME, goalName + " is not the name of an existing goal!");
-        }else{
+        } else {
             goalToEdit.setGoalName(newGoalName);
             GoalCategory goalCategory = GoalCategory.valueOf(goalCategoryStr);
             goalToEdit.setGoalCategory(goalCategory);
@@ -91,15 +93,15 @@ public class GoalController extends CoreController {
 
         Goal goalToDelete = null;
 
-        for(Goal goal : goals){
-            if(goal.getGoalName().equalsIgnoreCase(goalName)){
+        for (Goal goal : goals) {
+            if (goal.getGoalName().equalsIgnoreCase(goalName)) {
                 goalToDelete = goal;
             }
         }
 
-        if(goalToDelete == null){
+        if (goalToDelete == null) {
             throw new InvalidGoalNameException(ErrorConstants.ERROR_CODE_INVALID_GOAL_NAME, goalName + " is not the name of an existing goal!");
-        }else{
+        } else {
             // TODO: Goal is not deleting from database; throws an error
             goalRepository.delete(goalToDelete);
             return new SuccessResponse();
@@ -125,17 +127,17 @@ public class GoalController extends CoreController {
         User user = userRepository.findByToken(tokenObj);
         List<Goal> goals = goalRepository.getAllByGoalOwnerEquals(user);
 
-        for(Goal goal : goals){
-            if(goal.getGoalName().equalsIgnoreCase(goalName)){
+        for (Goal goal : goals) {
+            if (goal.getGoalName().equalsIgnoreCase(goalName)) {
                 throw new InvalidGoalNameException(ErrorConstants.ERROR_CODE_INVALID_GOAL_NAME, "There is already a goal called " + goalName);
             }
         }
 
         GoalCategory category;
 
-        try{
+        try {
             category = GoalCategory.valueOf(goalCategory);
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             category = GoalCategory.NOT_SET;
         }
 
@@ -166,16 +168,16 @@ public class GoalController extends CoreController {
 
         Goal goalToReturn = null;
 
-        for(Goal goal : goals){
-            if(goal.getGoalName().equalsIgnoreCase(goalName)){
+        for (Goal goal : goals) {
+            if (goal.getGoalName().equalsIgnoreCase(goalName)) {
                 goalToReturn = goal;
                 break;
             }
         }
 
-        if(goalToReturn == null){
+        if (goalToReturn == null) {
             throw new InvalidGoalNameException(ErrorConstants.ERROR_CODE_INVALID_GOAL_NAME, goalName + " is not the name of an existing goal!");
-        }else{
+        } else {
             return new GoalSearchSuccessResponse(goalToReturn);
         }
     }
@@ -203,6 +205,38 @@ public class GoalController extends CoreController {
         for (Goal goal : goalRepository.getAllByGoalOwnerEquals(user)) {
             goalsMap.put("Goal" + i, goal.getGoalName());
             i += 1;
+        }
+
+        return goalsMap;
+    }
+
+    @ApiOperation(value = "Gets all goals belonging to a user.", response = Iterable.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully found the goals of the user ."),
+            @ApiResponse(code = 400, message = "Invalid headers provided."),
+            @ApiResponse(code = 400, message = "Token is expired."),
+            @ApiResponse(code = 400, message = "Invalid goal name."),
+    })
+    @GetMapping(path = "/goal/friends/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map GetAllFriendsGoal(@RequestHeader("token") String token) throws CoreException {
+        if (token == null || token.isEmpty()) {
+            throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
+        }
+
+        Token tokenObj = tokenRepository.getByToken(token);
+        User user = userRepository.findByToken(tokenObj);
+
+        Map<String, String> goalsMap = new HashMap<>();
+
+        for (Friendship friendship : friendshipRepository.getAllByUsername1(user.getUsername())) {
+            User friend = userRepository.findByUsername(friendship.getUsername2());
+
+            int i = 1;
+
+            for (Goal goal : goalRepository.getAllByGoalOwnerEquals(friend)) {
+                goalsMap.put("Goal (Owner: " + goal.getGoalOwner().getUsername() + ") " + i, goal.getGoalName());
+                i += 1;
+            }
         }
 
         return goalsMap;
