@@ -46,10 +46,9 @@ public class Chat extends AppCompatActivity {
         });
 
         bSendButton.setOnClickListener(v -> {
-            // Get the message from the input
+
             String message = mInput.getText().toString();
 
-            // If the message is not empty, send the message
             if(message != null && message.length() > 0){
                 mWebSocketClient.send(message);
             }
