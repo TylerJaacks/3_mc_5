@@ -149,7 +149,6 @@ public class ProfileActivity extends AppCompatActivity {
     private String getToken(String username) {
         return "";
     }
-}
 
     public static void updateAdapter(){
         adapter.notifyDataSetChanged();
