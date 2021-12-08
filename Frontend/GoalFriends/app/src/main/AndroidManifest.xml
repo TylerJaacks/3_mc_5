@@ -46,6 +46,9 @@
             android:name=".activities.ProfileActivity"
             android:exported="true" />
         <activity
+            android:name=".activities.OtherUserProfileActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.HomescreenActivity"
             android:exported="true" />
         <activity
