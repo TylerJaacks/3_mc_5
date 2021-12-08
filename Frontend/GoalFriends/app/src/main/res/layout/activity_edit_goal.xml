@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.PostActivity">
+    tools:context=".activities.EditGoalActivity">
 
     <View
-        android:id="@+id/view2"
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:background="@color/black"
@@ -26,10 +26,10 @@
         app:layout_constraintVertical_bias="0.108" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/editGoalTextView"
         android:layout_width="189dp"
         android:layout_height="43dp"
-        android:text="New Goal"
+        android:text="Edit Goal"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
@@ -40,22 +40,22 @@
         app:layout_constraintVertical_bias="0.444" />
 
     <ImageButton
-        android:id="@+id/postGoalCancelButton"
+        android:id="@+id/editGoalCancelButton"
         android:layout_width="60dp"
         android:layout_height="46dp"
         android:background="#000000"
         android:scaleType="fitCenter"
-        app:tint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textView5"
         app:layout_constraintHorizontal_bias="0.275"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023"
-        app:srcCompat="?attr/homeAsUpIndicator" />
+        app:srcCompat="?attr/homeAsUpIndicator"
+        app:tint="#FFFFFF" />
 
     <EditText
-        android:id="@+id/editTextGoalDesc"
+        android:id="@+id/editGoalDescBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -68,7 +68,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextGoalName"
+        android:id="@+id/editGoalTitleBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -82,7 +82,7 @@
         app:layout_constraintVertical_bias="0.142" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/editGoalProgressLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Current Progress:"
@@ -95,7 +95,7 @@
         app:layout_constraintVertical_bias="0.394" />
 
     <SeekBar
-        android:id="@+id/seekBarGoalProg"
+        android:id="@+id/editGoalProgressBar"
         android:layout_width="241dp"
         android:layout_height="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -105,7 +105,7 @@
         app:layout_constraintVertical_bias="0.419" />
 
     <Spinner
-        android:id="@+id/GoalCategorySpinner"
+        android:id="@+id/editGoalCategoryBox"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:entries="@array/goal_categories"
@@ -117,13 +117,13 @@
         app:layout_constraintVertical_bias="0.27" />
 
     <Button
-        android:id="@+id/postNewGoalButton"
+        android:id="@+id/editGoalButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#377BB6"
         android:backgroundTint="#377BB6"
         android:foregroundTint="#377BB6"
-        android:text="Post"
+        android:text="Edit Goal"
         android:textColor="#FFFFFF"
         app:cornerRadius="@dimen/fab_margin"
         app:iconTint="#3E7AD5"
@@ -137,7 +137,7 @@
         app:strokeColor="#377BB6" />
 
     <TextView
-        android:id="@+id/GoalCategoryTextField"
+        android:id="@+id/goalCategoryTextField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -147,5 +147,4 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/GoalCategorySpinner"
         app:layout_constraintStart_toStartOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

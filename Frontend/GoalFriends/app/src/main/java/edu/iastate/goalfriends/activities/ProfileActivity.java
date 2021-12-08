@@ -1,23 +1,17 @@
 package edu.iastate.goalfriends.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import edu.iastate.goalfriends.R;
-import edu.iastate.goalfriends.threads.UpdateGoalListThread;
-import edu.iastate.goalfriends.users.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +19,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import edu.iastate.goalfriends.R;
+import edu.iastate.goalfriends.users.User;
 
 //TODO: Update Javadoc
 /**
