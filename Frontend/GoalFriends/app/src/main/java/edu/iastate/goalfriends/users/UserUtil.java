@@ -10,7 +10,16 @@ public final class UserUtil {
     }
 
     public static String DisplayUsers(User user) {
-        return user.getName();
+        return "Name: " + user.getName() + " \nNumber of Friends: " + user.getFriends() + " \nNumber of Goals: " + user.getGoalCount();
+    }
+
+    public static boolean isUserEmpty(User user) {
+        if (user.equals(null)) {
+            return true;
+        }
+        else {
+            return user.getName().equals("User") && user.getFriends() == 0 && user.getGoalCount() == 0;
+        }
     }
 
     public static ArrayList<User> mUsers(int amount) {

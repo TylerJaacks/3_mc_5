@@ -19,8 +19,7 @@
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        app:src="@drawable/refresh" />
+        app:layout_constraintVertical_bias="0.5" />
 
     <View
         android:id="@+id/view2"
