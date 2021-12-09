@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,6 +16,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import edu.iastate.goalfriends.activities.HomescreenActivity;
+import edu.iastate.goalfriends.activities.MainActivity;
+import edu.iastate.goalfriends.goals.Goal;
 
 public class UpdateFriendGoalsListThread extends Thread{
 
@@ -104,9 +107,17 @@ class UpdateFriendsGoalList implements Runnable {
         try {
             HomescreenActivity.friendsGoalArrayList.clear();
             JSONObject jsonObject = new JSONObject(response);
-            for (Iterator<String> it = jsonObject.keys(); it.hasNext(); ) {
-                String key = it.next();
-                HomescreenActivity.friendsGoalArrayList.add(jsonObject.get(key).toString());
+            JSONArray jsonArray = jsonObject.getJSONArray("goalList");
+            for(int i = 0; i < jsonArray.length(); i++){
+                JSONObject jo = (JSONObject) jsonArray.get(i);
+                String goalName = jo.getString("goalName");
+                double goalProgress = jo.getDouble("goalProgress");
+                String goalCategory = jo.getString("goalCategory");
+                String goalCategoryPrefix = goalCategory.equals("NOT_SET") ? "" : "[" + goalCategory + "]";
+                JSONObject ownerObj = jo.getJSONObject("goalOwner");
+                String ownerName = ownerObj.getString("username");
+                String goalString = ownerName + ": " + goalName + ": " + goalProgress + "%";
+                HomescreenActivity.friendsGoalArrayList.add(goalString);
             }
             HomescreenActivity.updateAdapter();
         } catch (JSONException e) {

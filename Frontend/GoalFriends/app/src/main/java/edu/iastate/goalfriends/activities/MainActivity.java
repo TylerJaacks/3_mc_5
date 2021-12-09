@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import edu.iastate.goalfriends.R;
+import edu.iastate.goalfriends.goals.GoalManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Button login;
     private int statusCode;
     public static String token;
+    public static GoalManager goalManager;
 
 
     @Override
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.uPassword);
         login = (Button) findViewById(R.id.buttonLogin);
         TextView here = findViewById(R.id.registerHere);
+        goalManager = new GoalManager();
 
 
         here.setOnClickListener(new View.OnClickListener() {

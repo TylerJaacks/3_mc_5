@@ -14,13 +14,20 @@ public class Goal {
     private String description;
     private int progress;
 
+    public Goal(String name, String category, int progress){
+        this.name = name;
+        this.category = category;
+        this.progress = progress;
+        this.description = "Description is not yet implemented";
+    }
+
     /**
      * Default constructor for goal
      */
     public Goal() {
         this.name = "Default";
         this.category = "None";
-        this.description = "None";
+        this.description = "Description is not yet implemented";
         this.progress = 0;
     }
 

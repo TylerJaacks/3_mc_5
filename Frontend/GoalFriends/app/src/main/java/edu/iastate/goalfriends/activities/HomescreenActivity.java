@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import edu.iastate.goalfriends.R;
+import edu.iastate.goalfriends.goals.Goal;
 import edu.iastate.goalfriends.threads.UpdateFriendGoalsListThread;
 import edu.iastate.goalfriends.threads.UpdateGoalListThread;
 
@@ -35,7 +36,7 @@ public class HomescreenActivity extends AppCompatActivity {
     private ImageButton search;
     private ImageButton refreshButton;
 
-    public static String editingGoalName = "N/A";
+    public static Goal editingGoal;
 
     public static ArrayList<String> userGoalsArrayList = new ArrayList<>();
     public static ArrayList<String> friendsGoalArrayList = new ArrayList<>();
@@ -77,7 +78,13 @@ public class HomescreenActivity extends AppCompatActivity {
             if(view instanceof TextView){
                 TextView tv = (TextView)  view;
                 String text = tv.getText().toString();
-                editingGoalName = text;
+                text = text.replace("[FITNESS] ", "").replace("[FOOD] ", "")
+                        .replace("[SOCIAL] ", "").replace("[OTHER] ", "");
+                String[] split = text.split(":");
+                text = split[0];
+                text = text.trim();
+                Goal goal = MainActivity.goalManager.getByName(text);
+                editingGoal = goal;
                 startActivity(new Intent(HomescreenActivity.this, EditGoalActivity.class));
             }
         });

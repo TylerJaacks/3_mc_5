@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -13,16 +12,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
 import edu.iastate.goalfriends.R;
-import edu.iastate.goalfriends.RestUtilities;
+import edu.iastate.goalfriends.otherutils.SpinnerUtil;
 import edu.iastate.goalfriends.threads.EditGoalThread;
 
 public class EditGoalActivity extends AppCompatActivity {
@@ -38,7 +34,7 @@ public class EditGoalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_goal);
-        String oldName = HomescreenActivity.editingGoalName;
+        String oldName = HomescreenActivity.editingGoal.getName();
         spinner = (Spinner) findViewById(R.id.editGoalCategoryBox);
         cancelButton = (ImageButton) findViewById(R.id.editGoalCancelButton);
         editGoalButton = (Button) findViewById(R.id.editGoalButton);
@@ -46,11 +42,15 @@ public class EditGoalActivity extends AppCompatActivity {
         goalDescText = (EditText) findViewById(R.id.editGoalDescBox);
         goalProgBar = (SeekBar) findViewById(R.id.editGoalProgressBar);
 
+        goalNameText.setText(oldName);
+        goalDescText.setText(HomescreenActivity.editingGoal.getDescription());
+        goalProgBar.setProgress(HomescreenActivity.editingGoal.getProgress());
+        spinner.setSelection(SpinnerUtil.catToInt(HomescreenActivity.editingGoal.getCategory()));
+
         cancelButton.setOnClickListener(view -> {
             Toast.makeText(EditGoalActivity.this, "Edit Goal Canceled", Toast.LENGTH_LONG).show();
             startActivity(new Intent(EditGoalActivity.this, HomescreenActivity.class));
         });
-
 
         HashMap<String, String> headers = new HashMap<>();
         headers.put("token", MainActivity.token);
@@ -64,7 +64,7 @@ public class EditGoalActivity extends AppCompatActivity {
             egt.start();
             //EditGoal(goalNameText.getText().toString(), oldName, goalDescText.getText().toString(), spinner.getSelectedItem().toString(), goalProgBar.getProgress());
             startActivity(new Intent(EditGoalActivity.this, HomescreenActivity.class));
-            HomescreenActivity.editingGoalName = "N/A";
+            HomescreenActivity.editingGoal = null;
         });
 
     }

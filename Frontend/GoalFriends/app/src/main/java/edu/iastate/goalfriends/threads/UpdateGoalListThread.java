@@ -14,7 +14,9 @@ import edu.iastate.goalfriends.RestUtilities;
 import edu.iastate.goalfriends.activities.HomescreenActivity;
 import edu.iastate.goalfriends.activities.MainActivity;
 import edu.iastate.goalfriends.goals.Goal;
+import edu.iastate.goalfriends.goals.GoalManager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -110,11 +112,24 @@ class UpdateList implements Runnable {
     public void run() {
         try {
             HomescreenActivity.userGoalsArrayList.clear();
+            MainActivity.goalManager.clearGoals();
             JSONObject jsonObject = new JSONObject(response);
-            for (Iterator<String> it = jsonObject.keys(); it.hasNext(); ) {
+            JSONArray jsonArray = jsonObject.getJSONArray("goalList");
+            for(int i = 0; i < jsonArray.length(); i++){
+                JSONObject jo = (JSONObject) jsonArray.get(i);
+                String goalName = jo.getString("goalName");
+                double goalProgress = jo.getDouble("goalProgress");
+                String goalCategory = jo.getString("goalCategory");
+                String goalCategoryPrefix = goalCategory.equals("NOT_SET") ? "" : "[" + goalCategory + "]";
+                String goalString = goalCategoryPrefix + " " + goalName + ": " + goalProgress + "%";
+                HomescreenActivity.userGoalsArrayList.add(goalString);
+                Goal goal = new Goal(goalName, goalCategory, (int)goalProgress);
+                MainActivity.goalManager.addGoal(goal);
+            }
+            /*for (Iterator<String> it = jsonObject.keys(); it.hasNext(); ) {
                 String key = it.next();
                 HomescreenActivity.userGoalsArrayList.add(jsonObject.get(key).toString());
-            }
+            }*/
             HomescreenActivity.updateAdapter();
         } catch (JSONException e) {
             e.printStackTrace();
