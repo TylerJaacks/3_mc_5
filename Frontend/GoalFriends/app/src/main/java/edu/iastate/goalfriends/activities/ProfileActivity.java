@@ -21,6 +21,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.goalfriends.R;
+import edu.iastate.goalfriends.threads.ProfileUpdateGoalListThread;
+import edu.iastate.goalfriends.threads.UpdateFriendGoalsListThread;
+import edu.iastate.goalfriends.threads.UpdateGoalListThread;
 import edu.iastate.goalfriends.users.User;
 
 //TODO: Update Javadoc
@@ -30,6 +33,7 @@ import edu.iastate.goalfriends.users.User;
  * their current goals, see their amount of followers, and who they are following.
  */
 public class ProfileActivity extends AppCompatActivity {
+    private static final String userGoalsEndpoint = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
 
     private ImageButton addGoal;
     private ImageButton homeScreen;
@@ -40,7 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView goalCount;
     private User mainUser;
 
-    public static ArrayList<String> listItems = new ArrayList<>();
+    public static ArrayList<String> profileUserGoalsArrayList = new ArrayList<>();
     public static ArrayAdapter<String> adapter;
 
     ListView goalListView;
@@ -63,30 +67,19 @@ public class ProfileActivity extends AppCompatActivity {
 
         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,
-                listItems);
+                profileUserGoalsArrayList);
 
         goalListView.setAdapter(adapter);
 
         updateAdapter();
 
+        refreshGoals();
 
-
-        String url = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
-
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("token", MainActivity.token);
-
-//TODO Make new goallistthread
-        // = new UpdateGoalListThread(this, Request.Method.GET, url, new JSONObject(), new HashMap<>(), headers);
-        //uglt.start();
-
-        mainUser = getUsername(token);
-
-        Username.setText(mainUser.getName());
-        Friends.setText(mainUser.getFriends());
-        goalCount.setText(mainUser.getGoalCount());
-
-        //TODO: Add the users personal goals to their profile page w/ RecyclerView
+//        mainUser = getUsername(token);
+//
+//        Username.setText(mainUser.getName());
+//        Friends.setText(mainUser.getFriends());
+//        goalCount.setText(mainUser.getGoalCount());
 
         addGoal.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, PostActivity.class)));
 
@@ -95,6 +88,15 @@ public class ProfileActivity extends AppCompatActivity {
         search.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SearchActivity.class)));
 
         settings.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SettingsActivity.class)));
+
+        goalListView.setOnItemClickListener((parent, view, position, id) -> {
+            if(view instanceof TextView){
+                TextView tv = (TextView)  view;
+                String text = tv.getText().toString();
+                HomescreenActivity.editingGoalName = text;
+                startActivity(new Intent(ProfileActivity.this, EditGoalActivity.class));
+            }
+        });
     }
 
     /**
@@ -141,4 +143,14 @@ public class ProfileActivity extends AppCompatActivity {
     public static void updateAdapter(){
         adapter.notifyDataSetChanged();
     }
+
+    private void refreshGoals(){
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("token", MainActivity.token);
+
+        ProfileUpdateGoalListThread updateUserGoalsListThread =
+                new ProfileUpdateGoalListThread (this, Request.Method.GET, userGoalsEndpoint, new JSONObject(), new HashMap<>(), headers);
+        updateUserGoalsListThread.start();
+    }
+
 }
