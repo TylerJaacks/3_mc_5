@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,6 +31,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,12 +39,12 @@ import java.util.Map;
  * the server to view their goals or add them as friends.
  */
 public class SearchActivity extends AppCompatActivity {
+    public static List<String> userList = new ArrayList<>();
 
     public static final String USERS_ENDPOINT = "http://coms-309-054.cs.iastate.edu:8080/users/all";
     private SearchView searchView;
     private ListView listView;
-    private ArrayList<String> list;
-    private ArrayAdapter<String > adapter;
+    public ArrayAdapter<String > adapter;
     private ImageButton cancelButton;
 
     public JSONObject usersJSONObject = new JSONObject();
@@ -56,17 +58,29 @@ public class SearchActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.resultslistView);
         cancelButton = (ImageButton) findViewById(R.id.searchCancelButton);
 
-
-        list = new ArrayList<>();
-        list.add("Test");
-
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, userList);
         listView.setAdapter(adapter);
 
         cancelButton.setOnClickListener(view -> {
             Toast.makeText(SearchActivity.this, "Search Canceled", Toast.LENGTH_LONG).show();
             startActivity(new Intent(SearchActivity.this, HomescreenActivity.class));
         });
+
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                renderList(true);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                if (searchView.getQuery().length() == 0) {
+//                    renderList(true);
+//                }
+//                return false;
+//            }
+//        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -75,16 +89,9 @@ public class SearchActivity extends AppCompatActivity {
 
                 headers.put("token", MainActivity.token);
 
-                SearchUsersThread searchUsersThread = new SearchUsersThread(SearchActivity.this, Request.Method.GET, USERS_ENDPOINT, new JSONObject(), new HashMap<>(), headers);
+                SearchUsersThread searchUsersThread = new SearchUsersThread(SearchActivity.this, Request.Method.GET, USERS_ENDPOINT, new JSONObject(), new HashMap<>(), headers, query);
                 searchUsersThread.start();
 
-                // TODO: Parse the JSON Object.
-
-                if (list.contains(query)){
-                    adapter.getFilter().filter(query);
-                } else {
-                    Toast.makeText(SearchActivity.this, "No Match found",Toast.LENGTH_LONG).show();
-                }
                 return false;
             }
 
