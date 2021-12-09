@@ -41,7 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageButton search;
     private ImageButton settings;
     private TextView Username;
-    private TextView Friends;
+    private TextView friendCount;
     private TextView goalCount;
     private User mainUser;
 
@@ -62,8 +62,8 @@ public class ProfileActivity extends AppCompatActivity {
         search = (ImageButton) findViewById(R.id.Searchbutton);
         settings = (ImageButton) findViewById(R.id.settingsButton);
         Username = (TextView) findViewById(R.id.textView10);
-        Friends = (TextView) findViewById(R.id.textView14);
-        goalCount = (TextView) findViewById(R.id.textView15);
+        friendCount = (TextView) findViewById(R.id.textView15);
+        goalCount = (TextView) findViewById(R.id.textView14);
         goalListView = (ListView) findViewById(R.id.goalList);
 
         adapter = new ArrayAdapter<>(this,
@@ -75,6 +75,8 @@ public class ProfileActivity extends AppCompatActivity {
         updateAdapter();
 
         refreshGoals();
+
+        goalCount.setText(String.valueOf(MainActivity.goalManager.getGoalList().size()));
 
         addGoal.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, PostActivity.class)));
 
@@ -153,5 +155,4 @@ public class ProfileActivity extends AppCompatActivity {
                 new ProfileUpdateGoalListThread (this, Request.Method.GET, userGoalsEndpoint, new JSONObject(), new HashMap<>(), headers);
         updateUserGoalsListThread.start();
     }
-
 }
