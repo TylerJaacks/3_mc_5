@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.goalfriends.R;
+import edu.iastate.goalfriends.goals.Goal;
 import edu.iastate.goalfriends.threads.ProfileUpdateGoalListThread;
 import edu.iastate.goalfriends.threads.UpdateFriendGoalsListThread;
 import edu.iastate.goalfriends.threads.UpdateGoalListThread;
@@ -75,12 +76,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         refreshGoals();
 
-//        mainUser = getUsername(token);
-//
-//        Username.setText(mainUser.getName());
-//        Friends.setText(mainUser.getFriends());
-//        goalCount.setText(mainUser.getGoalCount());
-
         addGoal.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, PostActivity.class)));
 
         homeScreen.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, HomescreenActivity.class)));
@@ -93,7 +88,13 @@ public class ProfileActivity extends AppCompatActivity {
             if(view instanceof TextView){
                 TextView tv = (TextView)  view;
                 String text = tv.getText().toString();
-                HomescreenActivity.editingGoalName = text;
+                text = text.replace("[FITNESS] ", "").replace("[FOOD] ", "")
+                        .replace("[SOCIAL] ", "").replace("[OTHER] ", "");
+                String[] split = text.split(":");
+                text = split[0];
+                text = text.trim();
+                Goal goal = MainActivity.goalManager.getByName(text);
+                HomescreenActivity.editingGoal = goal;
                 startActivity(new Intent(ProfileActivity.this, EditGoalActivity.class));
             }
         });
