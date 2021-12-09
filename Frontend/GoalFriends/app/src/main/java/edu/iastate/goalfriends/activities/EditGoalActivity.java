@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 import edu.iastate.goalfriends.R;
 import edu.iastate.goalfriends.otherutils.SpinnerUtil;
+import edu.iastate.goalfriends.threads.DeleteGoalThread;
 import edu.iastate.goalfriends.threads.EditGoalThread;
 
 public class EditGoalActivity extends AppCompatActivity {
@@ -29,6 +30,7 @@ public class EditGoalActivity extends AppCompatActivity {
     private EditText goalNameText;
     private EditText goalDescText;
     private SeekBar goalProgBar;
+    private Button deleteGoalButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class EditGoalActivity extends AppCompatActivity {
         goalNameText = (EditText) findViewById(R.id.editGoalTitleBox);
         goalDescText = (EditText) findViewById(R.id.editGoalDescBox);
         goalProgBar = (SeekBar) findViewById(R.id.editGoalProgressBar);
+        deleteGoalButton = (Button) findViewById(R.id.deleteGoalButton);
 
         goalNameText.setText(oldName);
         goalDescText.setText(HomescreenActivity.editingGoal.getDescription());
@@ -63,6 +66,15 @@ public class EditGoalActivity extends AppCompatActivity {
             EditGoalThread egt = new EditGoalThread(EditGoalActivity.this, Request.Method.PUT, newurl, new JSONObject(), new HashMap<String, String>(), headers);
             egt.start();
             //EditGoal(goalNameText.getText().toString(), oldName, goalDescText.getText().toString(), spinner.getSelectedItem().toString(), goalProgBar.getProgress());
+            startActivity(new Intent(EditGoalActivity.this, HomescreenActivity.class));
+            HomescreenActivity.editingGoal = null;
+        });
+
+        deleteGoalButton.setOnClickListener(view -> {
+            String url = "http://coms-309-054.cs.iastate.edu:8080/goal?goalName=" + oldName;
+            final String newurl = url.replace(" ", "%20");
+            DeleteGoalThread dgt = new DeleteGoalThread(EditGoalActivity.this, Request.Method.DELETE, newurl, new JSONObject(), new HashMap<String, String>(), headers);
+            dgt.start();
             startActivity(new Intent(EditGoalActivity.this, HomescreenActivity.class));
             HomescreenActivity.editingGoal = null;
         });
