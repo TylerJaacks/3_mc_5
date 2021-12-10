@@ -3,6 +3,7 @@ package edu.iastate.goalfriends.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView Username;
     private TextView friendCount;
     private TextView goalCount;
+    private Button viewFriends;
     private User mainUser;
 
     public static ArrayList<String> profileUserGoalsArrayList = new ArrayList<>();
@@ -65,6 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
         friendCount = (TextView) findViewById(R.id.textView15);
         goalCount = (TextView) findViewById(R.id.textView14);
         goalListView = (ListView) findViewById(R.id.goalList);
+        viewFriends = (Button) findViewById(R.id.ViewFriendsButton);
 
         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,
@@ -85,6 +88,8 @@ public class ProfileActivity extends AppCompatActivity {
         search.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SearchActivity.class)));
 
         settings.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SettingsActivity.class)));
+
+        viewFriends.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, FriendsListActivity.class)));
 
         goalListView.setOnItemClickListener((parent, view, position, id) -> {
             if(view instanceof TextView){
