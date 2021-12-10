@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+import edu.iastate.goalfriends.FriendManager;
 import edu.iastate.goalfriends.R;
 import edu.iastate.goalfriends.goals.Goal;
 import edu.iastate.goalfriends.threads.AlreadyFriendsThread;
@@ -108,7 +109,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: FriendsListView Thingy
+        viewFriends.setOnClickListener(view -> {
+            startActivity(new Intent(ProfileActivity.this, FriendsActivity.class));
+        });
 
         String email = MainActivity.email;
 
@@ -117,17 +120,8 @@ public class ProfileActivity extends AppCompatActivity {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("token", MainActivity.token);
 
-        GetFriendsListThread getFriendsListThread = new GetFriendsListThread(this, 0, "http://coms-309-054.cs.iastate.edu:8080/friendship", new JSONObject(), new HashMap<>(), headers);
-        getFriendsListThread.start();
-
-
-        Log.d("goalfriend-app", "Friends: " + friends.size());
-
-//        if (friends.size() != 0) {
-//            friendCount.setText(friends.size());
-//        }
-
-        Log.d("", "");
+//        GetFriendsListThread getFriendsListThread = new GetFriendsListThread(this, 0, "http://coms-309-054.cs.iastate.edu:8080/friendship", new JSONObject(), new HashMap<>(), headers);
+//        getFriendsListThread.start();
     }
 
     private void getUsername(String token, String email){
