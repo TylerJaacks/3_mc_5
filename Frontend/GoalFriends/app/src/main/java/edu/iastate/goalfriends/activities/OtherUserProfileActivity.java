@@ -47,17 +47,13 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     private ImageButton homeScreen;
     private ImageButton search;
     private TextView Username;
-    private TextView Friends;
     private TextView goalCount;
     private Button addFriend;
     private ImageButton cancelButton;
 
     public static List<String> friends = new ArrayList();
-    private static final String friendGoalsEndpoint = "http://coms-309-054.cs.iastate.edu:8080/goal/friends/all";
     public static ArrayList<String> listItems = new ArrayList<>();
     public static ArrayAdapter<String> adapter;
-
-    public static Goal editingGoal;
 
     ListView goalListView;
 
@@ -128,6 +124,10 @@ public class OtherUserProfileActivity extends AppCompatActivity {
 
         addFriend.setOnClickListener(v -> addFriend(otherUsername, MainActivity.token));
 
+    }
+
+    public void setGoalCount(){
+        goalCount.setText(String.valueOf(listItems.size()));
     }
 
     /**

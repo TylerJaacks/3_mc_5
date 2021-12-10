@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         goalManager = new GoalManager();
         friendManager = new FriendManager();
 
+        // forcing Kyle's MainActivity to update in his pull
 
         here.setOnClickListener(new View.OnClickListener() {
             @Override

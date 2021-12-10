@@ -141,6 +141,7 @@ class ProfileUpdateList implements Runnable {
                     String goalString = goalCategoryPrefix + " " + goalName + ": " + goalProgress + "%";
                     OtherUserProfileActivity.listItems.add(goalString);
                 }
+                ((OtherUserProfileActivity) activity).setGoalCount();
                 OtherUserProfileActivity.updateAdapter();
             }
         } catch (JSONException e) {
