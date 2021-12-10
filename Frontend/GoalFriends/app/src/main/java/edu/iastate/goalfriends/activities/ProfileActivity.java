@@ -103,7 +103,6 @@ public class ProfileActivity extends AppCompatActivity {
         addGoal.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, PostActivity.class)));
         homeScreen.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, HomescreenActivity.class)));
         search.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SearchActivity.class)));
-        settings.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SettingsActivity.class)));
         goalListView.setOnItemClickListener((parent, view, position, id) -> {
             if(view instanceof TextView){
                 TextView tv = (TextView)  view;
