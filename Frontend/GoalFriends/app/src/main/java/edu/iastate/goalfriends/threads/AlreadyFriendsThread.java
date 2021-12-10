@@ -1,5 +1,6 @@
 package edu.iastate.goalfriends.threads;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -11,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -19,7 +21,7 @@ import edu.iastate.goalfriends.activities.ProfileActivity;
 
 public class AlreadyFriendsThread extends Thread{
 
-    private OtherUserProfileActivity activity;
+    private Activity activity;
 
     public static String responseString = "-1";
 
@@ -29,7 +31,7 @@ public class AlreadyFriendsThread extends Thread{
     private Map<String, String> params;
     private Map<String, String> headers;
 
-    public AlreadyFriendsThread(OtherUserProfileActivity activity, int httpMethod, String url, JSONObject requestBody, Map<String, String> params, Map<String, String> headers){
+    public AlreadyFriendsThread(Activity activity, int httpMethod, String url, JSONObject requestBody, Map<String, String> params, Map<String, String> headers){
         this.activity = activity;
         this.httpMethod = httpMethod;
         this.url = url;
@@ -61,16 +63,17 @@ public class AlreadyFriendsThread extends Thread{
             }
         }
 
+        ProfileActivity.friends.clear();
         OtherUserProfileActivity.friends.clear();
 
         try{
             JSONObject friends = new JSONObject(responseString);
-            JSONArray friendsArray = friends.getJSONArray("friends");
+            for (Iterator<String> it = friends.keys(); it.hasNext(); ) {
+                String key = it.next();
 
-            for (int i = 0; i < friendsArray.length(); i++) {
-                JSONObject object = friendsArray.getJSONObject(i);
-                String username = object.getString("username");
+                String username = friends.getString(key);
                 OtherUserProfileActivity.friends.add(username);
+                ProfileActivity.friends.add(username);
             }
         } catch (JSONException e) {
             e.printStackTrace();

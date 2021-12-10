@@ -121,7 +121,7 @@ class ProfileUpdateList implements Runnable {
                 MainActivity.goalManager.addGoal(goal);
             }
 
-            ProfileActivity.goalCount.setText(String.valueOf(jsonArray.length()));
+            activity.goalCount.setText(String.valueOf(jsonArray.length()));
 
             ProfileActivity.updateAdapter();
         } catch (JSONException e) {
