@@ -28,7 +28,11 @@ import java.util.Map;
 
 import edu.iastate.goalfriends.R;
 import edu.iastate.goalfriends.RestUtilities;
+import edu.iastate.goalfriends.goals.Goal;
 import edu.iastate.goalfriends.threads.AlreadyFriendsThread;
+import edu.iastate.goalfriends.threads.ProfileUpdateGoalListThread;
+import edu.iastate.goalfriends.threads.UpdateFriendGoalsListThread;
+import edu.iastate.goalfriends.threads.UpdateGoalListThread;
 import edu.iastate.goalfriends.users.User;
 
 /**
@@ -51,11 +55,14 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     private ImageButton cancelButton;
 
     public static List<String> friends = new ArrayList();
-
+    private static final String friendGoalsEndpoint = "http://coms-309-054.cs.iastate.edu:8080/goal/friends/all";
     public static ArrayList<String> listItems = new ArrayList<>();
     public static ArrayAdapter<String> adapter;
 
+    public static Goal editingGoal;
+
     ListView goalListView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +92,23 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         goalListView.setAdapter(adapter);
 
         updateAdapter();
+
+        refreshGoals();
+
+        goalListView.setOnItemClickListener((parent, view, position, id) -> {
+            if(view instanceof TextView){
+                TextView tv = (TextView)  view;
+                String text = tv.getText().toString();
+                text = text.replace("[FITNESS] ", "").replace("[FOOD] ", "")
+                        .replace("[SOCIAL] ", "").replace("[OTHER] ", "");
+                String[] split = text.split(":");
+                text = split[0];
+                text = text.trim();
+                Goal goal = MainActivity.goalManager.getByName(text);
+                editingGoal = goal;
+                startActivity(new Intent(OtherUserProfileActivity.this, EditGoalActivity.class));
+            }
+        });
 
         Bundle b = getIntent().getExtras();
 
@@ -193,5 +217,14 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         RestUtilities.volleyRequest(this, Request.Method.POST, url, friendshipJSON, params, headers);
 
         Toast.makeText(OtherUserProfileActivity.this, "Added " + otherUsername + " as a friend!", Toast.LENGTH_LONG).show();
+    }
+
+    private void refreshGoals(){
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("token", MainActivity.token);
+
+         updateUserGoalsListThread =
+                new ProfileUpdateGoalListThread (this, Request.Method.GET, friendGoalsEndpoint, new JSONObject(), new HashMap<>(), headers);
+        .start();
     }
 }
