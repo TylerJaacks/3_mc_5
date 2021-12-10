@@ -44,7 +44,7 @@ public class SearchActivity extends AppCompatActivity {
     public static final String USERS_ENDPOINT = "http://coms-309-054.cs.iastate.edu:8080/users/all";
     private SearchView searchView;
     private ListView listView;
-    public ArrayAdapter<String > adapter;
+    public static ArrayAdapter<String > adapter;
     private ImageButton cancelButton;
 
     public JSONObject usersJSONObject = new JSONObject();
@@ -58,7 +58,9 @@ public class SearchActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.resultslistView);
         cancelButton = (ImageButton) findViewById(R.id.searchCancelButton);
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, userList);
+        adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,
+                userList);
         listView.setAdapter(adapter);
 
         cancelButton.setOnClickListener(view -> {
@@ -97,7 +99,6 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -114,5 +115,18 @@ public class SearchActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        updateAdapter();
+
     }
+
+    public static void addString(String toAdd){
+        userList.add(toAdd);
+        updateAdapter();
+    }
+
+    public static void updateAdapter(){
+        adapter.notifyDataSetChanged();
+    }
+
 }

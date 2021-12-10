@@ -118,17 +118,19 @@ class SearchUsersRunnable implements Runnable {
             for (int i = 0; i < userList.length(); i++) {
                 JSONObject userObject = (JSONObject) userList.get(i);
 
-                SearchActivity.userList.add(userObject.get("username").toString());
+                SearchActivity.userList.add(userObject.getString("username"));
             }
 
             if (SearchActivity.userList.contains(query)){
+                System.out.println("Found " + query);
                 activity.adapter.getFilter().filter(query);
-                activity.adapter.notifyDataSetChanged();
+                //SearchActivity.addString(query);
             } else {
+                SearchActivity.userList.clear();
                 Toast.makeText(activity, "No Match found",Toast.LENGTH_LONG).show();
             }
 
-            activity.adapter.notifyDataSetChanged();
+            SearchActivity.updateAdapter();
 
             activity.usersJSONObject = jsonObject;
         } catch (JSONException e) {

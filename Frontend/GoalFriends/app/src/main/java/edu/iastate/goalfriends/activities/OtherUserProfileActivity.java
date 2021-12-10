@@ -68,7 +68,6 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         addFriend = (Button) findViewById(R.id.AddFriendButton);
         cancelButton = (ImageButton) findViewById(R.id.otherProfileCancel);
 
-
         adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,
                 listItems);
