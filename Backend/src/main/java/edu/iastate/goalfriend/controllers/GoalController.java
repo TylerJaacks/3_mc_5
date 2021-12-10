@@ -6,10 +6,7 @@ import edu.iastate.goalfriend.domainobjects.Friendship;
 import edu.iastate.goalfriend.domainobjects.Goal;
 import edu.iastate.goalfriend.domainobjects.Token;
 import edu.iastate.goalfriend.domainobjects.User;
-import edu.iastate.goalfriend.exceptions.CoreException;
-import edu.iastate.goalfriend.exceptions.FriendshipDoesNotExistException;
-import edu.iastate.goalfriend.exceptions.InvalidGoalNameException;
-import edu.iastate.goalfriend.exceptions.InvalidHeadersException;
+import edu.iastate.goalfriend.exceptions.*;
 import edu.iastate.goalfriend.reponses.GoalListSuccessResponse;
 import edu.iastate.goalfriend.reponses.GoalSearchSuccessResponse;
 import edu.iastate.goalfriend.reponses.IResponse;
@@ -229,5 +226,24 @@ public class GoalController extends CoreController {
         }
 
         return new GoalListSuccessResponse(goals);
+    }
+    @GetMapping(path = "/goal/user", produces = MediaType.APPLICATION_JSON_VALUE)
+    public IResponse GetUsersGoals(@RequestHeader("token") String token, @RequestParam("username") String otherUsername) throws CoreException {
+        if (token == null || token.isEmpty()) {
+            throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
+        }
+
+        Token tokenObj = tokenRepository.getByToken(token);
+        User user = userRepository.findByUsername(otherUsername);
+        if(user == null){
+            throw new UserDoesNotExistException(ErrorConstants.ERROR_CODE_USER_DOESNT_EXIST, "That user does not exist!");
+        }
+
+        List<Goal> goals = new ArrayList<>();
+
+        goals.addAll(goalRepository.getAllByGoalOwnerEquals(user));
+
+        return new GoalListSuccessResponse(goals);
+
     }
 }
