@@ -112,7 +112,7 @@ class GetUserProfileRunnable implements Runnable {
         try {
             JSONObject jsonObject = new JSONObject(response);
 
-            ProfileActivity.jsonObject = jsonObject;
+            //ProfileActivity.jsonObject = jsonObject;
 
             Log.d("goalfriend-app", "Test");
         } catch (JSONException e) {

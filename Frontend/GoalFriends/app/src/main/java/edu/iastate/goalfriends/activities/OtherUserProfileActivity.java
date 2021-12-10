@@ -162,13 +162,12 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     private void addFriend(String otherUsername, String userToken) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String url = "http://coms-309-054.cs.iastate.edu:8080/friendship";
+        String url = "http://coms-309-054.cs.iastate.edu:8080/friendship?otherUsername=" + otherUsername;
 
         JSONObject friendshipJSON = new JSONObject();
 
         try {
             friendshipJSON.put("token", userToken);
-            friendshipJSON.put("username", otherUsername);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -177,7 +176,6 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         headers.put("token", userToken);
 
         HashMap<String, String> params = new HashMap<>();
-        params.put("otherUsername", otherUsername);
 
         RestUtilities.volleyRequest(this, Request.Method.POST, url, friendshipJSON, params, headers);
 

@@ -2,6 +2,7 @@ package edu.iastate.goalfriends.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -11,8 +12,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,9 +39,7 @@ import edu.iastate.goalfriends.users.User;
  * their current goals, see their amount of followers, and who they are following.
  */
 public class ProfileActivity extends AppCompatActivity {
-    private static final String userGoalsEndpoint = "http://coms-309-054.cs.iastate.edu:8080/user?username=";
-
-    public static JSONObject jsonObject;
+    private static final String userGoalsEndpoint = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
 
     private ImageButton addGoal;
     private ImageButton homeScreen;
@@ -48,6 +50,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView goalCount;
     private Button viewFriends;
     private User mainUser;
+
+    private String myUsername = "Username";
 
     public static ArrayList<String> profileUserGoalsArrayList = new ArrayList<>();
     public static ArrayAdapter<String> adapter;
@@ -79,35 +83,19 @@ public class ProfileActivity extends AppCompatActivity {
 
         updateAdapter();
 
-        String url = "http://coms-309-054.cs.iastate.edu:8080/users?email=" + MainActivity.email.replaceAll("@", "%40");
-
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put("token", MainActivity.token);
-
-        GetUserProfileThread getUserProfileThread = new GetUserProfileThread(
-                ProfileActivity.this,
-                Request.Method.GET,
-                url,
-                new JSONObject(),
-                new HashMap<>(),
-                headers);
-        getUserProfileThread.start();
-
         refreshGoals();
-
-        if (jsonObject != null) {
-            Log.d("goalfriends-app", "JSON not null!");
-        }
 
         goalCount.setText(String.valueOf(MainActivity.goalManager.getGoalList().size()));
 
         addGoal.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, PostActivity.class)));
+
         homeScreen.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, HomescreenActivity.class)));
+
         search.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SearchActivity.class)));
+
         settings.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SettingsActivity.class)));
 
-        viewFriends.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, FriendsListActivity.class)));
+        //viewFriends.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, FriendsListActivity.class)));
 
         goalListView.setOnItemClickListener((parent, view, position, id) -> {
             if(view instanceof TextView){
@@ -123,6 +111,88 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(new Intent(ProfileActivity.this, EditGoalActivity.class));
             }
         });
+        String email = MainActivity.email;
+
+        getUsername(token, email);
+
+    }
+
+    private void getUsername(String token, String email){
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        HashMap<String, String> params = new HashMap<>();
+
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("token", token);
+
+
+        StringRequest sr = new StringRequest(Request.Method.GET, "http://coms-309-054.cs.iastate.edu:8080/users?email=" + email,
+                response -> {
+                    Log.e("HttpClient", "success! response: " + response);
+                    try {
+                        JSONObject jo = new JSONObject(response);
+                        String username = jo.getString("username");
+                        myUsername = username;
+                        Username.setText(myUsername);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Log.e("HttpClient", "error: " + error.toString()))
+        {
+            @Override
+            protected Map<String,String> getParams(){
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders()  {
+                return headers;
+            }
+        };
+        queue.add(sr);
+    }
+
+
+
+    /**
+     * Gets the Users Username, Friend Count, and Goal Count
+     * @param token Login Token
+     * @return a User for a given token.
+     */
+    private User getUsername(String token) {
+        JSONObject getUser = new JSONObject();
+        User user = new User();
+
+        String url = "http://coms-309-054.cs.iastate.edu:8080/user";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, getUser, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                        JSONObject userJS = response.getJSONObject("MainUser");
+                    new User(userJS.getString("name"), userJS.getInt("friends"), userJS.getInt("goalCount"));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, Throwable::printStackTrace) {
+            @Override
+            public Map<String, String> getHeaders()   {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", token);
+                return params;
+            }
+        };
+
+        return user;
+    }
+
+    // TODO: Add GET request to get user's token with the username
+    private String getToken(String username) {
+        return "";
     }
 
     public static void updateAdapter(){
