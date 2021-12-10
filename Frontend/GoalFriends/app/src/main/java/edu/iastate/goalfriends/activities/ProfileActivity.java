@@ -152,49 +152,6 @@ public class ProfileActivity extends AppCompatActivity {
         queue.add(sr);
     }
 
-
-
-    /**
-     * Gets the Users Username, Friend Count, and Goal Count
-     * @param token Login Token
-     * @return a User for a given token.
-     */
-    private User getUsername(String token) {
-        JSONObject getUser = new JSONObject();
-        User user = new User();
-
-        String url = "http://coms-309-054.cs.iastate.edu:8080/user";
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, getUser, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-
-                        JSONObject userJS = response.getJSONObject("MainUser");
-                    new User(userJS.getString("name"), userJS.getInt("friends"), userJS.getInt("goalCount"));
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, Throwable::printStackTrace) {
-            @Override
-            public Map<String, String> getHeaders()   {
-                Map<String, String> params = new HashMap<>();
-                params.put("token", token);
-                return params;
-            }
-        };
-
-        return user;
-    }
-
-    // TODO: Add GET request to get user's token with the username
-    private String getToken(String username) {
-        return "";
-    }
-
     public static void updateAdapter(){
         adapter.notifyDataSetChanged();
     }
