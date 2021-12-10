@@ -2,22 +2,21 @@ package edu.iastate.goalfriends.threads;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
 
-import edu.iastate.goalfriends.activities.SearchActivity;
+import edu.iastate.goalfriends.activities.ProfileActivity;
 
-public class SearchUsersThread extends Thread {
-    private SearchActivity activity;
+public class GetUserProfileThread extends Thread {
+    private ProfileActivity activity;
 
     public static String responseString = "-1";
 
@@ -26,16 +25,20 @@ public class SearchUsersThread extends Thread {
     private JSONObject requestBody;
     private Map<String, String> params;
     private Map<String, String> headers;
-    private String query;
 
-    public SearchUsersThread(SearchActivity activity, int httpMethod, String url, JSONObject requestBody, Map<String, String> params, Map<String, String> headers, String query) {
+    public GetUserProfileThread(
+            ProfileActivity activity,
+            int httpMethod,
+            String url,
+            JSONObject requestBody,
+            Map<String, String> params,
+            Map<String, String> headers) {
         this.activity = activity;
         this.httpMethod = httpMethod;
         this.url = url;
         this.requestBody = requestBody;
         this.params = params;
         this.headers = headers;
-        this.query = query;
     }
 
     @Override
@@ -61,7 +64,7 @@ public class SearchUsersThread extends Thread {
             }
         }
 
-        activity.runOnUiThread(new SearchUsersRunnable(activity, responseString, query));
+        activity.runOnUiThread(new GetUserProfileRunnable(activity, responseString));
     }
 
     private void volleyRequestStr(Context context,
@@ -93,12 +96,12 @@ public class SearchUsersThread extends Thread {
     }
 }
 
-class SearchUsersRunnable implements Runnable {
-    private SearchActivity activity;
+class GetUserProfileRunnable implements Runnable {
+    private ProfileActivity activity;
     private String response;
     private String query;
 
-    public SearchUsersRunnable(SearchActivity activity, String response, String query){
+    public GetUserProfileRunnable(ProfileActivity activity, String response){
         this.activity = activity;
         this.response = response;
         this.query = query;
@@ -108,26 +111,10 @@ class SearchUsersRunnable implements Runnable {
     public void run() {
         try {
             JSONObject jsonObject = new JSONObject(response);
-            JSONArray userList = jsonObject.getJSONArray("userList");
 
-            SearchActivity.userList.clear();
+            ProfileActivity.jsonObject = jsonObject;
 
-            for (int i = 0; i < userList.length(); i++) {
-                JSONObject userObject = (JSONObject) userList.get(i);
-
-                SearchActivity.userList.add(userObject.get("username").toString());
-            }
-
-            if (SearchActivity.userList.contains(query)){
-                activity.adapter.getFilter().filter(query);
-                activity.adapter.notifyDataSetChanged();
-            } else {
-                Toast.makeText(activity, "No Match found",Toast.LENGTH_LONG).show();
-            }
-
-            activity.adapter.notifyDataSetChanged();
-
-            activity.usersJSONObject = jsonObject;
+            Log.d("goalfriend-app", "Test");
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public static String token;
     public static GoalManager goalManager;
 
+    public static String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +109,10 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     Toast.makeText(MainActivity.this, "Successfully Logged in", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(MainActivity.this, HomescreenActivity.class));
 
+                    email = userEmail;
+
+                    startActivity(new Intent(MainActivity.this, HomescreenActivity.class));
                 }
                 else{
                     try {
