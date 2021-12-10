@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
         here.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RegisterHere.class)));
 
-
         login.setOnClickListener(view -> login(user.getText().toString().trim(), password.getText().toString().trim()));
     }
 
