@@ -13,8 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.HttpResponse;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -23,13 +22,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import edu.iastate.goalfriends.R;
 import edu.iastate.goalfriends.goals.Goal;
+import edu.iastate.goalfriends.threads.GetFriendsListThread;
 import edu.iastate.goalfriends.threads.ProfileUpdateGoalListThread;
-import edu.iastate.goalfriends.threads.UpdateFriendGoalsListThread;
-import edu.iastate.goalfriends.threads.UpdateGoalListThread;
 import edu.iastate.goalfriends.users.User;
 
 //TODO: Update Javadoc
@@ -40,6 +40,9 @@ import edu.iastate.goalfriends.users.User;
  */
 public class ProfileActivity extends AppCompatActivity {
     private static final String userGoalsEndpoint = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
+    private static final String friendsEndpoint = "http://coms-309-054.cs.iastate.edu:8080/friendship";
+
+    public static List<String> friends = new ArrayList<>();
 
     private ImageButton addGoal;
     private ImageButton homeScreen;
@@ -65,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         String token = MainActivity.token;
 
-        addGoal = (ImageButton) findViewById(R.id.AddGoalbutton);
+        addGoal = findViewById(R.id.AddGoalbutton);
         homeScreen = (ImageButton) findViewById(R.id.Homescreenbutton);
         search = (ImageButton) findViewById(R.id.Searchbutton);
         settings = (ImageButton) findViewById(R.id.settingsButton);
@@ -86,17 +89,10 @@ public class ProfileActivity extends AppCompatActivity {
         refreshGoals();
 
         goalCount.setText(String.valueOf(MainActivity.goalManager.getGoalList().size()));
-
         addGoal.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, PostActivity.class)));
-
         homeScreen.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, HomescreenActivity.class)));
-
         search.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SearchActivity.class)));
-
         settings.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SettingsActivity.class)));
-
-        //viewFriends.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, FriendsListActivity.class)));
-
         goalListView.setOnItemClickListener((parent, view, position, id) -> {
             if(view instanceof TextView){
                 TextView tv = (TextView)  view;
@@ -111,10 +107,20 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(new Intent(ProfileActivity.this, EditGoalActivity.class));
             }
         });
+
+        // TODO: FriendsListView Thingy
+
         String email = MainActivity.email;
 
         getUsername(token, email);
 
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("token", token);
+
+        GetFriendsListThread getFriendsListThread = new GetFriendsListThread(ProfileActivity.this, Request.Method.GET, friendsEndpoint, new JSONObject(), new HashMap<>(), headers);
+        getFriendsListThread.start();
+
+        Log.d("", "");
     }
 
     private void getUsername(String token, String email){
@@ -150,6 +156,42 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
         queue.add(sr);
+    }
+
+    private JSONObject getFriends(String token) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        HashMap<String, String> params = new HashMap<>();
+
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("token", token);
+
+        AtomicReference<JSONObject> friends = new AtomicReference<>(new JSONObject());
+
+        StringRequest sr = new StringRequest(Request.Method.GET, "http://coms-309-054.cs.iastate.edu:8080/friendship",
+                response -> {
+                    Log.e("HttpClient", "success! response: " + response);
+                    try {
+                        friends.set(new JSONObject(response));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Log.e("HttpClient", "error: " + error.toString()))
+        {
+            @Override
+            protected Map<String,String> getParams(){
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders()  {
+                return headers;
+            }
+        };
+
+        queue.add(sr);
+
+        return friends.get();
     }
 
     public static void updateAdapter(){
