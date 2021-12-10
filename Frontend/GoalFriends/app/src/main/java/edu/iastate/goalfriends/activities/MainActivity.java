@@ -55,23 +55,10 @@ public class MainActivity extends AppCompatActivity {
         goalManager = new GoalManager();
         friendManager = new FriendManager();
 
-        // forcing Kyle's MainActivity to update in his pull
-
-        here.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, RegisterHere.class));
-            }
-        });
+        here.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RegisterHere.class)));
 
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login(user.getText().toString().trim(), password.getText().toString().trim());
-
-            }
-        });
+        login.setOnClickListener(view -> login(user.getText().toString().trim(), password.getText().toString().trim()));
     }
 
     private void login(String userEmail, String userPassword) {
