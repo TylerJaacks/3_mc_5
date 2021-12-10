@@ -46,11 +46,9 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     private ImageButton addGoal;
     private ImageButton homeScreen;
     private ImageButton search;
-    private ImageButton settings;
     private TextView Username;
     private TextView Friends;
     private TextView goalCount;
-    private User otherUser;
     private Button addFriend;
     private ImageButton cancelButton;
 
@@ -95,21 +93,6 @@ public class OtherUserProfileActivity extends AppCompatActivity {
 
         refreshGoals();
 
-        goalListView.setOnItemClickListener((parent, view, position, id) -> {
-            if(view instanceof TextView){
-                TextView tv = (TextView)  view;
-                String text = tv.getText().toString();
-                text = text.replace("[FITNESS] ", "").replace("[FOOD] ", "")
-                        .replace("[SOCIAL] ", "").replace("[OTHER] ", "");
-                String[] split = text.split(":");
-                text = split[0];
-                text = text.trim();
-                Goal goal = MainActivity.goalManager.getByName(text);
-                editingGoal = goal;
-                startActivity(new Intent(OtherUserProfileActivity.this, EditGoalActivity.class));
-            }
-        });
-
         Bundle b = getIntent().getExtras();
 
         String otherUsername = b.getString("username");
@@ -119,7 +102,10 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         //TODO: Add method detecting if a friendship already exists between the two users. If so, then change the "Add Friend" button to "Remove Friend" button and add method that remove friendships
 
 
-        String url = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
+        String url = "http://coms-309-054.cs.iastate.edu:8080/goal/user?username=" + otherUsername;
+
+        ProfileUpdateGoalListThread puglt = new ProfileUpdateGoalListThread(this, 0, url, new JSONObject(), new HashMap<>(), headers);
+        puglt.start();
 
         //TODO Make new goallistthread
 
@@ -223,8 +209,5 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("token", MainActivity.token);
 
-         updateUserGoalsListThread =
-                new ProfileUpdateGoalListThread (this, Request.Method.GET, friendGoalsEndpoint, new JSONObject(), new HashMap<>(), headers);
-        .start();
     }
 }
