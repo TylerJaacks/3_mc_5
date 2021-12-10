@@ -21,6 +21,9 @@ public class UserTest {
     @Mock
     User userTest;
 
+    @Mock
+    User otherUserTest;
+
     @Test
     public void checkDisplayUser() {
         when(userTest.getName()).thenReturn("User Name");
@@ -36,4 +39,27 @@ public class UserTest {
         when(userTest.getGoalCount()).thenReturn(0);
         assertThat(UserUtil.isUserEmpty(userTest), is(true));
     }
+
+    @Test
+    public void checkUserEqual(){
+        when(userTest.getName()).thenReturn("Username");
+        when(userTest.getFriends()).thenReturn(15);
+        when(userTest.getGoalCount()).thenReturn(10);
+
+        when(otherUserTest.getName()).thenReturn("Username");
+        when(otherUserTest.getFriends()).thenReturn(15);
+        when(otherUserTest.getGoalCount()).thenReturn(10);
+
+        assertThat(UserUtil.isUserEqual(userTest, otherUserTest), is(true));
+    }
+
+    @Test
+    public void checkMissingUsername(){
+        when(userTest.getName()).thenReturn("");
+        when(userTest.getFriends()).thenReturn(15);
+        when(userTest.getGoalCount()).thenReturn(10);
+
+        assertThat(UserUtil.missingUsername(userTest), is(true));
+    }
+
 }
