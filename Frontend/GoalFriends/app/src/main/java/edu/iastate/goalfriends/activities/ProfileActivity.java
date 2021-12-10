@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import edu.iastate.goalfriends.R;
 import edu.iastate.goalfriends.goals.Goal;
+import edu.iastate.goalfriends.threads.AlreadyFriendsThread;
 import edu.iastate.goalfriends.threads.GetFriendsListThread;
 import edu.iastate.goalfriends.threads.ProfileUpdateGoalListThread;
 import edu.iastate.goalfriends.users.User;
@@ -50,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageButton settings;
     private TextView Username;
     private TextView friendCount;
-    private TextView goalCount;
+    public static TextView goalCount;
     private Button viewFriends;
     private User mainUser;
 
@@ -88,7 +89,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         refreshGoals();
 
-        goalCount.setText(String.valueOf(MainActivity.goalManager.getGoalList().size()));
         addGoal.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, PostActivity.class)));
         homeScreen.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, HomescreenActivity.class)));
         search.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SearchActivity.class)));
@@ -115,10 +115,17 @@ public class ProfileActivity extends AppCompatActivity {
         getUsername(token, email);
 
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("token", token);
+        headers.put("token", MainActivity.token);
 
-        GetFriendsListThread getFriendsListThread = new GetFriendsListThread(ProfileActivity.this, Request.Method.GET, friendsEndpoint, new JSONObject(), new HashMap<>(), headers);
+        GetFriendsListThread getFriendsListThread = new GetFriendsListThread(this, 0, "http://coms-309-054.cs.iastate.edu:8080/friendship", new JSONObject(), new HashMap<>(), headers);
         getFriendsListThread.start();
+
+
+        Log.d("goalfriend-app", "Friends: " + friends.size());
+
+//        if (friends.size() != 0) {
+//            friendCount.setText(friends.size());
+//        }
 
         Log.d("", "");
     }
