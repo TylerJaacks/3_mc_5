@@ -164,12 +164,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Friend"
-        app:layout_constraintBottom_toTopOf="@+id/otherUsergoalList"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.729"
+        app:layout_constraintHorizontal_bias="0.668"
         app:layout_constraintStart_toEndOf="@+id/otherUserGoals"
-        app:layout_constraintTop_toBottomOf="@+id/otherUserGoalNumber"
-        app:layout_constraintVertical_bias="0.625" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.254" />
 
     <ImageButton
         android:id="@+id/otherProfileCancel"

@@ -6,6 +6,7 @@ import edu.iastate.goalfriend.domainobjects.Friendship;
 import edu.iastate.goalfriend.domainobjects.Token;
 import edu.iastate.goalfriend.domainobjects.User;
 import edu.iastate.goalfriend.exceptions.*;
+import edu.iastate.goalfriend.reponses.FriendshipSuccessResponse;
 import edu.iastate.goalfriend.reponses.IResponse;
 import edu.iastate.goalfriend.reponses.SuccessResponse;
 import edu.iastate.goalfriend.utils.TokenUtils;
@@ -15,6 +16,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,13 +114,6 @@ public class FriendshipController extends CoreController {
 
         List<Friendship> usersFriends = friendshipRepository.getAllByUsername1Equals(user.getUsername());
 
-        // TODO: Fix Deleting User
-        /**
-         * rg.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [null];
-         * nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement\r\n\tat
-         * org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:276)\r\n\tat
-         */
-
         boolean userFound1 = false;
         boolean userFound2 = false;
 
@@ -165,9 +160,7 @@ public class FriendshipController extends CoreController {
             @ApiResponse(code = 400, message = "Friendship already exists."),
     })
     @GetMapping(path = "/friendship", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map getFriendships(@RequestHeader String token) throws CoreException {
-        Map<String, String> friendshipMap = new HashMap<>();
-
+    public IResponse getFriendships(@RequestHeader String token) throws CoreException {
         if (token == null || token.isEmpty()) {
             throw new InvalidHeadersException(ErrorConstants.ERROR_CODE_INVALID_HEADERS, "Invalid headers were supplied.");
         }
@@ -180,13 +173,12 @@ public class FriendshipController extends CoreController {
 
         User user = userRepository.findByToken_Token(token);
 
-        int i = 1;
+        List<User> userList = new ArrayList<>();
 
         for (Friendship friendship : friendshipRepository.getAllByUsername1Equals(user.getUsername())) {
-            friendshipMap.put("friend" + i, friendship.getUsername2());
-            i += 1;
+            userList.add(userRepository.findByUsername(friendship.getUsername2()));
         }
 
-        return friendshipMap;
+        return new FriendshipSuccessResponse(userList);
     }
 }

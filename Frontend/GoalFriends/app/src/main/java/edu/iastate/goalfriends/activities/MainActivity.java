@@ -20,6 +20,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import edu.iastate.goalfriends.FriendManager;
 import edu.iastate.goalfriends.R;
 import edu.iastate.goalfriends.goals.GoalManager;
 
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private int statusCode;
     public static String token;
     public static GoalManager goalManager;
+    public static FriendManager friendManager;
 
     public static String email;
 
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         login = (Button) findViewById(R.id.buttonLogin);
         TextView here = findViewById(R.id.registerHere);
         goalManager = new GoalManager();
+        friendManager = new FriendManager();
 
 
         here.setOnClickListener(new View.OnClickListener() {
