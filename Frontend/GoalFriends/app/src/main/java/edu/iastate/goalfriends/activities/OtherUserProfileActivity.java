@@ -77,7 +77,6 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         homeScreen = (ImageButton) findViewById(R.id.Homescreenbutton);
         search = (ImageButton) findViewById(R.id.Searchbutton);
         Username = (TextView) findViewById(R.id.otherUserName);
-        Friends = (TextView) findViewById(R.id.otherUserNumFriends);
         goalCount = (TextView) findViewById(R.id.otherUserGoalNumber);
         goalListView = (ListView) findViewById(R.id.otherUsergoalList);
         addFriend = (Button) findViewById(R.id.AddFriendButton);
