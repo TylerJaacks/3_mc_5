@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         user = (EditText) findViewById(R.id.uName);
         password = (EditText) findViewById(R.id.uPassword);
         login = (Button) findViewById(R.id.buttonLogin);
-        TextView here = findViewById(R.id.registerHere);
+        TextView here = findViewById(R.id.registerHereMain);
         goalManager = new GoalManager();
         friendManager = new FriendManager();
 
