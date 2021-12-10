@@ -23,10 +23,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import edu.iastate.goalfriends.R;
 import edu.iastate.goalfriends.RestUtilities;
+import edu.iastate.goalfriends.threads.AlreadyFriendsThread;
 import edu.iastate.goalfriends.users.User;
 
 /**
@@ -48,6 +50,8 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     private Button addFriend;
     private ImageButton cancelButton;
 
+    public static List<String> friends = new ArrayList();
+
     public static ArrayList<String> listItems = new ArrayList<>();
     public static ArrayAdapter<String> adapter;
 
@@ -57,6 +61,12 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otheruserprofile);
+
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("token", MainActivity.token);
+
+        AlreadyFriendsThread aft = new AlreadyFriendsThread(this, 0, "http://coms-309-054.cs.iastate.edu:8080/friendship", new JSONObject(), new HashMap<>(), headers);
+        aft.start();
 
         addGoal = (ImageButton) findViewById(R.id.AddGoalbutton);
         homeScreen = (ImageButton) findViewById(R.id.Homescreenbutton);
@@ -86,9 +96,6 @@ public class OtherUserProfileActivity extends AppCompatActivity {
 
 
         String url = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
-
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("token", getToken(otherUsername));
 
         //TODO Make new goallistthread
 
@@ -160,6 +167,12 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     }
 
     private void addFriend(String otherUsername, String userToken) {
+
+        if(friends.contains(otherUsername)){
+            Toast.makeText(this, "You are already friends with this user!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         RequestQueue queue = Volley.newRequestQueue(this);
 
         String url = "http://coms-309-054.cs.iastate.edu:8080/friendship?otherUsername=" + otherUsername;
