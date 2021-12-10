@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import edu.iastate.goalfriends.activities.FriendsActivity;
 import edu.iastate.goalfriends.activities.HomescreenActivity;
 import edu.iastate.goalfriends.activities.MainActivity;
 import edu.iastate.goalfriends.activities.OtherUserProfileActivity;

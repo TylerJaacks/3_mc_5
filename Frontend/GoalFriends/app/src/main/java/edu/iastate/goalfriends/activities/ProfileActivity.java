@@ -50,7 +50,6 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageButton addGoal;
     private ImageButton homeScreen;
     private ImageButton search;
-    private ImageButton settings;
     private TextView Username;
     private TextView friendCount;
     public TextView goalCount;
@@ -83,7 +82,6 @@ public class ProfileActivity extends AppCompatActivity {
         addGoal = findViewById(R.id.AddGoalbutton);
         homeScreen = (ImageButton) findViewById(R.id.Homescreenbutton);
         search = (ImageButton) findViewById(R.id.Searchbutton);
-        settings = (ImageButton) findViewById(R.id.settingsButton);
         Username = (TextView) findViewById(R.id.textView10);
         friendCount = (TextView) findViewById(R.id.textView15);
         goalCount = (TextView) findViewById(R.id.textView14);

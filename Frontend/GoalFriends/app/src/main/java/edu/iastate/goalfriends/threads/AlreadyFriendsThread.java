@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import edu.iastate.goalfriends.activities.FriendsActivity;
 import edu.iastate.goalfriends.activities.OtherUserProfileActivity;
 import edu.iastate.goalfriends.activities.ProfileActivity;
 
@@ -64,6 +65,7 @@ public class AlreadyFriendsThread extends Thread{
 
         ProfileActivity.friends.clear();
         OtherUserProfileActivity.friends.clear();
+        FriendsActivity.friends.clear();
 
         try{
             JSONObject friends = new JSONObject(responseString);
@@ -73,6 +75,8 @@ public class AlreadyFriendsThread extends Thread{
                 String username = friends.getString(key);
                 OtherUserProfileActivity.friends.add(username);
                 ProfileActivity.friends.add(username);
+                FriendsActivity.friends.add(username);
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
