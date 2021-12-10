@@ -2,6 +2,7 @@ package edu.iastate.goalfriends.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -11,10 +12,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -23,9 +21,8 @@ import java.util.Map;
 
 import edu.iastate.goalfriends.R;
 import edu.iastate.goalfriends.goals.Goal;
+import edu.iastate.goalfriends.threads.GetUserProfileThread;
 import edu.iastate.goalfriends.threads.ProfileUpdateGoalListThread;
-import edu.iastate.goalfriends.threads.UpdateFriendGoalsListThread;
-import edu.iastate.goalfriends.threads.UpdateGoalListThread;
 import edu.iastate.goalfriends.users.User;
 
 //TODO: Update Javadoc
@@ -106,8 +103,6 @@ public class ProfileActivity extends AppCompatActivity {
         homeScreen.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, HomescreenActivity.class)));
         search.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SearchActivity.class)));
         settings.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SettingsActivity.class)));
-
-        viewFriends.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, FriendsListActivity.class)));
 
         goalListView.setOnItemClickListener((parent, view, position, id) -> {
             if(view instanceof TextView){
