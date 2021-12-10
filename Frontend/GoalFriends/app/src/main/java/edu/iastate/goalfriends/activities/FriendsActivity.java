@@ -36,18 +36,6 @@ public class FriendsActivity extends AppCompatActivity {
 
         AsyncTask<String, Void, List<String>> result = testAsyncTask.execute();
 
-        try {
-            List<String> resultList = result.get();
-
-            Log.d("goalfriend-app", "Count: " + resultList.size());
-
-            friends = resultList;
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         friendsListView.setAdapter(friendsListAdapter);
     }
 }

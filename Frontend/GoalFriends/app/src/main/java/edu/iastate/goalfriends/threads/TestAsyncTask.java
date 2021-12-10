@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+import edu.iastate.goalfriends.activities.FriendsActivity;
+
 public class TestAsyncTask extends AsyncTask<String, Void, List<String>> {
     private Context context;
     private String token;
@@ -34,6 +36,7 @@ public class TestAsyncTask extends AsyncTask<String, Void, List<String>> {
     protected List<String> doInBackground(String... strings) {
         RequestQueue queue = Volley.newRequestQueue(context);
         Map<String, String> headers = new HashMap<>();
+        List<String> result = new ArrayList<>();
 
         headers.put("token", token);
 
@@ -43,7 +46,29 @@ public class TestAsyncTask extends AsyncTask<String, Void, List<String>> {
                 response -> {
                     responseStr = response;
 
-                    Log.e("HttpClient", "success! response: " + response);
+                    if (response != null || !response.isEmpty()) {
+                        JSONObject friends = null;
+
+                        try {
+                            friends = new JSONObject(responseStr);
+
+                            JSONArray friendsArray = friends.getJSONArray("friends");
+
+                            for (int i = 0; i < friendsArray.length(); i++) {
+                                JSONObject object = friendsArray.getJSONObject(i);
+
+                                String username = object.getString("username");
+
+                                ((FriendsActivity) context).friends.add(username);
+
+                                Log.d("goalfriend-app-thread", "Friends: " + result.size());
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Log.e("HttpClient", "success! response: " + response);
+                    }
                 },
                 error -> Log.e("HttpClient", "error: " + error.toString()))
         {
@@ -59,24 +84,7 @@ public class TestAsyncTask extends AsyncTask<String, Void, List<String>> {
         };
         queue.add(sr);
 
-        List<String> users = new ArrayList<>();
-
-        try {
-            JSONObject friends = new JSONObject(responseStr);
-            JSONArray friendsArray = friends.getJSONArray("friends");
-
-            for (int i = 0; i < friendsArray.length(); i++) {
-                JSONObject object = friendsArray.getJSONObject(i);
-
-                String username = object.getString("username");
-
-                users.add(username);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return users;
+        return result;
     }
 
     @Override
