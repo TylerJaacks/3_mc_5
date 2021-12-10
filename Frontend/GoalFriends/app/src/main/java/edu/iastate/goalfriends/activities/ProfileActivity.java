@@ -2,6 +2,8 @@ package edu.iastate.goalfriends.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,7 +32,6 @@ import edu.iastate.goalfriends.FriendManager;
 import edu.iastate.goalfriends.R;
 import edu.iastate.goalfriends.goals.Goal;
 import edu.iastate.goalfriends.threads.AlreadyFriendsThread;
-import edu.iastate.goalfriends.threads.GetFriendsListThread;
 import edu.iastate.goalfriends.threads.ProfileUpdateGoalListThread;
 import edu.iastate.goalfriends.users.User;
 
@@ -44,7 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final String userGoalsEndpoint = "http://coms-309-054.cs.iastate.edu:8080/goal/all";
     private static final String friendsEndpoint = "http://coms-309-054.cs.iastate.edu:8080/friendship";
 
-    public static List<String> friends = new ArrayList<>();
+    public static List<String> friends = new ArrayList();
 
     private ImageButton addGoal;
     private ImageButton homeScreen;
@@ -52,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageButton settings;
     private TextView Username;
     private TextView friendCount;
-    public static TextView goalCount;
+    public TextView goalCount;
     private Button viewFriends;
     private User mainUser;
 
@@ -61,6 +62,8 @@ public class ProfileActivity extends AppCompatActivity {
     public static ArrayList<String> profileUserGoalsArrayList = new ArrayList<>();
     public static ArrayAdapter<String> adapter;
 
+    public String goalCountStr = "0";
+
     ListView goalListView;
 
     @Override
@@ -68,7 +71,14 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("token", MainActivity.token);
+
+        AlreadyFriendsThread aft = new AlreadyFriendsThread(this, 0, friendsEndpoint, new JSONObject(), new HashMap<>(), headers);
+        aft.start();
+
         String token = MainActivity.token;
+
 
         addGoal = findViewById(R.id.AddGoalbutton);
         homeScreen = (ImageButton) findViewById(R.id.Homescreenbutton);
@@ -117,11 +127,22 @@ public class ProfileActivity extends AppCompatActivity {
 
         getUsername(token, email);
 
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("token", MainActivity.token);
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updateCounts();
+            }
+        }, 500);
+
 
 //        GetFriendsListThread getFriendsListThread = new GetFriendsListThread(this, 0, "http://coms-309-054.cs.iastate.edu:8080/friendship", new JSONObject(), new HashMap<>(), headers);
 //        getFriendsListThread.start();
+    }
+
+    public void updateCounts(){
+        goalCount.setText(String.valueOf(MainActivity.goalManager.getGoalList().size()));
+        friendCount.setText(String.valueOf(friends.size()));
     }
 
     private void getUsername(String token, String email){
