@@ -227,6 +227,7 @@ public class GoalController extends CoreController {
 
         return new GoalListSuccessResponse(goals);
     }
+
     @GetMapping(path = "/goal/user", produces = MediaType.APPLICATION_JSON_VALUE)
     public IResponse GetUsersGoals(@RequestHeader("token") String token, @RequestParam("username") String otherUsername) throws CoreException {
         if (token == null || token.isEmpty()) {
